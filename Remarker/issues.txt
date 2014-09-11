@@ -1,0 +1,52 @@
+﻿Filename: issues.txt
+Created:  Sep 10, 2014 08:31:52.765
+
+Title:    YoderZone.Com.Extensions.Remarker
+
+Issues
+
+Formatting not as expected
+
+This may becaused by conflicting formatting tags. If other extensions add
+formatting tags after Remarker adds its tags, the later tags may overrule
+formatting settings made by Remarker. If some task options seem to work,
+but others do not, such as a task's font family seems to work, but the
+task's color is not right, another extension may have changed the setting
+after the tag was added.
+
+Removing or disabling the other extension should resolve this issue, if
+that is desired.
+
+I have seen that the order in which sections of Remarker are added to the
+assembly also seems to have an effect on this. Task classes need to be
+added after the comment classes. I do not know why this makes a
+difference.
+
+
+Options Page Behavior
+
+It was difficult to get Remarker's options pages working correctly within
+Visual Studio's Options window. There were several issues that caused
+problems.
+
+1. DialogPage is a Windows Forms based window. It is a challenge to make
+   binding work with Windows Forms, so we opted to add a WPF ElementHost
+   and do our work in WPF.
+2. TextBox controls in this configuration do not receive character input
+   for some reason, so we created a modify TextBox class to force windows
+   to send characters to the controls.
+3. The options pages use an editing scheme to allow changes to be rolled
+   with the escape key, and committed with the return key, but the
+   options page window also closes when those keys are received. I tried
+   to determine a way to prevent this when the controls were in an
+   editing mode, but could not find a way.
+4. Changes to controls are not committed until focus leaves the control
+   and another control receives focus. This means that when it appears
+   that a change has been entered, it may not have made it all the way
+   back to the model's storage fields. I've worked most of that out, but
+   there may be places where the problem still manefests itself.
+
+   It is interesting to note that most other non-Microsoft extentions
+   opt to use some other mechanism to configure their applications. I
+   may decide to do this myself.
+

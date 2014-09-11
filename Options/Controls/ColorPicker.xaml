@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.Controls.ColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:elements="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls.Elements"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:ColorPicker}}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="25" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="18" />
+        </Grid.RowDefinitions>
+
+
+        <elements:ColorView Grid.RowSpan="3"
+                            Width="44"
+                            Height="44"
+                            Margin="4,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BlueValue="{Binding BlueValue,
+                                                Mode=TwoWay}"
+                            ColorSwath="{Binding ColorSwath}"
+                            GreenValue="{Binding GreenValue,
+                                                 Mode=TwoWay}"
+                            RedValue="{Binding RedValue,
+                                               Mode=TwoWay}" />
+
+        <elements:TinySlider Grid.Row="0"
+                             Grid.Column="1"
+                             Value="{Binding RedValue,
+                                             Mode=TwoWay}" />
+        <elements:TinySlider Grid.Row="1"
+                             Grid.Column="1"
+                             Value="{Binding GreenValue,
+                                             Mode=TwoWay}" />
+        <elements:TinySlider Grid.Row="2"
+                             Grid.Column="1"
+                             Value="{Binding BlueValue,
+                                             Mode=TwoWay}" />
+
+        <elements:ColorView Grid.Row="0"
+                            Grid.Column="2"
+                            Width="12"
+                            Height="12"
+                            Margin="6,0"
+                            BlueValue="0"
+                            GreenValue="0"
+                            RedValue="{Binding RedValue,
+                                               Mode=OneWay}" />
+        <elements:ColorView Grid.Row="1"
+                            Grid.Column="2"
+                            Width="12"
+                            Height="12"
+                            Margin="6,0"
+                            BlueValue="0"
+                            GreenValue="{Binding GreenValue,
+                                                 Mode=OneWay}"
+                            RedValue="0" />
+        <elements:ColorView Grid.Row="2"
+                            Grid.Column="2"
+                            Width="12"
+                            Height="12"
+                            Margin="6,0"
+                            BlueValue="{Binding BlueValue,
+                                                Mode=OneWay}"
+                            GreenValue="0"
+                            RedValue="0" />
+
+        <TextBlock Grid.Row="0"
+                   Grid.Column="3"
+                   HorizontalAlignment="Right"
+                   Text="{Binding RedValue,
+                                  FallbackValue=0,
+                                  StringFormat=\{0:0\},
+                                  TargetNullValue=0}" />
+        <TextBlock Grid.Row="1"
+                   Grid.Column="3"
+                   HorizontalAlignment="Right"
+                   Text="{Binding GreenValue,
+                                  FallbackValue=0,
+                                  StringFormat=\{0:0\},
+                                  TargetNullValue=0}" />
+        <TextBlock Grid.Row="2"
+                   Grid.Column="3"
+                   HorizontalAlignment="Right"
+                   Text="{Binding BlueValue,
+                                  FallbackValue=0,
+                                  StringFormat=\{0:0\},
+                                  TargetNullValue=0}" />
+
+    </Grid>
+</UserControl>

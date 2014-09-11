@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NONE" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="VALIDATOR_ACTIONLIST_TASKS" xml:space="preserve">
+    <value>Validator Tasks</value>
+  </data>
+  <data name="VALIDATOR_ACTIONLIST_TASKS_CLEARVALIDATIONINFOS" xml:space="preserve">
+    <value>Clear Validation Informations</value>
+  </data>
+  <data name="VALIDATOR_CATEGORY_ACTION" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="VALIDATOR_CATEGORY_BEHAVIOR" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="VALIDATOR_CATEGORY_ERRORPROVIDER" xml:space="preserve">
+    <value>Error Provider</value>
+  </data>
+  <data name="VALIDATOR_CATEGORY_VALIDATION" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="VALIDATOR_CLEARWARNING" xml:space="preserve">
+    <value>Do you want to clear all validation infomation from current binded controls?</value>
+  </data>
+  <data name="VALIDATOR_DEFAULT_COMPAREMESSAGE" xml:space="preserve">
+    <value>This feild value compare fail.</value>
+  </data>
+  <data name="VALIDATOR_DEFAULT_CUSTOMMESSAGE" xml:space="preserve">
+    <value>This feild do not follow purpose of inputting.</value>
+  </data>
+  <data name="VALIDATOR_DEFAULT_RANGEMESSAGE" xml:space="preserve">
+    <value>This feild value out of range.</value>
+  </data>
+  <data name="VALIDATOR_DEFAULT_REGULAREXPRESSIONMESSAGE" xml:space="preserve">
+    <value>This feild do not match it is content.</value>
+  </data>
+  <data name="VALIDATOR_DEFAULT_REQUIREMESSAGE" xml:space="preserve">
+    <value>This feild is required.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_BEHAVIOR_FORM" xml:space="preserve">
+    <value>Validate all configured validation information controls which lay onto the specified container, when the container is closing.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_BEHAVIOR_MODE" xml:space="preserve">
+    <value>Validation mode. This mode should be combined with the follow value. FocusChange: Can change to next control when validation fail. Submit:Validate control when user submit.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_ERRORPROVIDER_BLINKRATE" xml:space="preserve">
+    <value>The rate in milliseconds at which the error icon blinks.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_ERRORPROVIDER_BLINKSTYLE" xml:space="preserve">
+    <value>Controls whether the error icon blinks when an error is set.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_ERRORPROVIDER_ICON" xml:space="preserve">
+    <value>The icon used to indicate an error.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_ERRORPROVIDER_RIGHTTOLEFT" xml:space="preserve">
+    <value>Indicates whether the component should draw right-to-left for RTL languages.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_EVENT_CUSTOMVALIDATION" xml:space="preserve">
+    <value>Occurs when validate, it required set "Custom" validation type flag.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_COMPAREDCONTROL" xml:space="preserve">
+    <value>Specify compared control.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_COMPAREMESSAGE" xml:space="preserve">
+    <value>Specify a message to been show when control violate compare rule(not match compare operation to compared control). Keyword: {$DataType} represent DataType, {$CompareOperator} represent CompareOperator.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_COMPAREOPERATOR" xml:space="preserve">
+    <value>Specify how comparing to compared control.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_CUSTOMMESSAGE" xml:space="preserve">
+    <value>Specify a message to been show when control violate custom rule(implement Validating event in Validator).</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_DATATYPE" xml:space="preserve">
+    <value>Specify data prototype for current control's text.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_RANGEMESSAGE" xml:space="preserve">
+    <value>Specify a message to been show when control violate range rule(text value out of range). Keyword: {$RangeOfLowerBound} represent RangeOfLowerBound; {$RangeOfUpperBound} represent RangeOfUpperBound.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_RANGEOFLOWERBOUND" xml:space="preserve">
+    <value>Specify lower bound of control value.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_RANGEOFUPPERBOUND" xml:space="preserve">
+    <value>Specify upper bound of control value.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_REGULAREXPRESSION" xml:space="preserve">
+    <value>Speicfy regular expression for validation. This property only valid if sets RegularExpression validation type. </value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_REGULAREXPRESSIONMESSAGE" xml:space="preserve">
+    <value>Specify a message to been show when control violate regular expression rule(text isn't match regular express).</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_REGULAREXPRESSIONOPTIONS" xml:space="preserve">
+    <value>Speicfy regular expression's options.</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_REQUIREDMESSAGE" xml:space="preserve">
+    <value>Specify a message to been show when control violate ruequired rule(text is empty).</value>
+  </data>
+  <data name="VALIDATOR_DESCRIPTION_VALIDATION_TYPE" xml:space="preserve">
+    <value>Please select one or more validation type. If you select "None", means that controls needn't validation.</value>
+  </data>
+  <data name="VALIDATOR_NAME" xml:space="preserve">
+    <value>Validator</value>
+  </data>
+  <data name="VALIDATOR_REMOVEWARNING" xml:space="preserve">
+    <value>Do you want to remove validation infomation associate with this control?</value>
+  </data>
+</root>

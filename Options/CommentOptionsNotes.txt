@@ -1,0 +1,11 @@
+﻿Files required for CommentOptions:
+
+	in Options.Dialog:
+		CommentOptions.xaml
+			CommentOptions.xaml.cs
+		CommentOptionsPage.cs
+			CommentOptionsPage.Designer.cs
+			CommentOptionsPage.resx
+		\ViewModel\CommentOptions.cs
+	in Options.Package:
+		RemarkerOptionsGeneralOptionsPage.cs

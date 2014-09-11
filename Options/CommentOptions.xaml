@@ -1,0 +1,377 @@
+﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.CommentOptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
+             MinWidth="477"
+             d:DataContext="{d:DesignInstance Type=vm:CommentOptions}"
+             d:DesignHeight="538"
+             d:DesignWidth="514"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <vm:Locator x:Key="Locator" />
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2"
+                                   SnapsToDevicePixels="true"
+                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                   StrokeDashArray="1 2"
+                                   StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.Static.Background"
+                         Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="OptionMark.Static.Border"
+                         Color="#FF707070" />
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle"
+                    Value="{StaticResource FocusVisual}" />
+            <Setter Property="Background"
+                    Value="{StaticResource OptionMark.Static.Background}" />
+            <Setter Property="BorderBrush"
+                    Value="{StaticResource OptionMark.Static.Border}" />
+            <Setter Property="Foreground"
+                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="IsTabStop"
+                    Value="False" />
+            <Setter Property="Focusable"
+                    Value="False" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="3" />
+            <Setter Property="Padding"
+                    Value="3,0,0,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot"
+                              Background="Transparent"
+                              SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder"
+                                    Margin="1"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark"
+                                          Margin="2,1,1,1"
+                                          Data="M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z"
+                                          Fill="{TemplateBinding TextElement.Foreground}"
+                                          Opacity="0"
+                                          Stretch="Uniform" />
+                                    <Rectangle x:Name="indeterminateMark"
+                                               Margin="2"
+                                               Fill="{TemplateBinding TextElement.Foreground}"
+                                               Opacity="0" />
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              Grid.Column="1"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Focusable="False"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="optionMark"
+                                        Property="Opacity"
+                                        Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel LastChildFill="False" SnapsToDevicePixels="True" DataContext="{Binding Source={StaticResource Locator}, Path=CommentOptions}">
+        <TextBlock DockPanel.Dock="Top"
+                   FontFamily="Times New Roman"
+                   FontSize="24pt"
+                   FontWeight="Bold"
+                   Text="Remarker Comments" />
+        <TextBlock DockPanel.Dock="Top"
+                   Text="Use the settings on this page to configure how Remarker presents comments in your code. You can change the font to something that looks better than the default code font, and modify the sizing factors for for the resized comments using the resizing markers. The colors used can be modified on the Fonts and Colors page under Environment."
+                   TextWrapping="Wrap" />
+        <GroupBox DockPanel.Dock="Top">
+            <GroupBox.Header>
+                <Label Content="Font"
+                       FontWeight="Bold" />
+            </GroupBox.Header>
+            <ComboBox DisplayMemberPath="Name"
+                      ItemsSource="{Binding FontFamilies}"
+                      SelectedItem="{Binding SelectedFontFamily}" />
+        </GroupBox>
+        <GroupBox DockPanel.Dock="Top">
+            <GroupBox.Header>
+                <Label Content="Font Attributes"
+                       FontWeight="Bold" />
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <CheckBox Content="Includes Regular Style"
+                          IsChecked="{Binding HasRegularStyle}"
+                          IsEnabled="False" />
+                <CheckBox Grid.Row="0"
+                          Grid.Column="1"
+                          Content="Includes Strikeout Style"
+                          IsChecked="{Binding HasStrikeoutStyle}"
+                          IsEnabled="False" />
+                <CheckBox Grid.Row="0"
+                          Grid.Column="2"
+                          Content="Has a Fixed Pitch"
+                          IsChecked="{Binding HasFixedPitch}"
+                          IsEnabled="False" />
+                <CheckBox Grid.Row="1"
+                          Grid.Column="0"
+                          Content="Includes Italics Style"
+                          IsChecked="{Binding HasItalicsStyle}"
+                          IsEnabled="False" />
+                <CheckBox Grid.Row="1"
+                          Grid.Column="1"
+                          Content="Includes Boldface Style"
+                          IsChecked="{Binding HasBoldface}"
+                          IsEnabled="False" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Height="129"
+                  DockPanel.Dock="Top">
+            <GroupBox.Header>
+                <Label Content="Font and Size Sample"
+                       FontWeight="Bold" />
+            </GroupBox.Header>
+            <WrapPanel Orientation="Vertical">
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Plus3Size}"
+                           Text="+++ Giagantic" />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Plus2Size}"
+                           Text="++ Huge " />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Plus1Size}"
+                           Text="+ Large " />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           Text="Normal" />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Less1Size}"
+                           Text="- Small" />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Less2Size}"
+                           Text="-- Tiny" />
+                <TextBlock Margin="3,3,16,3"
+                           FontFamily="{Binding SelectedFontFamilyName}"
+                           FontSize="{Binding Less3Size}"
+                           Text="--- Micro" />
+            </WrapPanel>
+        </GroupBox>
+        <GroupBox DockPanel.Dock="Top">
+            <GroupBox.Header>
+                <Label Content="Sizing Factors"
+                       FontWeight="Bold" />
+            </GroupBox.Header>
+            <Grid Margin="4,0">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Courier New" />
+                        <Setter Property="FontStretch"
+                                Value="Expanded" />
+                        <Setter Property="Margin"
+                                Value="3" />
+                        <Setter Property="FontSize"
+                                Value="12" />
+                        <Setter Property="VerticalAlignment"
+                                Value="Center" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="HorizontalAlignment"
+                                Value="Left" />
+                        <Setter Property="VerticalAlignment"
+                                Value="Center" />
+                        <Setter Property="Margin"
+                                Value="3" />
+                        <Setter Property="Width"
+                                Value="45" />
+                        <Setter Property="Height"
+                                Value="23" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22" />
+                    <ColumnDefinition Width="6" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.ColumnSpan="3"
+                       Margin="3"
+                       Content="Growth Factors"
+                       FontWeight="Bold" />
+                <Label Grid.Row="0"
+                       Grid.Column="3"
+                       Grid.ColumnSpan="2"
+                       Margin="3"
+                       Content="Shrinkage Factors"
+                       FontWeight="Bold" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="3,7"
+                           Text="+++" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="3,7"
+                           Text="++" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="3,7"
+                           Text="+" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="---" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="--" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="-" />
+
+                <controls:TextBoxFix x:Name="pppTextBox"
+                                     Grid.Row="1"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus3,
+                                                    FallbackValue=2.0,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+                <controls:TextBoxFix x:Name="ppTextBox"
+                                     Grid.Row="2"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus2,
+                                                    FallbackValue=1.6667,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+                <controls:TextBoxFix x:Name="pTextBox"
+                                     Grid.Row="3"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus1,
+                                                    FallbackValue=1.3333,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+                <controls:TextBoxFix x:Name="mTextBox"
+                                     Grid.Row="1"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less1,
+                                                    FallbackValue=0.85,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+                <controls:TextBoxFix x:Name="mmTextBox"
+                                     Grid.Row="2"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less2,
+                                                    FallbackValue=0.70,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+                <controls:TextBoxFix x:Name="mmmTextBox"
+                                     Grid.Row="3"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less3,
+                                                    FallbackValue=0.55,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True,
+                                                    ValidatesOnExceptions=True}" />
+            </Grid>
+        </GroupBox>
+    </DockPanel>
+</UserControl>

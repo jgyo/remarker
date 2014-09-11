@@ -1,0 +1,11 @@
+﻿Files required for TaskOptions:
+
+	in Options.Dialog:
+		TaskOptions.xaml
+			TaskOptions.xaml.cs
+		TaskOptionsPage.cs
+			TaskOptionsPage.Designer.cs
+			TaskOptionsPage.resx
+		\ViewModel\TaskOptions.cs
+	in Options.Package:
+		RemarkerTaskOptionsPage.cs
