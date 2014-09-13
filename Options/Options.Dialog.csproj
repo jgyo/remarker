@@ -11,6 +11,12 @@
     <AssemblyName>OptionsDialog</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ConfigurationFilter>Release</ConfigurationFilter>
+    <AssemblyInfoFilePath>Properties\AssemblyInfoRelease.cs</AssemblyInfoFilePath>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyFileVersionSettings>None.IncrementOnDemand.DateStamp.DeltaDayStamp</AssemblyFileVersionSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +59,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfoRelease.cs" />
     <Compile Include="CommentOptions.xaml.cs">
       <DependentUpon>CommentOptions.xaml</DependentUpon>
     </Compile>
@@ -90,7 +97,7 @@
     <Compile Include="CommentOptionsPage.Designer.cs">
       <DependentUpon>CommentOptionsPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfoDebug.cs" />
     <Compile Include="ViewModel\BooleanToFontWeightConverter.cs" />
     <Compile Include="ViewModel\ColorToBrushConverter.cs" />
     <Compile Include="ViewModel\TaskAttributes.cs" />

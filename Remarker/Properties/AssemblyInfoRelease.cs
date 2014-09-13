@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ! DEBUG
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
@@ -8,11 +9,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Remarker")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("YoderZone")]
+[assembly: AssemblyDescription("A Visual Studio 2013 extension.")]
+[assembly: AssemblyConfiguration("Release")]
+[assembly: AssemblyCompany("YoderZone.com")]
 [assembly: AssemblyProduct("Remarker")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright © Gil Yoder 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
@@ -29,8 +30,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-
-
-
+[assembly: AssemblyVersion("1.1.5370.3")]
+[assembly: AssemblyFileVersion("1.1.14256.1334")]
+[assembly: AssemblyInformationalVersion("2014.9.13.1334")]
+#endif
