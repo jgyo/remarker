@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Assembly         : Remarker
 // Solution         : CommentPlus
-// File name        : GiaganticImportantFormat.cs
+// File name        : GiganticImportantFormat.cs
 // Author           : Gil Yoder
 // Created          : 08 29,  2014
 //
@@ -39,11 +39,11 @@ public class GiganticImportantFormat : ClassificationFormatDefinition
 
     /// <summary>
     ///     Initializes a new instance of the
-    ///     YoderZone.Extensions.GiaganticImportantFormat class.
+    ///     YoderZone.Extensions.GiganticImportantFormat class.
     /// </summary>
     public GiganticImportantFormat()
     {
-        this.DisplayName = "Remarker Important - Giagantic (+++)";
+        this.DisplayName = "Remarker Important - Gigantic (+++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;
         this.ForegroundCustomizable = true;

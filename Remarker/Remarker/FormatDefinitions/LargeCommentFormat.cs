@@ -43,7 +43,7 @@ public class LargeCommentFormat : ClassificationFormatDefinition
     /// </summary>
     public LargeCommentFormat()
     {
-        this.DisplayName = "Remarker Remarker Comment - Large (+)";
+        this.DisplayName = "Remarker Comment - Large (+)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;
         this.ForegroundCustomizable = true;

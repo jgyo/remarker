@@ -3,10 +3,9 @@
 // Solution         : YoderZone.Com.Extensions
 // File name        : CommentOptions.cs
 // Author           : Gil Yoder
-// Created          : 09 06,  2014
 //
 // Last Modified By : Gil Yoder
-// Last Modified On : 09 06, 2014
+// Last Modified On : 09 13, 2014
 // ***********************************************************************
 
 namespace YoderZone.Extensions.OptionsDialog.ViewModel
@@ -31,9 +30,19 @@ using Options;
 /// </summary>
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
 /// <seealso cref="T:System.ComponentModel.IDataErrorInfo" />
+/// <seealso cref="T:System.ComponentModel.IEditableObject" />
 public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     IEditableObject
 {
+    #region Static Fields
+
+    /// <summary>
+    ///     The default options.
+    /// </summary>
+    private static CommentOptions defaultOptions;
+
+    #endregion
+
     #region Fields
 
     /// <summary>
@@ -43,67 +52,99 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     Dictionary<string, string>();
 
     /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has boldface.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     boldface.
     /// </summary>
     private bool hasBoldface;
 
     /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has fixed pitch.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has fixed
+    ///     pitch.
     /// </summary>
     private bool hasFixedPitch;
 
     /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has italics
-    ///     style.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     italics style.
     /// </summary>
     private bool hasItalicsStyle;
 
     /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has regular
-    ///     style.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     regular style.
     /// </summary>
     private bool hasRegularStyle;
 
     /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has strikeout
-    ///     style.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     strikeout style.
     /// </summary>
     private bool hasStrikeoutStyle;
 
     /// <summary>
     ///     The first less.
     /// </summary>
-    private float less1 = 0.85f;
+    private float less1 = -1f;
+
+    /// <summary>
+    ///     The less 1 text.
+    /// </summary>
+    private string less1Text;
 
     /// <summary>
     ///     The second less.
     /// </summary>
-    private float less2 = 0.70f;
+    private float less2 = -1f;
+
+    /// <summary>
+    ///     The less 2 text.
+    /// </summary>
+    private string less2Text;
 
     /// <summary>
     ///     The third less.
     /// </summary>
-    private float less3 = 0.55f;
+    private float less3 = -1f;
+
+    /// <summary>
+    ///     The less 3 text.
+    /// </summary>
+    private string less3Text;
 
     /// <summary>
     ///     The first plus.
     /// </summary>
-    private float plus1 = 1.3333f;
+    private float plus1 = -1f;
+
+    /// <summary>
+    ///     The plus 1 text.
+    /// </summary>
+    private string plus1Text;
 
     /// <summary>
     ///     The second plus.
     /// </summary>
-    private float plus2 = 1.6667f;
+    private float plus2 = -1f;
+
+    /// <summary>
+    ///     The plus 2 text.
+    /// </summary>
+    private string plus2Text;
 
     /// <summary>
     ///     The third plus.
     /// </summary>
-    private float plus3 = 2.0f;
+    private float plus3 = -1f;
+
+    /// <summary>
+    ///     The plus 3 text.
+    /// </summary>
+    private string plus3Text;
 
     /// <summary>
     ///     The selected font family.
@@ -115,7 +156,7 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     /// </summary>
     private string selectedFontFamilyName;
 
-    private static CommentOptions defaultOptions;
+    private CommentOptions memberwiseClone;
 
     #endregion
 
@@ -165,13 +206,22 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     #region Public Properties
 
     /// <summary>
-    ///     Gets an error message indicating what is wrong with this object.
+    ///     Gets the default options.
     /// </summary>
     /// <value>
-    ///     An error message indicating what is wrong with this object. The default is
-    ///     an empty
-    ///     string ("").
+    ///     The default options.
     /// </value>
+    public static CommentOptions DefaultOptions
+    {
+        get
+        {
+            return defaultOptions ?? (defaultOptions = new CommentOptions());
+        }
+    }
+
+    /// <summary>
+    ///     Gets an error message indicating what is wrong with this object.
+    /// </summary>
     /// <seealso cref="P:System.ComponentModel.IDataErrorInfo.Error" />
     public string Error
     {
@@ -197,12 +247,13 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
     /// <summary>
     ///     Gets or sets a value indicating whether this
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has boldface.
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     boldface.
     /// </summary>
     /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has boldface,
-    ///     false if not.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     boldface, false if not.
     /// </value>
     public bool HasBoldface
     {
@@ -223,9 +274,9 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     ///     pitch.
     /// </summary>
     /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has fixed pitch,
-    ///     false if not.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has fixed
+    ///     pitch, false if not.
     /// </value>
     public bool HasFixedPitch
     {
@@ -242,13 +293,13 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
     /// <summary>
     ///     Gets or sets a value indicating whether this
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has italics
-    ///     style.
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     italics style.
     /// </summary>
     /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has italics
-    ///     style, false if not.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     italics style, false if not.
     /// </value>
     public bool HasItalicsStyle
     {
@@ -265,13 +316,13 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
     /// <summary>
     ///     Gets or sets a value indicating whether this
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has regular
-    ///     style.
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     regular style.
     /// </summary>
     /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has regular
-    ///     style, false if not.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     regular style, false if not.
     /// </value>
     public bool HasRegularStyle
     {
@@ -288,13 +339,13 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
     /// <summary>
     ///     Gets or sets a value indicating whether this
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has strikeout
-    ///     style.
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     strikeout style.
     /// </summary>
     /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions
-    ///     has strikeout
-    ///     style, false if not.
+    ///     true if this
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions has
+    ///     strikeout style, false if not.
     /// </value>
     public bool HasStrikeoutStyle
     {
@@ -323,14 +374,14 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.less1 - value) < 0.00001 ||
-                    !this.CheckRange(value, 0.1f, true, 1.0f, false, "\"-\""))
+            if (Math.Abs(this.less1 - value) < 0.00001)
             {
                 return;
             }
 
             this.less1 = value;
             this.OnPropertyChanged();
+            this.Less1Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
             this.OnPropertyChanged("Less1Size");
         }
@@ -351,6 +402,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
+    ///     Gets or sets the less 1 text.
+    /// </summary>
+    /// <value>
+    ///     The less 1 text.
+    /// </value>
+    public string Less1Text
+    {
+        get
+        {
+            return this.less1Text;
+        }
+        set
+        {
+            // Less1Text setter guard
+            if (this.less1Text == value)
+            {
+                return;
+            }
+
+            this.less1Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "-"))
+            {
+                return;
+            }
+
+            this.Less1 = floatValue;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the less 2.
     /// </summary>
     /// <value>
@@ -364,14 +453,14 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.less2 - value) < 0.00001 ||
-                    !this.CheckRange(value, 0.1f, true, 1.0f, false, "\"--\""))
+            if (Math.Abs(this.less2 - value) < 0.00001)
             {
                 return;
             }
 
             this.less2 = value;
             this.OnPropertyChanged();
+            this.Less2Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
             this.OnPropertyChanged("Less2Size");
         }
@@ -392,6 +481,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
+    ///     Gets or sets the less 2 text.
+    /// </summary>
+    /// <value>
+    ///     The less 2 text.
+    /// </value>
+    public string Less2Text
+    {
+        get
+        {
+            return this.less2Text;
+        }
+        set
+        {
+            // Less2Text setter guard
+            if (this.less2Text == value)
+            {
+                return;
+            }
+
+            this.less2Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "--"))
+            {
+                return;
+            }
+
+            this.Less2 = floatValue;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the less 3.
     /// </summary>
     /// <value>
@@ -405,14 +532,14 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.less3 - value) < 0.00001 ||
-                    !this.CheckRange(value, 0.1f, true, 1.0f, false, "\"---\""))
+            if (Math.Abs(this.less3 - value) < 0.00001)
             {
                 return;
             }
 
             this.less3 = value;
             this.OnPropertyChanged();
+            this.Less3Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
             this.OnPropertyChanged("Less3Size");
         }
@@ -433,6 +560,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
+    ///     Gets or sets the less 3 text.
+    /// </summary>
+    /// <value>
+    ///     The less 3 text.
+    /// </value>
+    public string Less3Text
+    {
+        get
+        {
+            return this.less3Text;
+        }
+        set
+        {
+            // Less3Text setter guard
+            if (this.less3Text == value)
+            {
+                return;
+            }
+
+            this.less3Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "---"))
+            {
+                return;
+            }
+
+            this.Less3 = floatValue;
+            this.OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the plus 1.
     /// </summary>
     /// <value>
@@ -446,16 +611,16 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.plus1 - value) < 0.00001 ||
-                    !this.CheckRange(value, 1.0f, false, 5.0f, true, "\"+\""))
+            if (Math.Abs(this.plus1 - value) < 0.00001)
             {
                 return;
             }
 
             this.plus1 = value;
             this.OnPropertyChanged();
+            this.Plus1Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged("Plus1Size");
+            this.OnPropertyChanged("Plus1Size");
         }
     }
 
@@ -474,6 +639,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
+    ///     Gets or sets the plus 1 text.
+    /// </summary>
+    /// <value>
+    ///     The plus 1 text.
+    /// </value>
+    public string Plus1Text
+    {
+        get
+        {
+            return this.plus1Text;
+        }
+        set
+        {
+            // Plus1Text setter guard
+            if (this.plus1Text == value)
+            {
+                return;
+            }
+
+            this.plus1Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "+"))
+            {
+                return;
+            }
+
+            this.OnPropertyChanged();
+            this.Plus1 = floatValue;
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the plus 2.
     /// </summary>
     /// <value>
@@ -487,14 +690,14 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.plus2 - value) < 0.00001 ||
-                    !this.CheckRange(value, 1.0f, false, 5.0f, true, "\"++\""))
+            if (Math.Abs(this.plus2 - value) < 0.00001)
             {
                 return;
             }
 
             this.plus2 = value;
             this.OnPropertyChanged();
+            this.Plus2Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
             this.OnPropertyChanged("Plus2Size");
         }
@@ -515,6 +718,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
+    ///     Gets or sets the plus 2 text.
+    /// </summary>
+    /// <value>
+    ///     The plus 2 text.
+    /// </value>
+    public string Plus2Text
+    {
+        get
+        {
+            return this.plus2Text;
+        }
+        set
+        {
+            // Plus2Text setter guard
+            if (this.plus2Text == value)
+            {
+                return;
+            }
+
+            this.plus2Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "++"))
+            {
+                return;
+            }
+
+            this.OnPropertyChanged();
+            this.Plus2 = floatValue;
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets the plus 3.
     /// </summary>
     /// <value>
@@ -528,14 +769,14 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
         set
         {
-            if (Math.Abs(this.plus3 - value) < 0.00001 ||
-                    !this.CheckRange(value, 1.0f, false, 5.0f, true, "\"+++\""))
+            if (Math.Abs(this.plus3 - value) < 0.00001)
             {
                 return;
             }
 
             this.plus3 = value;
             this.OnPropertyChanged();
+            this.Plus3Text = value.ToString(".###");
             // ReSharper disable once ExplicitCallerInfoArgument
             this.OnPropertyChanged("Plus3Size");
         }
@@ -552,6 +793,44 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         get
         {
             return this.Plus3 * this.EmSize;
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets the plus 3 text.
+    /// </summary>
+    /// <value>
+    ///     The plus 3 text.
+    /// </value>
+    public string Plus3Text
+    {
+        get
+        {
+            return this.plus3Text;
+        }
+        set
+        {
+            // Plus3Text setter guard
+            if (this.plus3Text == value)
+            {
+                return;
+            }
+
+            this.plus3Text = value;
+
+            float floatValue;
+            if (!float.TryParse(value, out floatValue))
+            {
+                this.RegisterError("Invalid entry.");
+            }
+
+            if (!this.CheckRange(floatValue, 0.1f, true, 5f, true, "+++"))
+            {
+                return;
+            }
+
+            this.OnPropertyChanged();
+            this.Plus3 = floatValue;
         }
     }
 
@@ -620,14 +899,6 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         }
     }
 
-    public static CommentOptions DefaultOptions
-    {
-        get
-        {
-            return defaultOptions ?? (defaultOptions = new CommentOptions());
-        }
-    }
-
     #endregion
 
     #region Public Indexers
@@ -639,7 +910,8 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     ///     The name of the property whose error message to get.
     /// </param>
     /// <returns>
-    ///     The error message for the property. The default is an empty string ("").
+    ///     The error message for the property. The default is an empty string
+    ///     ("").
     /// </returns>
     public string this[string columnName]
     {
@@ -656,12 +928,53 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
     #endregion
 
+    #region Public Methods and Operators
+
+    /// <summary>
+    ///     Begins an edit on an object.
+    /// </summary>
+    /// <seealso cref="M:System.ComponentModel.IEditableObject.BeginEdit()" />
+    public void BeginEdit()
+    {
+        memberwiseClone = this.MemberwiseClone() as CommentOptions;
+    }
+
+    /// <summary>
+    ///     Discards changes since the last
+    ///     <see cref="M:System.ComponentModel.IEditableObject.BeginEdit" /> call.
+    /// </summary>
+    /// <seealso cref="M:System.ComponentModel.IEditableObject.CancelEdit()" />
+    public void CancelEdit()
+    {
+        this.SelectedFontFamily = memberwiseClone.SelectedFontFamily;
+        this.Less1 = memberwiseClone.Less1;
+        this.Less2 = memberwiseClone.Less2;
+        this.Less3 = memberwiseClone.Less3;
+        this.Plus1 = memberwiseClone.Plus1;
+        this.Plus2 = memberwiseClone.Plus2;
+        this.Plus3 = memberwiseClone.Plus3;
+    }
+
+    /// <summary>
+    ///     Pushes changes since the last
+    ///     <see cref="M:System.ComponentModel.IEditableObject.BeginEdit" /> or
+    ///     <see cref="M:System.ComponentModel.IBindingList.AddNew" /> call into
+    ///     the underlying object.
+    /// </summary>
+    /// <seealso cref="M:System.ComponentModel.IEditableObject.EndEdit()" />
+    public void EndEdit()
+    {
+        memberwiseClone = null;
+    }
+
+    #endregion
+
     #region Methods
 
     /// <summary>
     ///     Executes the property changed action.
     /// </summary>
-    /// <param name="propertyName" type="string">
+    /// <param name="propertyName">
     ///     Name of the property.
     /// </param>
     protected virtual void OnPropertyChanged([CallerMemberName] string
@@ -675,29 +988,33 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     }
 
     /// <summary>
-    ///     Check range.
+    ///     Checks the size of value to determine whether it lies within the
+    ///     specified lowExtent and hightExtent.
     /// </summary>
-    /// <param name="value" type="float">
+    /// <param name="value">
     ///     The value.
     /// </param>
-    /// <param name="lowExtent" type="float">
-    ///     Extent of the low.
+    /// <param name="lowExtent">
+    ///     The low extent.
     /// </param>
-    /// <param name="inclusiveLow" type="bool">
-    ///     true to inclusive low.
+    /// <param name="inclusiveLow">
+    ///     Whether the low extent is included within the range.
     /// </param>
-    /// <param name="high" type="float">
-    ///     The high.
+    /// <param name="high">
+    ///     The high extent.
     /// </param>
-    /// <param name="inclusiveHigh" type="bool">
-    ///     true to inclusive high.
+    /// <param name="inclusiveHigh">
+    ///     Whether the high extent is included within the range.
     /// </param>
-    /// <param name="displayName" type="string">
-    ///     Name of the display.
+    /// <param name="displayName">
+    ///     The display name of the property being checked.
     /// </param>
-    /// <param name="propertyName" type="string">
+    /// <param name="propertyName">
     ///     Name of the property.
     /// </param>
+    /// <returns>
+    ///     true if it succeeds, false if it fails.
+    /// </returns>
     private bool CheckRange(
         float value,
         float lowExtent,
@@ -715,16 +1032,20 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         {
             sb =
                 new StringBuilder(
-                string.Format("{0:F4} is too low for the {1} field. ", value,
-                              displayName));
+                string.Format(
+                    "{0:F4} is too low for the \"{1}\" field. ",
+                    value,
+                    displayName));
         }
         else if (value > high || (Math.Abs(value - high) < 0.00001 &&
                                   !inclusiveHigh))
         {
             sb =
                 new StringBuilder(
-                string.Format("{0:F4} is to high for the {1} field. ", value,
-                              displayName));
+                string.Format(
+                    "{0:F4} is to high for the \"{1}\" field. ",
+                    value,
+                    displayName));
         }
 
         if (sb == null)
@@ -763,13 +1084,13 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     /// <summary>
     ///     Searches for the first selected font family.
     /// </summary>
-    /// <param name="value" type="string">
+    /// <param name="value">
     ///     The value.
     /// </param>
-    /// <param name="low" type="int">
+    /// <param name="low">
     ///     The high.
     /// </param>
-    /// <param name="high" type="int">
+    /// <param name="high">
     ///     The high.
     /// </param>
     /// <returns>
@@ -808,6 +1129,7 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
                        null;
             }
 
+            //! Recursive call
             return this.FindSelectedFontFamily(value, low, middle);
         }
 
@@ -819,6 +1141,7 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
                        null;
             }
 
+            //! Recursive call
             return this.FindSelectedFontFamily(value, middle, high);
         }
 
@@ -842,27 +1165,41 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
         this.HasStrikeoutStyle = this.SelectedFontFamily.HasStrikeoutStyle;
     }
 
+    /// <summary>
+    ///     Registers the error.
+    /// </summary>
+    /// <param name="errorMessage">
+    ///     Message describing the error.
+    /// </param>
+    /// <param name="member">
+    ///     The member.
+    /// </param>
+    private void RegisterError(
+        string errorMessage = "",
+        [CallerMemberName] string member = null)
+    {
+        Debug.Assert(member != null, "member != null");
+
+        if (errorMessage == "")
+        {
+            if (this.dataErrorInfo.ContainsKey(member))
+            {
+                this.dataErrorInfo.Remove(member);
+            }
+
+            return;
+        }
+
+        if (this.dataErrorInfo.ContainsKey(member))
+        {
+            this.dataErrorInfo[member] = errorMessage;
+        }
+        else
+        {
+            this.dataErrorInfo.Add(member, errorMessage);
+        }
+    }
+
     #endregion
-
-    /// <summary>
-    /// Begins an edit on an object.
-    /// </summary>
-    public void BeginEdit()
-    {
-    }
-
-    /// <summary>
-    /// Pushes changes since the last <see cref="M:System.ComponentModel.IEditableObject.BeginEdit"/> or <see cref="M:System.ComponentModel.IBindingList.AddNew"/> call into the underlying object.
-    /// </summary>
-    public void EndEdit()
-    {
-    }
-
-    /// <summary>
-    /// Discards changes since the last <see cref="M:System.ComponentModel.IEditableObject.BeginEdit"/> call.
-    /// </summary>
-    public void CancelEdit()
-    {
-    }
 }
 }

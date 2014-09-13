@@ -106,7 +106,7 @@
     <Compile Include="Remarker\FormatDefinitions\NormalImportantFormat.cs" />
     <Compile Include="Remarker\FormatDefinitions\NormalQuestionFormat.cs" />
     <Compile Include="Remarker\FormatDefinitions\GiganticCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\GiaganticImportantFormat.cs" />
+    <Compile Include="Remarker\FormatDefinitions\GiganticImportantFormat.cs" />
     <Compile Include="Remarker\FormatDefinitions\GiganticQuestionFormat.cs" />
     <Compile Include="Remarker\FormatDefinitions\HugeCommentFormat.cs" />
     <Compile Include="Remarker\FormatDefinitions\HugeImportantFormat.cs" />

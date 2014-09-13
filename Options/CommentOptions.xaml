@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
              MinWidth="477"
+             KeyboardNavigation.DirectionalNavigation="Contained"
              d:DataContext="{d:DesignInstance Type=vm:CommentOptions}"
              d:DesignHeight="538"
              d:DesignWidth="514"
@@ -104,7 +105,10 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <DockPanel LastChildFill="False" SnapsToDevicePixels="True" DataContext="{Binding Source={StaticResource Locator}, Path=CommentOptions}">
+    <DockPanel DataContext="{Binding Source={StaticResource Locator},
+                                     Path=CommentOptions}"
+               LastChildFill="False"
+               SnapsToDevicePixels="True">
         <TextBlock DockPanel.Dock="Top"
                    FontFamily="Times New Roman"
                    FontSize="24pt"
@@ -172,7 +176,7 @@
                 <TextBlock Margin="3,3,16,3"
                            FontFamily="{Binding SelectedFontFamilyName}"
                            FontSize="{Binding Plus3Size}"
-                           Text="+++ Giagantic" />
+                           Text="+++ Gigantic" />
                 <TextBlock Margin="3,3,16,3"
                            FontFamily="{Binding SelectedFontFamilyName}"
                            FontSize="{Binding Plus2Size}"
@@ -281,6 +285,8 @@
                            Margin="3,7"
                            Text="-" />
 
+                <!--  ++ Growth Factors  -->
+
                 <controls:TextBoxFix x:Name="pppTextBox"
                                      Grid.Row="1"
                                      Grid.Column="2"
@@ -290,12 +296,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Plus3,
+                                     Text="{Binding Plus3Text,
                                                     FallbackValue=2.0,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
                 <controls:TextBoxFix x:Name="ppTextBox"
                                      Grid.Row="2"
                                      Grid.Column="2"
@@ -305,12 +310,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Plus2,
+                                     Text="{Binding Plus2Text,
                                                     FallbackValue=1.6667,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
                 <controls:TextBoxFix x:Name="pTextBox"
                                      Grid.Row="3"
                                      Grid.Column="2"
@@ -320,12 +324,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Plus1,
+                                     Text="{Binding Plus1Text,
                                                     FallbackValue=1.3333,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
                 <controls:TextBoxFix x:Name="mTextBox"
                                      Grid.Row="1"
                                      Grid.Column="4"
@@ -335,12 +338,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Less1,
+                                     Text="{Binding Less1Text,
                                                     FallbackValue=0.85,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
                 <controls:TextBoxFix x:Name="mmTextBox"
                                      Grid.Row="2"
                                      Grid.Column="4"
@@ -350,12 +352,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Less2,
+                                     Text="{Binding Less2Text,
                                                     FallbackValue=0.70,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
                 <controls:TextBoxFix x:Name="mmmTextBox"
                                      Grid.Row="3"
                                      Grid.Column="4"
@@ -365,12 +366,11 @@
                                      HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
                                      VerticalContentAlignment="Center"
-                                     Text="{Binding Less3,
+                                     Text="{Binding Less3Text,
                                                     FallbackValue=0.55,
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True,
-                                                    ValidatesOnExceptions=True}" />
+                                                    ValidatesOnDataErrors=True}" />
             </Grid>
         </GroupBox>
     </DockPanel>

@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Assembly         : Remarker
 // Solution         : CommentPlus
-// File name        : GiaganticCommentFormat.cs
+// File name        : GiganticCommentFormat.cs
 // Author           : Gil Yoder
 // Created          : 08 29,  2014
 //
@@ -39,11 +39,11 @@ public class GiganticCommentFormat : ClassificationFormatDefinition
 
     /// <summary>
     ///     Initializes a new instance of the
-    ///     YoderZone.Extensions.GiaganticCommentFormat class.
+    ///     YoderZone.Extensions.GiganticCommentFormat class.
     /// </summary>
     public GiganticCommentFormat()
     {
-        this.DisplayName = "Remarker Comment - Giagantic (+++)";
+        this.DisplayName = "Remarker Comment - Gigantic (+++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;
         this.ForegroundCustomizable = true;

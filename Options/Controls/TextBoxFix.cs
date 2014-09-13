@@ -106,7 +106,8 @@ public class TextBoxFix : TextBox
         if (msg == WM_GETDLGCODE)
         {
             handled = true;
-            return new IntPtr(DLGC_WANTCHARS | DLGC_WANTARROWS | DLGC_HASSETSEL);
+            return new IntPtr(DLGC_WANTCHARS | DLGC_WANTARROWS | DLGC_HASSETSEL |
+                              DLGC_WANTTAB);
         }
         return IntPtr.Zero;
     }

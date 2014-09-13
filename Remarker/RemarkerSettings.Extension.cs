@@ -62,7 +62,7 @@ internal partial class RemarkerSettings
 
     public float EmSize { get; set; }
 
-    public float GiaganticFontSize
+    public float GiganticFontSize
     {
         get
         {

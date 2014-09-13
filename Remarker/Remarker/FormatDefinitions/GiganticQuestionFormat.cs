@@ -1,7 +1,7 @@
 // ***********************************************************************
 // Assembly         : Remarker
 // Solution         : CommentPlus
-// File name        : GiaganticQuestionFormat.cs
+// File name        : GiganticQuestionFormat.cs
 // Author           : Gil Yoder
 // Created          : 08 29,  2014
 //
@@ -39,7 +39,7 @@ public class GiganticQuestionFormat : ClassificationFormatDefinition
 
     /// <summary>
     ///     Initializes a new instance of the
-    ///     YoderZone.Extensions.GiaganticQuestionFormat class.
+    ///     YoderZone.Extensions.GiganticQuestionFormat class.
     /// </summary>
     public GiganticQuestionFormat()
     {

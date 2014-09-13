@@ -211,7 +211,7 @@ internal sealed class FormatMapService : IDisposable
                 }
                 else if (typeString.EndsWith("25em", StringComparison.OrdinalIgnoreCase))
                 {
-                    remarkSize = RemarkSize.Giagantic; /*emSizeFactor = 2.0d;*/
+                    remarkSize = RemarkSize.Gigantic; /*emSizeFactor = 2.0d;*/
                 }
 
                 IClassificationType classificationType =
@@ -310,8 +310,8 @@ internal sealed class FormatMapService : IDisposable
             case RemarkSize.Huge:
                 fontSize = this.settings.HugeFontSize;
                 break;
-            case RemarkSize.Giagantic:
-                fontSize = this.settings.GiaganticFontSize;
+            case RemarkSize.Gigantic:
+                fontSize = this.settings.GiganticFontSize;
                 break;
             case RemarkSize.Regular:
                 fontSize = emSize;
@@ -369,6 +369,6 @@ internal enum RemarkSize
 
     Huge,
 
-    Giagantic
+    Gigantic
 }
 }
