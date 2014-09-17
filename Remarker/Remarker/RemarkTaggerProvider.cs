@@ -17,11 +17,16 @@ using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+
+using YoderZone.Extensions.OptionsPackage.Remarker.Service;
+using YoderZone.Extensions.Remarker.Remarker;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -77,13 +82,14 @@ public class RemarkTaggerProvider : IViewTaggerProvider
     public ITagger<T> CreateTagger<T>(ITextView textView,
                                       ITextBuffer buffer) where T : ITag
     {
-
+        var service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                      RemarkerService;
         ITagAggregator<IClassificationTag> tagAggregator =
             this.AggregatorFactory.CreateTagAggregator<IClassificationTag>(buffer);
 
         var tagger = (ITagger<T>)new RemarkTagger(
                          this.RegistryService,
-                         tagAggregator);
+                         tagAggregator, service);
         return tagger;
     }
 

@@ -4,7 +4,7 @@
     <Identity Id="81ce9f0c-4ff5-4279-9099-892a71549176" Version="1.1" Language="en-US" Publisher="Gil Yoder" />
     <DisplayName>Remarker</DisplayName>
     <Description>Remarker is a Visual Studio extension designed to enhance code documentation by enabling resized comment lines, and using color and bold emphasis for highlighting tasks. Remarker ehances comments in C# and Visual Basic files, as well as html, xaml, and other markup files.</Description>
-    <MoreInfo>http://remarker.codeplex.com/</MoreInfo>
+    <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/87813da0-8f1c-48a4-b1c4-85dfb7a269a9?SRC=Home</MoreInfo>
     <License>License.txt</License>
     <GettingStartedGuide>http://remarker.codeplex.com/</GettingStartedGuide>
     <ReleaseNotes>issues.txt</ReleaseNotes>
@@ -13,7 +13,7 @@
     <Tags>Comments, Remarks, Documentation, Coding, Extension, VS12, VS2013, WPF, HTTP, XAML</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0]" />
+    <InstallationTarget Version="[12.0)" Id="Microsoft.VisualStudio.Pro" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.TaskOptions"
+﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.TaskOptionsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
@@ -10,9 +10,6 @@
              d:DesignWidth="494"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="colorBoxBorderBrush"
-                         Color="#FF707070" />
-        <viewModel:Locator x:Key="Locator" />
         <viewModel:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
 
@@ -73,9 +70,7 @@
 
     <!--  !++ Layout Root  -->
 
-    <DockPanel DataContext="{Binding TaskOptions,
-                                     Source={StaticResource Locator}}"
-               LastChildFill="False">
+    <DockPanel LastChildFill="False">
         <TextBlock DockPanel.Dock="Top"
                    FontFamily="Times New Roman"
                    FontSize="24pt"

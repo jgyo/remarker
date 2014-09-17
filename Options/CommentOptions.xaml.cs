@@ -5,11 +5,11 @@ namespace YoderZone.Extensions.OptionsDialog
 using YoderZone.Extensions.OptionsDialog.ViewModel;
 
 /// <summary>
-/// Interaction logic for CommentOptions.xaml
+/// Interaction logic for CommentOptionsControl.xaml
 /// </summary>
-public partial class CommentOptions : UserControl
+public partial class CommentOptionsControl : UserControl
 {
-    public CommentOptions()
+    public CommentOptionsControl()
     {
         InitializeComponent();
     }

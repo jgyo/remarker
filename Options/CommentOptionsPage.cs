@@ -13,8 +13,6 @@ namespace YoderZone.Extensions.OptionsDialog
 {
 #region Imports
 
-using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 #endregion
@@ -26,47 +24,25 @@ using System.Windows.Forms;
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
 public partial class CommentOptionsPage : UserControl
 {
+    private readonly ViewModel.CommentOptions model;
+
     #region Constructors and Destructors
 
     /// <summary>
     ///     Initializes a new instance of the Options.CommentOptionsPage class.
     /// </summary>
-    private CommentOptionsPage()
+    public CommentOptionsPage(ViewModel.CommentOptions commentOptions)
     {
-
+        this.model = commentOptions;
         this.InitializeComponent();
+        this.commentOptions1.DataContext = commentOptions;
     }
-
-    static CommentOptionsPage()
-    {
-        DefaultCommentOptionsPage = new CommentOptionsPage();
-    }
-
-    #endregion
-
-    #region Public Properties
-
-    /// <summary>
-    ///     Gets or sets options for controlling the comment.
-    /// </summary>
-    /// <value>
-    ///     Options that control the comment.
-    /// </value>
-    public ViewModel.CommentOptions CommentOptions
-    {
-        get
-        {
-            return ViewModel.CommentOptions.DefaultOptions;
-        }
-    }
-
-    public static CommentOptionsPage DefaultCommentOptionsPage { get; private set; }
 
     #endregion
 
     public bool CanDeactivate()
     {
-        return this.CommentOptions.Error == "";
+        return this.model.Error == "";
     }
 }
 }

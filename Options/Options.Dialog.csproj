@@ -49,16 +49,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlKeys.cs" />
     <Compile Include="Properties\AssemblyInfoRelease.cs" />
     <Compile Include="CommentOptions.xaml.cs">
       <DependentUpon>CommentOptions.xaml</DependentUpon>
@@ -98,21 +94,21 @@
       <DependentUpon>CommentOptionsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfoDebug.cs" />
-    <Compile Include="ViewModel\BooleanToFontWeightConverter.cs" />
-    <Compile Include="ViewModel\ColorToBrushConverter.cs" />
-    <Compile Include="ViewModel\TaskAttributes.cs" />
-    <Compile Include="TaskOptions.xaml.cs">
-      <DependentUpon>TaskOptions.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TaskOptionsPage.cs">
       <SubType>UserControl</SubType>
-      <DependentUpon>TaskOptions.xaml</DependentUpon>
+      <DependentUpon>TaskOptionsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskOptionsPage.Designer.cs">
       <DependentUpon>TaskOptionsPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\BooleanToFontWeightConverter.cs" />
+    <Compile Include="ViewModel\ColorToBrushConverter.cs" />
+    <Compile Include="ViewModel\IRemarkerSettings.cs" />
+    <Compile Include="ViewModel\TaskAttributes.cs" />
+    <Compile Include="TaskOptionsControl.xaml.cs">
+      <DependentUpon>TaskOptionsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CommentOptions.cs" />
-    <Compile Include="ViewModel\Locator.cs" />
     <Compile Include="ViewModel\TaskOptions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +122,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskOptionsPage.resx">
       <DependentUpon>TaskOptionsPage.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TaskOptions.xaml">
+    <Page Include="TaskOptionsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TaskOptionsNotes.txt">
-      <DependentUpon>TaskOptions.xaml</DependentUpon>
+      <DependentUpon>TaskOptionsControl.xaml</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

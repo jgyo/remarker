@@ -30,7 +30,7 @@ partial class CommentOptionsPage
     {
         this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
         this.commentOptions1 = new
-        YoderZone.Extensions.OptionsDialog.CommentOptions();
+        YoderZone.Extensions.OptionsDialog.CommentOptionsControl();
         this.SuspendLayout();
         //
         // elementHost1
@@ -58,7 +58,7 @@ partial class CommentOptionsPage
     #endregion
 
     private System.Windows.Forms.Integration.ElementHost elementHost1;
-    private CommentOptions commentOptions1;
+    private CommentOptionsControl commentOptions1;
 
 
 }

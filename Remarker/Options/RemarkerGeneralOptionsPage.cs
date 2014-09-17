@@ -3,13 +3,13 @@
 // Solution         : YoderZone.Com.Extensions
 // File name        : RemarkerGeneralOptionsPage.cs
 // Author           : Gil Yoder
-// Created          : 09 03,  2014
+// Created          : 09 11,  2014
 //
 // Last Modified By : Gil Yoder
-// Last Modified On : 09 09, 2014
+// Last Modified On : 09 16, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsPackage.Options
+namespace YoderZone.Extensions.Remarker.Options
 {
 #region Imports
 
@@ -21,9 +21,8 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 
 using YoderZone.Extensions.OptionsDialog;
-
-using CommentOptions =
-    YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions;
+using YoderZone.Extensions.OptionsDialog.ViewModel;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -35,163 +34,34 @@ using CommentOptions =
 [ToolboxItem(false)]
 [CLSCompliant(false)]
 [ComVisible(true)]
-public class RemarkerGeneralOptionsPage : DialogPage
+public sealed class RemarkerGeneralOptionsPage : DialogPage
 {
+    // private readonly RemarkerSettings settings = RemarkerSettings.Default;
+
     #region Fields
 
-    private readonly RemarkerSettings settings = RemarkerSettings.Default;
+    private readonly CommentOptions model;
 
-    /// <summary>
-    ///     The window.
-    /// </summary>
-    private readonly IWin32Window window;
+    private readonly ProfileManager profileManager;
+
+    private readonly RemarkerService service;
 
     private CommentOptionsPage control;
 
-    private CommentOptions model;
+    private bool isActivated;
+
+    private bool shouldSave;
 
     #endregion
 
-    #region Public Properties
+    #region Constructors and Destructors
 
-    /// <summary>
-    ///     Gets or sets the font family.
-    /// </summary>
-    /// <value>
-    ///     The font family.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Font Family")]
-    public string FontFamily
+    public RemarkerGeneralOptionsPage()
     {
-        get
-        {
-            return this.settings.FontFamily;
-        }
-        set
-        {
-            this.settings.FontFamily = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the gigantic factor.
-    /// </summary>
-    /// <value>
-    ///     The gigantic factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Gigantic Factor")]
-    public float GiganticFactor
-    {
-        get
-        {
-            return this.settings.GiantFactor;
-        }
-        set
-        {
-            this.settings.GiantFactor = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the huge factor.
-    /// </summary>
-    /// <value>
-    ///     The huge factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Huge Factor")]
-    public float HugeFactor
-    {
-        get
-        {
-            return this.settings.HugeFactor;
-        }
-        set
-        {
-            this.settings.HugeFactor = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the large factor.
-    /// </summary>
-    /// <value>
-    ///     The large factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Large Factor")]
-    public float LargeFactor
-    {
-        get
-        {
-            return this.settings.LargeFactor;
-        }
-        set
-        {
-            this.settings.LargeFactor = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the micro factor.
-    /// </summary>
-    /// <value>
-    ///     The micro factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Micro Factor")]
-    public float MicroFactor
-    {
-        get
-        {
-            return this.settings.MicroFactor;
-        }
-        set
-        {
-            this.settings.MicroFactor = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the small factor.
-    /// </summary>
-    /// <value>
-    ///     The small factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Small Factor")]
-    public float SmallFactor
-    {
-        get
-        {
-            return this.settings.SmallFactor;
-        }
-        set
-        {
-            this.settings.SmallFactor = value;
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the tiny factor.
-    /// </summary>
-    /// <value>
-    ///     The tiny factor.
-    /// </value>
-    [Category("Comment Settings")]
-    [DisplayName("Tiny Factor")]
-    public float TinyFactor
-    {
-        get
-        {
-            return this.settings.TinyFactor;
-        }
-        set
-        {
-            this.settings.TinyFactor = value;
-        }
+        this.profileManager = new ProfileManager();
+        this.service = this.profileManager.Service;
+        this.model = new CommentOptions();
+        this.isActivated = false;
     }
 
     #endregion
@@ -212,39 +82,9 @@ public class RemarkerGeneralOptionsPage : DialogPage
     {
         get
         {
-            return this.control ?? (this.control =
-                                        CommentOptionsPage.DefaultCommentOptionsPage);
+            return this.control ?? (this.control = new CommentOptionsPage(
+                this.model));
         }
-    }
-
-    private CommentOptions Model
-    {
-        get
-        {
-            return this.model ?? (this.model = CommentOptions.DefaultOptions);
-        }
-    }
-
-    #endregion
-
-    #region Public Methods and Operators
-
-    /// <summary>
-    ///     Reset settings to their default values.
-    /// </summary>
-    /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.ResetSettings()" />
-    public override void ResetSettings()
-    {
-        this.FontFamily = "Verdana";
-        this.GiganticFactor = 2.0f;
-        this.HugeFactor = 1.667f;
-        this.LargeFactor = 1.3333f;
-        this.MicroFactor = 0.55f;
-        this.SmallFactor = 0.85f;
-        this.TinyFactor = 0.7f;
-
-        this.settings.Save();
-        this.SetValues();
     }
 
     #endregion
@@ -266,7 +106,7 @@ public class RemarkerGeneralOptionsPage : DialogPage
     /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
     protected override void Dispose(bool disposing)
     {
-        var page = this.window as CommentOptionsPage;
+        CommentOptionsPage page = this.control;
         if (page != null && page.IsDisposed == false)
         {
             page.Dispose();
@@ -281,8 +121,50 @@ public class RemarkerGeneralOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnActivate(CancelEventArgs e)
     {
-        this.SetValues();
+        if (!this.isActivated)
+        {
+            this.profileManager.ProtectSettings();
+            this.isActivated = true;
+            this.shouldSave = false;
+            this.SetValues();
+        }
+
         base.OnActivate(e);
+    }
+
+    /// <summary>
+    ///     Handles Apply messages from the Visual Studio environment.
+    /// </summary>
+    /// <param name="e">[in] Arguments to event handler.</param>
+    protected override void OnApply(PageApplyEventArgs e)
+    {
+        base.OnApply(e);
+        this.shouldSave = true;
+    }
+
+    /// <summary>
+    ///     Handles Close messages from the Visual Studio environment.
+    /// </summary>
+    /// <param name="e">[in] Arguments to event handler.</param>
+    protected override void OnClosed(EventArgs e)
+    {
+        if (!this.isActivated)
+        {
+            // noop
+        }
+        else if (this.shouldSave)
+        {
+            this.profileManager.CommitSettings();
+        }
+        else
+        {
+            this.profileManager.RollBackSettings();
+        }
+
+        //? Settings are saved automatically by the
+        //? final accept or rollback methods.
+        this.isActivated = false;
+        base.OnClosed(e);
     }
 
     /// <summary>
@@ -296,48 +178,41 @@ public class RemarkerGeneralOptionsPage : DialogPage
         {
             return;
         }
+
         e.Cancel = !this.control.CanDeactivate();
         if (e.Cancel)
         {
             return;
         }
+
+        // Unless apply changes is executed, no changes are
+        // made. The actual preservation is done by the
+        // profile manager.
         this.ApplyChanges();
     }
 
+    // Transfers settings from the model to the service.
     private void ApplyChanges()
     {
-        if (this.control == null)
-        {
-            return;
-        }
-
-        this.GiganticFactor = this.model.Plus3;
-        this.HugeFactor = this.model.Plus2;
-        this.LargeFactor = this.model.Plus1;
-        this.SmallFactor = this.model.Less1;
-        this.TinyFactor = this.model.Less2;
-        this.MicroFactor = this.model.Less3;
-        this.FontFamily = this.model.SelectedFontFamilyName;
-
-        this.settings.Save();
+        this.service.GiganticFactor = this.model.Plus3;
+        this.service.HugeFactor = this.model.Plus2;
+        this.service.LargeFactor = this.model.Plus1;
+        this.service.SmallFactor = this.model.Less1;
+        this.service.TinyFactor = this.model.Less2;
+        this.service.MicroFactor = this.model.Less3;
+        this.service.FontFamily = this.model.SelectedFontFamilyName;
     }
 
+    // Transfers settings from the service to the model.
     private void SetValues()
     {
-        if (this.control == null)
-        {
-            return;
-        }
-
-        this.settings.Reload();
-
-        this.Model.Plus3 = this.GiganticFactor;
-        this.Model.Plus2 = this.HugeFactor;
-        this.Model.Plus1 = this.LargeFactor;
-        this.Model.Less1 = this.SmallFactor;
-        this.Model.Less2 = this.TinyFactor;
-        this.model.Less3 = this.MicroFactor;
-        this.model.SelectedFontFamilyName = this.FontFamily;
+        this.model.Plus3 = this.service.GiganticFactor;
+        this.model.Plus2 = this.service.HugeFactor;
+        this.model.Plus1 = this.service.LargeFactor;
+        this.model.Less1 = this.service.SmallFactor;
+        this.model.Less2 = this.service.TinyFactor;
+        this.model.Less3 = this.service.MicroFactor;
+        this.model.SelectedFontFamilyName = this.service.FontFamily;
     }
 
     #endregion

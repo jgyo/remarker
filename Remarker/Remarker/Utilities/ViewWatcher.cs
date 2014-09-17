@@ -9,16 +9,20 @@
 // Last Modified On : 09 03, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsPackage.Remarker.Utilities
+namespace YoderZone.Extensions.Remarker.Remarker.Utilities
 {
 #region Imports
 
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.Composition;
 
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
+
+using YoderZone.Extensions.OptionsPackage.Remarker.Service;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -46,13 +50,17 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
     [Import]
     private IClassificationTypeRegistryService typeRegistry;
 
-    private List<IWpfTextView> textViews = new List<IWpfTextView>();
+    private RemarkerService service;
+
+    private IWpfTextView textView;
+
+    private FormatMapService formater;
+
+    //private List<IWpfTextView> textViews = new List<IWpfTextView>();
 
     #endregion
 
     #region Public Methods and Operators
-
-    public static ViewWatcher Default { get; private set; }
 
     /// <summary>
     ///     Called when a text view having matching roles is created over a text data
@@ -66,19 +74,35 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
     ///     cref="M:Microsoft.VisualStudio.Text.Editor.IWpfTextViewCreationListener.TextViewCreated(IWpfTextView)" />
     public void TextViewCreated(IWpfTextView textView)
     {
-        if (Default == null)
+        service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                  RemarkerService;
+        service.FormatSettingsChanged += service_FormatSettingsChanged;
+        this.textView = textView;
+
+        //textViews.Add(textView);
+        this.textView.Closed += this.textView_Closed;
+
+        this.UpdateFormatSettings();
+    }
+
+    private void service_FormatSettingsChanged(object sender, EventArgs args)
+    {
+        if (this.formater == null)
         {
-            Default = this;
+            return;
         }
 
-        textViews.Add(textView);
-        textView.Closed += textView_Closed;
+        formater.UpdateFormatDefinitions();
+    }
 
-        textView.Properties.GetOrCreateSingletonProperty(
-            () =>
-            new FormatMapService(
-            textView,
-            this.formatMapService.GetClassificationFormatMap(textView),
+    private void UpdateFormatSettings()
+    {
+        formater = this.textView.Properties.GetOrCreateSingletonProperty(
+                       () =>
+                       new FormatMapService(
+            this.textView,
+            this.service,
+            this.formatMapService.GetClassificationFormatMap(this.textView),
             this.typeRegistry));
     }
 
@@ -90,8 +114,8 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
             return;
         }
 
-        textViews.Remove(wpfTextView);
-        wpfTextView.Closed -= textView_Closed;
+        service.FormatSettingsChanged -= service_FormatSettingsChanged;
+        wpfTextView.Closed -= this.textView_Closed;
     }
 
     #endregion

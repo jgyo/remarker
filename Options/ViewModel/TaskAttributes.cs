@@ -23,7 +23,7 @@ using System.Windows.Media;
 ///     A task attributes.
 /// </summary>
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-public class TaskAttributes : INotifyPropertyChanged, IEditableObject
+public class TaskAttributes : INotifyPropertyChanged
 {
     #region Fields
 
@@ -47,8 +47,6 @@ public class TaskAttributes : INotifyPropertyChanged, IEditableObject
     ///     The type face.
     /// </summary>
     private string typeFace;
-
-    private TaskAttributes taskCopy;
 
     #endregion
 
@@ -142,14 +140,6 @@ public class TaskAttributes : INotifyPropertyChanged, IEditableObject
         }
     }
 
-    public bool IsInEditMode
-    {
-        get
-        {
-            return taskCopy != null;
-        }
-    }
-
     #endregion
 
     #region Methods
@@ -171,32 +161,5 @@ public class TaskAttributes : INotifyPropertyChanged, IEditableObject
     }
 
     #endregion
-
-    /// <summary>
-    /// Begins an edit on an object.
-    /// </summary>
-    public void BeginEdit()
-    {
-        taskCopy = this.MemberwiseClone() as TaskAttributes;
-    }
-
-    /// <summary>
-    /// Pushes changes since the last <see cref="M:System.ComponentModel.IEditableObject.BeginEdit"/> or <see cref="M:System.ComponentModel.IBindingList.AddNew"/> call into the underlying object.
-    /// </summary>
-    public void EndEdit()
-    {
-        taskCopy = null;
-    }
-
-    /// <summary>
-    /// Discards changes since the last <see cref="M:System.ComponentModel.IEditableObject.BeginEdit"/> call.
-    /// </summary>
-    public void CancelEdit()
-    {
-        this.Color = taskCopy.Color;
-        this.IsBold = taskCopy.IsBold;
-        this.Name = taskCopy.Name;
-        this.Typeface = taskCopy.Typeface;
-    }
 }
 }

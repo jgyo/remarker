@@ -9,7 +9,7 @@
 // Last Modified On : 08 29, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsPackage.Remarker
+namespace YoderZone.Extensions.Remarker.Remarker
 {
 #region Imports
 
@@ -25,6 +25,7 @@ using Microsoft.VisualStudio.Utilities;
 
 using YoderZone.Extensions.OptionsPackage.Remarker.FormatDefinitions;
 using YoderZone.Extensions.OptionsPackage.Remarker.Utilities;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -90,15 +91,18 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     /// Initializes a new instance of the YoderZone.Extensions.RemarkTagger class.
     /// </summary>
     /// <param name="classificationRegistryService">
-    /// .
+    ///     .
     /// </param>
-    /// <param name="tagAggregator" type="ITagAggregator<IClassificationTag>">
+    /// <param name="tagAggregator" type="ITagAggregator
+    /// <param name="service"></param>
+    /// <IClassificationTag>">
     /// The tag aggregator.
     /// </param>
-    public RemarkTagger(
-        IClassificationTypeRegistryService classificationRegistryService,
-        ITagAggregator<IClassificationTag> tagAggregator)
+    public RemarkTagger(IClassificationTypeRegistryService
+                        classificationRegistryService,
+                        ITagAggregator<IClassificationTag> tagAggregator, RemarkerService service)
     {
+        this.service = service;
 
         IClassificationTypeRegistryService registry =
             classificationRegistryService;
@@ -130,6 +134,8 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     private readonly List<ITagSpan<ClassificationTag>> EmptyTagList = new
     List<ITagSpan<ClassificationTag>>();
 
+    private RemarkerService service;
+
     #region Public Methods and Operators
 
     /// <summary>
@@ -145,8 +151,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         NormalizedSnapshotSpanCollection spans)
     {
 
-        //Debug.WriteLine("");
-        //Debug.WriteLine("");
+
 
         // ######## SECTION ONE
         if (spans.Count == 0)
@@ -160,19 +165,15 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         ITextSnapshot snapshot = spans[0].Snapshot;
         IContentType contentType = snapshot.TextBuffer.ContentType;
 
-        // Debug.WriteLine("SECTION TWO: IContentType = {0}", contentType);
-
         // ######## SECTION THREE
         if (!contentType.IsOfType("code"))
         {
-            // Debug.WriteLine("SECTION THREE: IContentType is not of type \"code\"");
             return this.EmptyTagList;
         }
 
         // ######## SECTION FOUR
         var resultClassificationTags = new List<ITagSpan<ClassificationTag>>();
 
-        // Debug.WriteLine("SECTION FOUR: Iterating through content code.");
         // ######## SECTION FIVE
         // Iterate through all of the IClassificationTags
         foreach (var currentTagSpan in this.aggregator.GetTags(spans))
@@ -181,11 +182,9 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             if (!currentTagSpan.Tag.ClassificationType.Classification.ToLower()
                     .Contains("comment"))
             {
-                // Debug.WriteLine("SECTION SIX: {0} is not a comment.", currentTagSpan.Tag.ClassificationType.Classification);
                 continue;
             }
 
-            // Debug.WriteLine("SECTION SIX: Working on {0}", currentTagSpan.Tag.ClassificationType.Classification);
 
             // ######## SECTION SEVEN
             NormalizedSnapshotSpanCollection normalizedSpans =
@@ -202,14 +201,10 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             SnapshotSpan snapshotSpan = normalizedSpans[0];
             string workingText = snapshotSpan.GetText();
 
-            Debug.WriteLine("");
-            Debug.WriteLine("");
-            Debug.WriteLine("SECTION NINE: Working text: {0}", workingText);
 
             // ######## SECTION TEN
             if (string.IsNullOrWhiteSpace(workingText))
             {
-                Debug.WriteLine("SECTION TEN: Ignoring null text.");
                 continue;
             }
 
@@ -222,35 +217,30 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             // ######## SECTION ELEVEN
             if (this.questionRegex.IsMatch(workingText))
             {
-                Debug.WriteLine("SECTION ELEVEN: Found a question.");
                 commentClass = Classification.Question;
                 commentPartGroups = this.questionRegex.Match(workingText)
                                     .Groups;
             }
             else if (this.strikeoutRegex.IsMatch(workingText))
             {
-                Debug.WriteLine("SECTION ELEVEN: Found a strikeout.");
                 commentClass = Classification.Strikeout;
                 commentPartGroups = this.strikeoutRegex.Match(workingText)
                                     .Groups;
             }
             else if (this.importantRegex.IsMatch(workingText))
             {
-                Debug.WriteLine("SECTION ELEVEN: Found a bang.");
                 commentClass = Classification.Important;
                 commentPartGroups = this.importantRegex.Match(workingText)
                                     .Groups;
             }
             else if (this.commentRegex.IsMatch(workingText))
             {
-                Debug.WriteLine("SECTION ELEVEN: Found a plan ol' comment.");
                 commentClass = Classification.Comment;
                 commentPartGroups = this.commentRegex.Match(workingText)
                                     .Groups;
             }
             else
             {
-                Debug.WriteLine("SECTION ELEVEN: No match.");
                 continue;
             }
 
@@ -269,17 +259,12 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             int start = commentPart.Index;
             int length = commentPart.Length;
 
-            Debug.WriteLine("SECTION ELEVEN: Start:{0} Length:{1}", start, length);
-
             int emphasisAmount = 0;
             if (emphasisPart.Success)
             {
-                Debug.WriteLine("SECTION ELEVEN: Found emphasis.");
                 string emphasis = emphasisPart.Value;
                 bool isPlus = !string.IsNullOrEmpty(emphasis) && emphasis[0] == '+';
-                Debug.WriteLine("SECTION ELEVEN: Is Plus? {0}", isPlus);
                 emphasisAmount = emphasis.Length * (isPlus ? 1 : -1);
-                Debug.WriteLine("SECTION ELEVEN: Emphasis amount: {0}", emphasisAmount);
             }
 
             // ######## SECTION TWELVE
@@ -290,8 +275,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             // Get a tag name.
             string commentTagName = this.DetermineTagName(commentClass,
                                     emphasisAmount);
-
-            Debug.WriteLine("SECTION TWELVE: Comment tag name: {0}", commentTagName);
 
             // ######## SECTION THIRTEEN
             // Get a comment tag.
@@ -304,10 +287,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 new SnapshotSpan(snapshotSpan.Snapshot, snapshotSpan.Start + start,
                                  length),
                 commentTag);
-
-            Debug.WriteLine("SECTION FOURTEEN: Tag span: {0}", commentTagSpan);
-
-            Debug.WriteLine("SECTION FIFTEEN: Adding tag span {0}", commentTagSpan);
             resultClassificationTags.Add(commentTagSpan);
 
             //++ TaskName section
@@ -315,11 +294,17 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             string taskClassName = null;
             int taskIndex = 1;
 
-            Debug.WriteLine("SECTION FIFTEEN: Iterating TaskNames.");
-            foreach (var name in RemarkerSettings.Default.TaskNames)
+            foreach (var name in service.ValueNames)
             {
-                Debug.WriteLine("SECTION FIFTEEN: Name = {0}", name);
-                if (string.IsNullOrWhiteSpace(name))
+                if (!name.StartsWith("Task0") && !name.StartsWith("Task10"))
+                {
+                    continue;
+                }
+
+                var value = this.service.ReadValue(name);
+                Trace.WriteLine(string.Format("RemarkTagger::GetTags - {0} = \"{1}.\"",
+                                              name, value));
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     continue;
                 }
@@ -327,7 +312,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 var isMatch = Regex.IsMatch(
                                   workingText,
                                   string.Format(@"^\s*/*\s*[!?x]?(\+{{0,3}}|-{{0,3}})\s+(?<taskName>{0}\b)",
-                                                Regex.Escape(name)),
+                                                Regex.Escape(value)),
                                   RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
                                   | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
 
@@ -340,11 +325,11 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 var matches = Regex.Match(
                                   workingText,
                                   string.Format(@"^\s*/*\s*[!?x]?(\+{{0,3}}|-{{0,3}})\s+(?<taskName>{0}\b)",
-                                                Regex.Escape(name)),
+                                                Regex.Escape(value)),
                                   RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
                                   | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
 
-                taskClassName = string.Format("Task{0:00}", taskIndex);
+                taskClassName = name;
 
                 var taskNameGroup = matches.Groups["taskName"];
                 start = taskNameGroup.Index;
@@ -372,7 +357,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             resultClassificationTags.Add(taskTagSpan);
         }
 
-        return resultClassificationTags ?? this.EmptyTagList;
+        return resultClassificationTags;
     }
 
     #endregion

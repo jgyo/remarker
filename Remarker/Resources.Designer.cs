@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace YoderZone.Extensions.OptionsPackage {
+namespace YoderZone.Extensions.Remarker {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace YoderZone.Extensions.OptionsPackage {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YoderZone.Extensions.OptionsPackage.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YoderZone.Extensions.Remarker.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

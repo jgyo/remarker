@@ -9,7 +9,7 @@
 // Last Modified On : 09 10, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsPackage.Remarker.Utilities
+namespace YoderZone.Extensions.Remarker.Remarker.Utilities
 {
 #region Imports
 
@@ -21,6 +21,8 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 
 using YoderZone.Extensions.OptionsPackage.Remarker.FormatDefinitions;
+using YoderZone.Extensions.OptionsPackage.Remarker.Utilities;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -31,8 +33,6 @@ using YoderZone.Extensions.OptionsPackage.Remarker.FormatDefinitions;
 internal sealed class FormatMapService : IDisposable
 {
     #region Fields
-
-    private readonly RemarkerSettings settings = RemarkerSettings.Default;
 
     /// <summary>
     ///     The format map.
@@ -49,6 +49,8 @@ internal sealed class FormatMapService : IDisposable
     /// </summary>
     private IClassificationTypeRegistryService typeRegistry;
 
+    private readonly RemarkerService service;
+
     #endregion
 
     #region Constructors and Destructors
@@ -61,22 +63,24 @@ internal sealed class FormatMapService : IDisposable
     /// <param name="textView" type="ITextView">
     ///     The text view.
     /// </param>
+    /// <param name="service"></param>
     /// <param name="formatMap" type="IClassificationFormatMap">
     ///     The format map.
     /// </param>
     /// <param name="typeRegistry" type="IClassificationTypeRegistryService">
     ///     The type registry.
     /// </param>
-    public FormatMapService(
-        ITextView textView,
-        IClassificationFormatMap formatMap,
-        IClassificationTypeRegistryService typeRegistry)
+    public FormatMapService(ITextView textView, RemarkerService service,
+                            IClassificationFormatMap formatMap,
+                            IClassificationTypeRegistryService typeRegistry)
     {
         //+ FormatMapService Constructor
 
         this.textView = textView;
         this.formatMap = formatMap;
+        this.service = service;
         this.typeRegistry = typeRegistry;
+
         this.UpdateFormatDefinitions();
         textView.GotAggregateFocus += this.OnViewGotAggregateFocus;
         this.formatMap.ClassificationFormatMappingChanged +=
@@ -138,6 +142,7 @@ internal sealed class FormatMapService : IDisposable
 
             foreach (var typeString in Definitions.ClassificationTypeStrings)
             {
+                //+ Handle Task classifications
                 if (typeString.StartsWith("Task", StringComparison.Ordinal))
                 {
                     IClassificationType taskType =
@@ -147,45 +152,46 @@ internal sealed class FormatMapService : IDisposable
                     switch (typeString)
                     {
                         case Definitions.Task01:
-                            index = 1;
+                            index = 0;
                             break;
                         case Definitions.Task02:
-                            index = 2;
+                            index = 1;
                             break;
                         case Definitions.Task03:
-                            index = 3;
+                            index = 2;
                             break;
                         case Definitions.Task04:
-                            index = 4;
+                            index = 3;
                             break;
                         case Definitions.Task05:
-                            index = 5;
+                            index = 4;
                             break;
                         case Definitions.Task06:
-                            index = 6;
+                            index = 5;
                             break;
                         case Definitions.Task07:
-                            index = 7;
+                            index = 6;
                             break;
                         case Definitions.Task08:
-                            index = 8;
+                            index = 7;
                             break;
                         case Definitions.Task09:
-                            index = 9;
+                            index = 8;
                             break;
                         case Definitions.Task10:
-                            index = 10;
+                            index = 9;
                             break;
                     }
 
                     this.UpdateTaskAppearance(
                         taskType,
-                        this.settings.ColorIndex[index],
-                        this.settings.FontFamilyIndex[index],
-                        this.settings.IsBoldIndex[index]);
+                        service.ColorIndex[index],
+                        service.FontFamilyIndex[index],
+                        service.IsBoldIndex[index]);
 
                     return;
                 }
+
 
                 var remarkSize = RemarkSize.Regular;
 
@@ -279,39 +285,40 @@ internal sealed class FormatMapService : IDisposable
     private void UpdateCommentFontSize(IClassificationType formatType,
                                        RemarkSize remarkSize)
     {
-        IClassificationType textType =
-            this.typeRegistry.GetClassificationType("text");
-        TextFormattingRunProperties textProperties =
-            this.formatMap.GetTextProperties(textType);
+        // Get the default text classification.
+        var textType = this.typeRegistry.GetClassificationType("text");
+        var textProperties = this.formatMap.GetTextProperties(textType);
 
+        // We must have the em size. Otherwise we may as well give up.
         if (textProperties.FontRenderingEmSizeEmpty)
         {
             // No hope.
             return;
         }
 
+        // Calculate the font size based on the em size times the factor.
         var emSize = (float)textProperties.FontRenderingEmSize;
-        this.settings.EmSize = emSize;
+        service.EmSize = emSize;
         float fontSize;
         switch (remarkSize)
         {
             case RemarkSize.Micro:
-                fontSize = this.settings.MicroFontSize;
+                fontSize = service.MicroFontSize;
                 break;
             case RemarkSize.Tiny:
-                fontSize = this.settings.TinyFontSize;
+                fontSize = service.TinyFontSize;
                 break;
             case RemarkSize.Small:
-                fontSize = this.settings.SmallFontSize;
+                fontSize = service.SmallFontSize;
                 break;
             case RemarkSize.Large:
-                fontSize = this.settings.LargeFontSize;
+                fontSize = service.LargeFontSize;
                 break;
             case RemarkSize.Huge:
-                fontSize = this.settings.HugeFontSize;
+                fontSize = service.HugeFontSize;
                 break;
             case RemarkSize.Gigantic:
-                fontSize = this.settings.GiganticFontSize;
+                fontSize = service.GiganticFontSize;
                 break;
             case RemarkSize.Regular:
                 fontSize = emSize;
@@ -320,18 +327,20 @@ internal sealed class FormatMapService : IDisposable
                 throw new ArgumentOutOfRangeException("remarkSize");
         }
 
-        TextFormattingRunProperties typeProperties =
-            this.formatMap.GetTextProperties(
-                formatType);
+        var typeProperties = this.formatMap.GetTextProperties(
+                                 formatType);
 
+        // Update the font size.
         typeProperties = typeProperties.SetFontRenderingEmSize(fontSize);
-        string fontFamilyName = this.settings.FontFamily;
+        string fontFamilyName = service.FontFamily;
 
         if (fontFamilyName != null)
         {
+            // Update the font type.
             typeProperties = typeProperties.SetTypeface(new Typeface(fontFamilyName));
         }
 
+        // Save the changes to the classification type.
         this.formatMap.SetTextProperties(formatType, typeProperties);
     }
 
@@ -339,15 +348,21 @@ internal sealed class FormatMapService : IDisposable
 
     private void UpdateTaskAppearance(
         IClassificationType taskType,
-        Color color,
+        string color,
         string font,
         bool isBold)
     {
-        TextFormattingRunProperties textProperties =
-            this.formatMap.GetTextProperties(taskType);
+        // Get the task's current settings for a basis (mainly the size).
+        var textProperties = this.formatMap.GetTextProperties(taskType);
+
+        // Update the task's typeface property.
         textProperties = textProperties.SetTypeface(new Typeface(font));
+
+        // Update the task's color property.
         textProperties = textProperties.SetForegroundBrush(new SolidColorBrush(
-                             color));
+                             color.ConvertStringToWpfColor()));
+
+        // Update the task's weight property.
         textProperties.SetBold(isBold);
         this.formatMap.SetTextProperties(taskType, textProperties);
     }

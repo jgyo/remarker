@@ -31,18 +31,8 @@ using Options;
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
 /// <seealso cref="T:System.ComponentModel.IDataErrorInfo" />
 /// <seealso cref="T:System.ComponentModel.IEditableObject" />
-public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
-    IEditableObject
+public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo
 {
-    #region Static Fields
-
-    /// <summary>
-    ///     The default options.
-    /// </summary>
-    private static CommentOptions defaultOptions;
-
-    #endregion
-
     #region Fields
 
     /// <summary>
@@ -156,8 +146,6 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     /// </summary>
     private string selectedFontFamilyName;
 
-    private CommentOptions memberwiseClone;
-
     #endregion
 
     #region Constructors and Destructors
@@ -166,7 +154,7 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     ///     Initializes a new instance of the
     ///     YoderZone.Extensions.OptionsDialog.ViewModel.CommentOptions class.
     /// </summary>
-    private CommentOptions()
+    public CommentOptions()
     {
         this.FontFamilies = new List<FontAttributes>();
         var installedFontCollection = new InstalledFontCollection();
@@ -204,20 +192,6 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
     #endregion
 
     #region Public Properties
-
-    /// <summary>
-    ///     Gets the default options.
-    /// </summary>
-    /// <value>
-    ///     The default options.
-    /// </value>
-    public static CommentOptions DefaultOptions
-    {
-        get
-        {
-            return defaultOptions ?? (defaultOptions = new CommentOptions());
-        }
-    }
 
     /// <summary>
     ///     Gets an error message indicating what is wrong with this object.
@@ -924,47 +898,6 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo,
 
             return this.dataErrorInfo[columnName];
         }
-    }
-
-    #endregion
-
-    #region Public Methods and Operators
-
-    /// <summary>
-    ///     Begins an edit on an object.
-    /// </summary>
-    /// <seealso cref="M:System.ComponentModel.IEditableObject.BeginEdit()" />
-    public void BeginEdit()
-    {
-        memberwiseClone = this.MemberwiseClone() as CommentOptions;
-    }
-
-    /// <summary>
-    ///     Discards changes since the last
-    ///     <see cref="M:System.ComponentModel.IEditableObject.BeginEdit" /> call.
-    /// </summary>
-    /// <seealso cref="M:System.ComponentModel.IEditableObject.CancelEdit()" />
-    public void CancelEdit()
-    {
-        this.SelectedFontFamily = memberwiseClone.SelectedFontFamily;
-        this.Less1 = memberwiseClone.Less1;
-        this.Less2 = memberwiseClone.Less2;
-        this.Less3 = memberwiseClone.Less3;
-        this.Plus1 = memberwiseClone.Plus1;
-        this.Plus2 = memberwiseClone.Plus2;
-        this.Plus3 = memberwiseClone.Plus3;
-    }
-
-    /// <summary>
-    ///     Pushes changes since the last
-    ///     <see cref="M:System.ComponentModel.IEditableObject.BeginEdit" /> or
-    ///     <see cref="M:System.ComponentModel.IBindingList.AddNew" /> call into
-    ///     the underlying object.
-    /// </summary>
-    /// <seealso cref="M:System.ComponentModel.IEditableObject.EndEdit()" />
-    public void EndEdit()
-    {
-        memberwiseClone = null;
     }
 
     #endregion

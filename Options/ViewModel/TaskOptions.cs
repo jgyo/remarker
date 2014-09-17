@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Assembly         : Options.Dialog
 // Solution         : YoderZone.Com.Extensions
-// File name        : TaskOptions.cs
+// File name        : TaskOptionsControl.cs
 // Author           : Gil Yoder
 // Created          : 09 07,  2014
 //
@@ -24,17 +24,12 @@ using System.Windows.Media;
 #endregion
 
 /// <summary>
-///     A task options.
+///     A task's options.
 /// </summary>
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
 public class TaskOptions : INotifyPropertyChanged
 {
     #region Static Fields
-
-    /// <summary>
-    ///     The default task options.
-    /// </summary>
-    private static TaskOptions defaultTaskOptions;
 
     #endregion
 
@@ -49,11 +44,6 @@ public class TaskOptions : INotifyPropertyChanged
     ///     The selected color.
     /// </summary>
     private Color selectedColor = Colors.Beige;
-
-    /// <summary>
-    ///     Size of the selected font.
-    /// </summary>
-    private float selectedFontSize;
 
     /// <summary>
     ///     true to selected font weight.
@@ -75,12 +65,13 @@ public class TaskOptions : INotifyPropertyChanged
 
     /// <summary>
     ///     Prevents a default instance of the
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskOptions class from being
+    ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskOptionsControl class from being
     ///     created.
     /// </summary>
-    private TaskOptions()
+    public TaskOptions()
     {
         this.tasks = new ObservableCollection<TaskAttributes>();
+
     }
 
     #endregion
@@ -95,20 +86,6 @@ public class TaskOptions : INotifyPropertyChanged
     #endregion
 
     #region Public Properties
-
-    /// <summary>
-    ///     Gets the default options.
-    /// </summary>
-    /// <value>
-    ///     The default options.
-    /// </value>
-    public static TaskOptions DefaultOptions
-    {
-        get
-        {
-            return defaultTaskOptions ?? (defaultTaskOptions = new TaskOptions());
-        }
-    }
 
     public List<string> FontNames { get; set; }
 
@@ -128,14 +105,6 @@ public class TaskOptions : INotifyPropertyChanged
         {
             this.selectedColor = value;
             this.OnPropertyChanged();
-        }
-    }
-
-    public bool IsInEditMode
-    {
-        get
-        {
-            return Tasks.Any(a => a.IsInEditMode);
         }
     }
 
@@ -261,15 +230,7 @@ public class TaskOptions : INotifyPropertyChanged
 
     #region Public Methods and Operators
 
-    /// <summary>
-    ///     Loads the tasks.
-    /// </summary>
-    /// <exception cref="ArgumentOutOfRangeException">
-    ///     Thrown when one or more arguments are outside the required range.
-    /// </exception>
-    /// <param name="taskInstances" type="IEnumerable <TaskAttributes>">
-    ///     The task instances.
-    ///     </param>
+
     public void LoadTasks(IEnumerable<TaskAttributes> taskInstances)
     {
         this.Tasks.Clear();

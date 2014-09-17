@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 
 using YoderZone.Extensions.OptionsDialog.ViewModel;
 
@@ -40,6 +41,10 @@ public partial class TaskOptionsPage : UserControl
 
     #endregion
 
+    private TaskOptions model;
+
+    private TaskOptionsControl control;
+
     #region Constructors and Destructors
 
     /// <summary>
@@ -47,9 +52,13 @@ public partial class TaskOptionsPage : UserControl
     ///     YoderZone.Extensions.OptionsDialog.TaskOptionsPage
     ///     class.
     /// </summary>
-    public TaskOptionsPage()
+    public TaskOptionsPage(TaskOptions model)
     {
+        this.model = model;
+
         this.InitializeComponent();
+        control = this.taskOptionControl;
+        control.DataContext = model;
 
         var installedFontCollection = new InstalledFontCollection();
         FontFamily[] fontFamilyArray = installedFontCollection.Families;
@@ -62,37 +71,14 @@ public partial class TaskOptionsPage : UserControl
             graphics.Dispose();
         }
 
-        ViewModel.TaskOptions.DefaultOptions.FontNames = fontFamilies;
-    }
-
-    #endregion
-
-    #region Public Properties
-
-    /// <summary>
-    ///     Gets the default task options page.
-    /// </summary>
-    /// <value>
-    ///     The default task options page.
-    /// </value>
-    public static TaskOptionsPage DefaultTaskOptionsPage
-    {
-        get
-        {
-            return defaultOptionsPage ?? (defaultOptionsPage = new TaskOptionsPage());
-        }
+        model.FontNames = fontFamilies;
     }
 
     #endregion
 
     public bool CanDeactivate()
     {
-        if (ViewModel.TaskOptions.DefaultOptions.IsInEditMode)
-        {
-            (elementHost1.Child as TaskOptions).Confirm();
-        }
-
-        return true;
+        return control.CanDeactivate;
     }
 }
 }

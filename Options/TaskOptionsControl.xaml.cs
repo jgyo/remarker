@@ -1,27 +1,45 @@
 ﻿using System.Windows.Controls;
-using System.Xaml;
 
 namespace YoderZone.Extensions.OptionsDialog
 {
-using System;
-using System.Windows.Input;
+using YoderZone.Extensions.OptionsDialog.ViewModel;
 
 /// <summary>
-/// Interaction logic for TaskOptions.xaml
+/// Interaction logic for TaskOptionsControl.xaml
 /// </summary>
-public partial class TaskOptions : UserControl
+public partial class TaskOptionsControl : UserControl
 {
+    private bool canDeactivate;
+
+    private bool isEditing;
+
+    private TaskOptions model;
+
     //! Constructor
-    public TaskOptions()
+    public TaskOptionsControl()
     {
         InitializeComponent();
+        this.DataContextChanged += TaskOptionsControl_DataContextChanged;
     }
 
+    void TaskOptionsControl_DataContextChanged(object sender,
+            System.Windows.DependencyPropertyChangedEventArgs e)
+    {
+        model = this.DataContext as TaskOptions;
+    }
 
+    public bool CanDeactivate
+    {
+        get
+        {
+            return !isEditing;
+        }
+    }
 
     private void DataGrid_BeginningEdit(object sender,
                                         DataGridBeginningEditEventArgs e)
     {
+        isEditing = true;
         if (e.Column == colorColumn)
         {
             e.Column.Width = DataGridLength.Auto;
@@ -42,35 +60,11 @@ public partial class TaskOptions : UserControl
     private void DataGrid_CellEditEnding(object sender,
                                          DataGridCellEditEndingEventArgs e)
     {
+        isEditing = false;
         if (e.Column == this.colorColumn)
         {
             e.Column.Width = 39;
         }
     }
-
-    public bool Confirm()
-    {
-        if (ViewModel.TaskOptions.DefaultOptions.IsInEditMode)
-        {
-            ViewModel.TaskOptions.DefaultOptions.SelectedTask.EndEdit();
-        }
-
-        return true;
-    }
-}
-
-[Flags]
-public enum ControlKeys
-{
-    None = 0,
-    LeftCtrl = 1,
-    RightCtrl = 2,
-    LeftShift = 4,
-    RightShift = 8,
-    LeftAlt = 16,
-    RightAlt = 32,
-    Enter = 64,
-    Escape = 128,
-    All = LeftAlt | RightAlt | LeftCtrl | RightCtrl | LeftShift | RightShift | Enter | Escape
 }
 }

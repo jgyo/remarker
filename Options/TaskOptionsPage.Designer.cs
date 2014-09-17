@@ -28,28 +28,26 @@ partial class TaskOptionsPage
     /// </summary>
     private void InitializeComponent()
     {
-        this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-        this.taskOptions1 = new YoderZone.Extensions.OptionsDialog.TaskOptions();
+        this.host = new System.Windows.Forms.Integration.ElementHost();
+        this.taskOptionControl = new
+        YoderZone.Extensions.OptionsDialog.TaskOptionsControl();
         this.SuspendLayout();
         //
-        // elementHost1
+        // host
         //
-        this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.elementHost1.Location = new System.Drawing.Point(4, 4);
-        this.elementHost1.Name = "elementHost1";
-        this.elementHost1.Size = new System.Drawing.Size(508, 524);
-        this.elementHost1.TabIndex = 0;
-        this.elementHost1.Text = "elementHost1";
-        this.elementHost1.Child = this.taskOptions1;
+        this.host.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.host.Location = new System.Drawing.Point(0, 0);
+        this.host.Name = "host";
+        this.host.Size = new System.Drawing.Size(465, 427);
+        this.host.TabIndex = 0;
+        this.host.Text = "host";
+        this.host.Child = this.taskOptionControl;
         //
         // TaskOptionsPage
         //
-        this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.Controls.Add(this.elementHost1);
+        this.Controls.Add(this.host);
         this.Name = "TaskOptionsPage";
-        this.Padding = new System.Windows.Forms.Padding(4);
-        this.Size = new System.Drawing.Size(516, 532);
+        this.Size = new System.Drawing.Size(465, 427);
         this.ResumeLayout(false);
 
     }
@@ -57,7 +55,9 @@ partial class TaskOptionsPage
     #endregion
 
     private System.Windows.Forms.Integration.ElementHost elementHost1;
-    private TaskOptions taskOptions1;
+    private System.Windows.Forms.Integration.ElementHost host;
+    private YoderZone.Extensions.OptionsDialog.TaskOptionsControl
+    taskOptionControl;
 
 }
 }

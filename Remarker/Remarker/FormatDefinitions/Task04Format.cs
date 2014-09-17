@@ -5,10 +5,13 @@
 using System.ComponentModel.Composition;
 using System.Windows.Media;
 
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
+using YoderZone.Extensions.OptionsPackage.Remarker.Service;
 using YoderZone.Extensions.OptionsPackage.Remarker.Utilities;
+using YoderZone.Extensions.Remarker.Remarker.Service;
 
 #endregion
 
@@ -32,11 +35,13 @@ public class Task04Format : ClassificationFormatDefinition
     /// </summary>
     public Task04Format()
     {
+        var service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                      RemarkerService;
         this.DisplayName = "Remarker Task04";
         this.ForegroundColor =
-            RemarkerSettings.Default.TaskColor04.ConvertStringToWpfColor();
-        this.FontTypeface = new Typeface(RemarkerSettings.Default.TaskTypeface04);
-        this.IsBold = RemarkerSettings.Default.TaskBold04;
+            service.TaskColor04.ConvertStringToWpfColor();
+        this.FontTypeface = new Typeface(service.TaskTypeface04);
+        this.IsBold = service.TaskBold04;
         this.ForegroundCustomizable = true;
         this.BackgroundCustomizable = true;
     }
