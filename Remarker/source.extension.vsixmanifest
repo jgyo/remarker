@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="81ce9f0c-4ff5-4279-9099-892a71549176" Version="1.1" Language="en-US" Publisher="Gil Yoder" />
+    <Identity Id="81ce9f0c-4ff5-4279-9099-892a71549176" Version="1.2" Language="en-US" Publisher="Gil Yoder" />
     <DisplayName>Remarker</DisplayName>
     <Description>Remarker is a Visual Studio extension designed to enhance code documentation by enabling resized comment lines, and using color and bold emphasis for highlighting tasks. Remarker ehances comments in C# and Visual Basic files, as well as html, xaml, and other markup files.</Description>
     <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/87813da0-8f1c-48a4-b1c4-85dfb7a269a9?SRC=Home</MoreInfo>
