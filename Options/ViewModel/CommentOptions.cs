@@ -166,15 +166,20 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo
         {
             foreach (var fontFamily in fontFamilyArray)
             {
-                var fontAttributes = new FontAttributes(fontFamily, graphics);
-                this.FontFamilies.Add(fontAttributes);
-                if (fontAttributes.Name.Contains("Verdana"))
+                try
                 {
-                    select = fontAttributes;
+                    var fontAttributes = new FontAttributes(fontFamily, graphics);
+                    this.FontFamilies.Add(fontAttributes);
+                    if (fontAttributes.Name.Contains("Verdana"))
+                    {
+                        select = fontAttributes;
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    Trace.WriteLine(string.Format("CommentOptions::CommentOptions: {0}", ex));
                 }
             }
-
-            graphics.Dispose();
         }
 
         this.SelectedFontFamily = select;

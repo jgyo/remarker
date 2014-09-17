@@ -89,7 +89,7 @@ public class ProfileManager : Component, IProfileManager
             RemarkerService service = this.Service;
             if (service == null)
             {
-                return true;
+                return false;
             }
 
             service.OnSettingsChanged();

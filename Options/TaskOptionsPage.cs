@@ -41,8 +41,6 @@ public partial class TaskOptionsPage : UserControl
 
     #endregion
 
-    private TaskOptions model;
-
     private TaskOptionsControl control;
 
     #region Constructors and Destructors
@@ -54,8 +52,6 @@ public partial class TaskOptionsPage : UserControl
     /// </summary>
     public TaskOptionsPage(TaskOptions model)
     {
-        this.model = model;
-
         this.InitializeComponent();
         control = this.taskOptionControl;
         control.DataContext = model;
@@ -67,8 +63,6 @@ public partial class TaskOptionsPage : UserControl
         using (Graphics graphics = this.CreateGraphics())
         {
             fontFamilies.AddRange(fontFamilyArray.Select(t => t.Name));
-
-            graphics.Dispose();
         }
 
         model.FontNames = fontFamilies;

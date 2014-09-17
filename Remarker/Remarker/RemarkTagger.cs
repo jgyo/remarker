@@ -150,9 +150,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     public IEnumerable<ITagSpan<ClassificationTag>> GetTags(
         NormalizedSnapshotSpanCollection spans)
     {
-
-
-
         // ######## SECTION ONE
         if (spans.Count == 0)
         {
@@ -302,8 +299,11 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 }
 
                 var value = this.service.ReadValue(name);
+
+
                 Trace.WriteLine(string.Format("RemarkTagger::GetTags - {0} = \"{1}.\"",
                                               name, value));
+
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     continue;

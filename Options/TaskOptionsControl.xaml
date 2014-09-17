@@ -4,9 +4,10 @@
              xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:optionsDialog="clr-namespace:YoderZone.Extensions.OptionsDialog"
              xmlns:viewModel="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
              d:DataContext="{d:DesignInstance viewModel:TaskOptions}"
-             d:DesignHeight="544"
+             d:DesignHeight="587"
              d:DesignWidth="494"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -119,7 +120,8 @@
 
             <!--  Note: Task Options DataGrid  -->
 
-            <DataGrid Height="300"
+            <DataGrid x:Name="dataGrid"
+                      Height="300"
                       AutoGenerateColumns="False"
                       BeginningEdit="DataGrid_BeginningEdit"
                       CanUserAddRows="False"
@@ -241,5 +243,10 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+        <TextBlock HorizontalAlignment="Center"
+                   DockPanel.Dock="Top"
+                   Text="{Binding Version,
+                                  RelativeSource={RelativeSource FindAncestor,
+                                                                 AncestorType=optionsDialog:TaskOptionsControl}}" />
     </DockPanel>
 </UserControl>

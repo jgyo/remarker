@@ -189,7 +189,7 @@ internal sealed class FormatMapService : IDisposable
                         service.FontFamilyIndex[index],
                         service.IsBoldIndex[index]);
 
-                    return;
+                    continue;
                 }
 
 
@@ -363,7 +363,7 @@ internal sealed class FormatMapService : IDisposable
                              color.ConvertStringToWpfColor()));
 
         // Update the task's weight property.
-        textProperties.SetBold(isBold);
+        textProperties = textProperties.SetBold(isBold);
         this.formatMap.SetTextProperties(taskType, textProperties);
     }
 

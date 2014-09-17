@@ -2,6 +2,11 @@
 
 namespace YoderZone.Extensions.OptionsDialog
 {
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+
 using YoderZone.Extensions.OptionsDialog.ViewModel;
 
 /// <summary>
@@ -13,26 +18,43 @@ public partial class TaskOptionsControl : UserControl
 
     private bool isEditing;
 
-    private TaskOptions model;
-
     //! Constructor
     public TaskOptionsControl()
     {
         InitializeComponent();
-        this.DataContextChanged += TaskOptionsControl_DataContextChanged;
-    }
-
-    void TaskOptionsControl_DataContextChanged(object sender,
-            System.Windows.DependencyPropertyChangedEventArgs e)
-    {
-        model = this.DataContext as TaskOptions;
     }
 
     public bool CanDeactivate
     {
         get
         {
+            if (isEditing)
+            {
+                dataGrid.CommitEdit();
+            }
+
             return !isEditing;
+        }
+    }
+
+    public string Version
+    {
+        get
+        {
+            // Extract the version
+            var assembly = typeof(TaskOptionsControl).Assembly;
+            var attribs = assembly.GetCustomAttributes(typeof(
+                              System.Reflection.AssemblyFileVersionAttribute), false);
+            string version;
+            if (attribs.Length == 0) { version = "1.2"; }
+            else
+            {
+                var attrib = (AssemblyFileVersionAttribute)attribs[0];
+                version = attrib.Version;
+            }
+
+            return string.Format("Copyright © Gil Yoder 2014 - Version {0}",
+                                 version);
         }
     }
 

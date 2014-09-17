@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:optionsDialog="clr-namespace:YoderZone.Extensions.OptionsDialog"
              xmlns:vm="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
              MinWidth="477"
              KeyboardNavigation.DirectionalNavigation="Contained"
@@ -370,5 +371,9 @@
                                                     ValidatesOnDataErrors=True}" />
             </Grid>
         </GroupBox>
+        <TextBlock HorizontalAlignment="Center"
+                   DockPanel.Dock="Top"
+                   Text="{Binding Version, RelativeSource={RelativeSource FindAncestor,
+                                                                 AncestorType=optionsDialog:CommentOptionsControl}}" />
     </DockPanel>
 </UserControl>

@@ -116,7 +116,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     }
 
     /// <summary>
-    ///     Handles Windows Activate messages from the Visual Studio environment.
+    ///     Called by Visual Studio when an Options page is activated.
     /// </summary>
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnActivate(CancelEventArgs e)
@@ -133,7 +133,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     }
 
     /// <summary>
-    ///     Handles Apply messages from the Visual Studio environment.
+    ///     Called by Visual Studio when changes should be saved.
     /// </summary>
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnApply(PageApplyEventArgs e)
@@ -143,7 +143,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     }
 
     /// <summary>
-    ///     Handles Close messages from the Visual Studio environment.
+    ///     Called by Visual Studio when closing Options.
     /// </summary>
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnClosed(EventArgs e)
@@ -161,14 +161,12 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
             this.profileManager.RollBackSettings();
         }
 
-        //? Settings are saved automatically by the
-        //? final accept or rollback methods.
         this.isActivated = false;
         base.OnClosed(e);
     }
 
     /// <summary>
-    ///     Handles Deactivated messages from the Visual Studio environment.
+    ///     Called by Visual Studio when an Options page is deactivated.
     /// </summary>
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnDeactivate(CancelEventArgs e)
@@ -185,9 +183,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
             return;
         }
 
-        // Unless apply changes is executed, no changes are
-        // made. The actual preservation is done by the
-        // profile manager.
         this.ApplyChanges();
     }
 
