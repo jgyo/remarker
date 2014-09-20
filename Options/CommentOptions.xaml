@@ -260,31 +260,6 @@
                            Grid.ColumnSpan="2"
                            Margin="3,7"
                            Text="+++" />
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Grid.ColumnSpan="2"
-                           Margin="3,7"
-                           Text="++" />
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Grid.ColumnSpan="2"
-                           Margin="3,7"
-                           Text="+" />
-                <TextBlock Grid.Row="1"
-                           Grid.Column="3"
-                           Margin="3,7"
-                           Text="---" />
-                <TextBlock Grid.Row="2"
-                           Grid.Column="3"
-                           Margin="3,7"
-                           Text="--" />
-                <TextBlock Grid.Row="3"
-                           Grid.Column="3"
-                           Margin="3,7"
-                           Text="-" />
-
-                <!--  ++ Growth Factors  -->
-
                 <controls:TextBoxFix x:Name="pppTextBox"
                                      Grid.Row="1"
                                      Grid.Column="2"
@@ -299,34 +274,10 @@
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=True}" />
-                <controls:TextBoxFix x:Name="ppTextBox"
-                                     Grid.Row="2"
-                                     Grid.Column="2"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Plus2Text,
-                                                    FallbackValue=1.6667,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
-                <controls:TextBoxFix x:Name="pTextBox"
-                                     Grid.Row="3"
-                                     Grid.Column="2"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Plus1Text,
-                                                    FallbackValue=1.3333,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="-" />
                 <controls:TextBoxFix x:Name="mTextBox"
                                      Grid.Row="1"
                                      Grid.Column="4"
@@ -341,6 +292,29 @@
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=True}" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="3,7"
+                           Text="++" />
+                <controls:TextBoxFix x:Name="ppTextBox"
+                                     Grid.Row="2"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus2Text,
+                                                    FallbackValue=1.6667,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="--" />
                 <controls:TextBoxFix x:Name="mmTextBox"
                                      Grid.Row="2"
                                      Grid.Column="4"
@@ -355,6 +329,32 @@
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged,
                                                     ValidatesOnDataErrors=True}" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="3,7"
+                           Text="+" />
+                <controls:TextBoxFix x:Name="pTextBox"
+                                     Grid.Row="3"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus1Text,
+                                                    FallbackValue=1.3333,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="3"
+                           Margin="3,7"
+                           Text="---" />
+
+                <!--  ++ Growth Factors  -->
+
                 <controls:TextBoxFix x:Name="mmmTextBox"
                                      Grid.Row="3"
                                      Grid.Column="4"
@@ -373,7 +373,8 @@
         </GroupBox>
         <TextBlock HorizontalAlignment="Center"
                    DockPanel.Dock="Top"
-                   Text="{Binding Version, RelativeSource={RelativeSource FindAncestor,
+                   Text="{Binding Version,
+                                  RelativeSource={RelativeSource FindAncestor,
                                                                  AncestorType=optionsDialog:CommentOptionsControl}}" />
     </DockPanel>
 </UserControl>
