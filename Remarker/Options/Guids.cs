@@ -1,7 +1,7 @@
 ﻿// Guids.cs
 // MUST match guids.h
 
-namespace YoderZone.Extensions.OptionsPackage.Options
+namespace YoderZone.Extensions.Remarker.Options
 {
 using System;
 

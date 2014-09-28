@@ -1,8 +1,7 @@
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 

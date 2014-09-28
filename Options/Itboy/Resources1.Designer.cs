@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace YoderZone.Extensions.OptionsDialog.Itboy {
+namespace YoderZone.Extensions.Options.Itboy {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace YoderZone.Extensions.OptionsDialog.Itboy {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YoderZone.Extensions.OptionsDialog.Itboy.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YoderZone.Extensions.Options.Itboy.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

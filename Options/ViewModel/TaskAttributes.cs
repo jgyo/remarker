@@ -9,7 +9,7 @@
 // Last Modified On : 09 07, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 #region Imports
 

@@ -1,6 +1,6 @@
 ﻿// See http://www.codeproject.com/Articles/13922/Validate-user-input-in-Windows-Forms
 
-namespace Options.Itboy
+namespace YoderZone.Extensions.Options.Itboy
 {
 /// <summary>
 /// Indicate the data type of control's text.

@@ -2,16 +2,18 @@
 {
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+using global::NLog;
+
 using Microsoft.VisualStudio.Shell;
 
-using YoderZone.Extensions.OptionsPackage.Options;
+using YoderZone.Extensions.NLog;
+using YoderZone.Extensions.Options;
 using YoderZone.Extensions.OptionsPackage.Remarker.Service;
 using YoderZone.Extensions.Remarker.Options;
-using YoderZone.Extensions.Remarker.Remarker.Service;
+using YoderZone.Extensions.Remarker.Service;
 
 /// <summary>
 /// This is the class that implements the package exposed by this assembly.
@@ -50,12 +52,36 @@ using YoderZone.Extensions.Remarker.Remarker.Service;
 [Guid(Guids.guidRemarkerPkgString)]
 public sealed class RemarkerPackage : Package
 {
+    /// <summary>
+    /// The logger.
+    /// </summary>
+    private static readonly Logger logger = SettingsHelper.CreateLogger();
+
     private static readonly int version = GetCurrentVersion();
 
     private RemarkerService service;
 
+    private static SettingsHelper nLogConfiguration;
+
     // Default version: 1.2
     public const int DEFAULT_VERSION = 0x0102;
+
+    static RemarkerPackage()
+    {
+        nLogConfiguration = SettingsHelper.NewConfiguration("Remarker",
+                            "YoderZone");
+        var fileTarget = FileTargetFactory.CreateFileTarget("RemarkerLog",
+                         "remarker${shortdate}.log", nLogConfiguration);
+        var loggingRule1 =
+            RuleFactory.CreateRule("YoderZone.Extensions.Remarker*", fileTarget,
+                                   LogLevel.Info);
+        var loggingRule2 = RuleFactory.CreateRule("YoderZone.Extensions.Options*",
+                           fileTarget, LogLevel.Info);
+        nLogConfiguration.AddTarget(fileTarget, true);
+        nLogConfiguration.AddRule("rule1", loggingRule1, true);
+        nLogConfiguration.AddRule("rule2", loggingRule2);
+
+    }
 
     /// <summary>
     /// Default constructor of the package.
@@ -66,6 +92,8 @@ public sealed class RemarkerPackage : Package
     /// </summary>
     public RemarkerPackage()
     {
+        logger.Trace("Entered RemarkerPackage().");
+
         var container = (IServiceContainer)this;
         var callback = new ServiceCreatorCallback(this.CreateService);
         container.AddService(typeof(IRemarkerService), callback, true);
@@ -74,21 +102,26 @@ public sealed class RemarkerPackage : Package
     private object CreateService(IServiceContainer container,
                                  Type servicetype)
     {
+        logger.Trace("Entered CreateService().");
+
         if (typeof(IRemarkerService) != servicetype)
         {
+            logger.Error("The service type specified is not an IRemarkerService.");
             return null;
         }
 
-        Trace.WriteLine(
-            string.Format("RemarkerPackage::CreateService - Creating service: {0}",
-                          servicetype));
-
-        if (this.service == null)
+        if (this.service != null)
         {
-            this.service = new RemarkerService(this);
+            return this.service;
         }
 
-        return service;
+        logger.Info("Creating service type: {0}",
+                    servicetype);
+
+        this.service = new RemarkerService(this);
+        logger.Trace("Returning the current {0} service.", servicetype);
+
+        return this.service;
     }
 
     public static int Version
@@ -160,13 +193,14 @@ public sealed class RemarkerPackage : Package
                                    .Select(int.Parse)
                                    .Take(2)                        //! We only want major and minor versions.
                                    .Aggregate(0, (acc, i) => acc << 8 | i);
-            Trace.TraceInformation("RemarkerPackage.CURRENT_VERSION == {0:X}",
-                                   extractedVersion);
+
+            logger.Debug("RemarkerPackage.CURRENT_VERSION == {0:X}",
+                         extractedVersion);
             return extractedVersion;
         }
         catch (Exception ex)
         {
-            Trace.TraceError("IndentGuide::GetCurrentVersion: {0}", ex);
+            logger.Error("GetCurrentVersion generated an exception: {0}", ex);
             return DEFAULT_VERSION;
         }
     }

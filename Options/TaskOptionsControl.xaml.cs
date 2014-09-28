@@ -1,13 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace YoderZone.Extensions.OptionsDialog
+﻿namespace YoderZone.Extensions.Options
 {
-using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
+using System.Windows.Controls;
 
-using YoderZone.Extensions.OptionsDialog.ViewModel;
+using YoderZone.Extensions.Options.ViewModel;
 
 /// <summary>
 /// Interaction logic for TaskOptionsControl.xaml
@@ -28,12 +24,12 @@ public partial class TaskOptionsControl : UserControl
     {
         get
         {
-            if (isEditing)
+            if (this.isEditing)
             {
-                dataGrid.CommitEdit();
+                this.dataGrid.CommitEdit();
             }
 
-            return !isEditing;
+            return !this.isEditing;
         }
     }
 
@@ -61,15 +57,15 @@ public partial class TaskOptionsControl : UserControl
     private void DataGrid_BeginningEdit(object sender,
                                         DataGridBeginningEditEventArgs e)
     {
-        isEditing = true;
-        if (e.Column == colorColumn)
+        this.isEditing = true;
+        if (e.Column == this.colorColumn)
         {
             e.Column.Width = DataGridLength.Auto;
             return;
         }
-        if (e.Column == boldColumn)
+        if (e.Column == this.boldColumn)
         {
-            var taskAttributes = e.Row.Item as ViewModel.TaskAttributes;
+            var taskAttributes = e.Row.Item as TaskAttributes;
             if (taskAttributes == null)
             {
                 return;
@@ -82,7 +78,7 @@ public partial class TaskOptionsControl : UserControl
     private void DataGrid_CellEditEnding(object sender,
                                          DataGridCellEditEndingEventArgs e)
     {
-        isEditing = false;
+        this.isEditing = false;
         if (e.Column == this.colorColumn)
         {
             e.Column.Width = 39;

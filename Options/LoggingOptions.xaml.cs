@@ -1,21 +1,38 @@
-﻿namespace YoderZone.Extensions.Options
-{
-using System.Reflection;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-using YoderZone.Extensions.OptionsDialog;
+namespace YoderZone.Extensions.Options
+{
+using System.Diagnostics;
+using System.Reflection;
+
+using YoderZone.Extensions.NLog;
 
 /// <summary>
-/// Interaction logic for CommentOptionsControl.xaml
+/// Interaction logic for LoggingOptions.xaml
 /// </summary>
-public partial class CommentOptionsControl : UserControl
+public partial class LoggingOptions : UserControl
 {
-    public CommentOptionsControl()
+    public LoggingOptions()
     {
         InitializeComponent();
     }
 
-
+    private void OpenFolderButtonClicked(object sender, RoutedEventArgs e)
+    {
+        var loggingFolder =
+            string.Format("file://{0}\\YoderZone\\XamlHelpmeet\\log",
+                          SettingsHelper.ApplicationDataFolder);
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = loggingFolder,
+                UseShellExecute = true
+            }
+        };
+        process.Start();
+    }
 
     public string Version
     {

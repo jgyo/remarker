@@ -9,7 +9,7 @@
 // Last Modified On : 09 07, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 #region Imports
 
@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
@@ -171,16 +170,16 @@ public class TaskOptions : INotifyPropertyChanged
         {
             if (this.selectedTask != null)
             {
-                this.selectedTask.PropertyChanged -= selectedTask_PropertyChanged;
+                this.selectedTask.PropertyChanged -= this.selectedTask_PropertyChanged;
             }
 
             this.selectedTask = value;
 
             if (this.selectedTask != null)
             {
-                this.selectedTask.PropertyChanged += selectedTask_PropertyChanged;
+                this.selectedTask.PropertyChanged += this.selectedTask_PropertyChanged;
             }
-            OnPropertyChanged();
+            this.OnPropertyChanged();
             if(value == null)
             {
                 return;
@@ -217,12 +216,12 @@ public class TaskOptions : INotifyPropertyChanged
     {
         get
         {
-            return selectedFont;
+            return this.selectedFont;
         }
         set
         {
-            selectedFont = value;
-            OnPropertyChanged();
+            this.selectedFont = value;
+            this.OnPropertyChanged();
         }
     }
 

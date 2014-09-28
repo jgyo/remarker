@@ -1,26 +1,26 @@
-﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.Controls.PopupColorPicker"
+﻿<UserControl x:Class="YoderZone.Extensions.Options.Controls.PopupColorPicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModel="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
+             xmlns:viewModel1="clr-namespace:YoderZone.Extensions.Options.ViewModel"
+             xmlns:controls1="clr-namespace:YoderZone.Extensions.Options.Controls"
              d:DesignHeight="23"
              d:DesignWidth="100"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <viewModel:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <viewModel1:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     </UserControl.Resources>
     <Grid>
         <Rectangle HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    Fill="{Binding RelativeSource={RelativeSource FindAncestor,
-                                                                 AncestorType={x:Type controls:PopupColorPicker}},
+                                                                 AncestorType={x:Type controls1:PopupColorPicker}},
                                   Converter={StaticResource ColorToBrushConverter},
                                   Path=ColorSwath}" />
         <Popup x:Name="Popup"
                StaysOpen="True"
-               IsOpen="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:PopupColorPicker}}}">
+               IsOpen="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls1:PopupColorPicker}}}">
             <Border Background="WhiteSmoke"
                     BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                     BorderThickness="1"
@@ -28,11 +28,11 @@
                 <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                         BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                         BorderThickness="1">
-                    <controls:ColorPicker Width="300"
+                    <controls1:ColorPicker Width="300"
                                           ColorSwath="{Binding ColorSwath,
                                                                Mode=TwoWay,
                                                                RelativeSource={RelativeSource FindAncestor,
-                                                                                              AncestorType={x:Type controls:PopupColorPicker}}}"
+                                                                                              AncestorType={x:Type controls1:PopupColorPicker}}}"
                                           Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrush}}"
                                           Padding="4,0" />
                 </Border>

@@ -1,4 +1,4 @@
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 public interface IRemarkerSettings
 {

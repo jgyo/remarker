@@ -9,20 +9,17 @@
 // Last Modified On : 09 05, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsDialog
+namespace YoderZone.Extensions.Options
 {
 #region Imports
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 
-using YoderZone.Extensions.OptionsDialog.ViewModel;
+using YoderZone.Extensions.Options.ViewModel;
 
 #endregion
 
@@ -33,11 +30,6 @@ using YoderZone.Extensions.OptionsDialog.ViewModel;
 public partial class TaskOptionsPage : UserControl
 {
     #region Static Fields
-
-    /// <summary>
-    ///     The default options page.
-    /// </summary>
-    private static TaskOptionsPage defaultOptionsPage;
 
     #endregion
 
@@ -53,17 +45,14 @@ public partial class TaskOptionsPage : UserControl
     public TaskOptionsPage(TaskOptions model)
     {
         this.InitializeComponent();
-        control = this.taskOptionControl;
-        control.DataContext = model;
+        this.control = this.taskOptionControl;
+        this.control.DataContext = model;
 
         var installedFontCollection = new InstalledFontCollection();
         FontFamily[] fontFamilyArray = installedFontCollection.Families;
 
         var fontFamilies = new List<string>(fontFamilyArray.Length);
-        using (Graphics graphics = this.CreateGraphics())
-        {
-            fontFamilies.AddRange(fontFamilyArray.Select(t => t.Name));
-        }
+        fontFamilies.AddRange(fontFamilyArray.Select(t => t.Name));
 
         model.FontNames = fontFamilies;
     }
@@ -72,7 +61,7 @@ public partial class TaskOptionsPage : UserControl
 
     public bool CanDeactivate()
     {
-        return control.CanDeactivate;
+        return this.control.CanDeactivate;
     }
 }
 }

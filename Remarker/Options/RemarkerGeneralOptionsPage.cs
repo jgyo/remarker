@@ -1,13 +1,22 @@
-﻿// ***********************************************************************
-// Assembly         : Options.Package
-// Solution         : YoderZone.Com.Extensions
-// File name        : RemarkerGeneralOptionsPage.cs
-// Author           : Gil Yoder
-// Created          : 09 11,  2014
+﻿// <copyright file="RemarkerGeneralOptionsPage.cs" company="YoderZone.com">
+// Copyright (c) 2014 Gil Yoder. All rights reserved.
+// </copyright>
+// <author>Gil Yoder</author>
+// <date>9/27/2014</date>
+// <summary>Implements the remarker general options page class</summary>
+// <remarks>
+// Licensed under the Microsoft Public License (Ms-PL); you may not
+// use this file except in compliance with the License. You may obtain a copy
+// of the License at
 //
-// Last Modified By : Gil Yoder
-// Last Modified On : 09 16, 2014
-// ***********************************************************************
+// https://remarker.codeplex.com/license
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+// License for the specific language governing permissions and limitations
+// under the License.
+// </remarks>
 
 namespace YoderZone.Extensions.Remarker.Options
 {
@@ -18,11 +27,14 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+using global::NLog;
+
 using Microsoft.VisualStudio.Shell;
 
-using YoderZone.Extensions.OptionsDialog;
-using YoderZone.Extensions.OptionsDialog.ViewModel;
-using YoderZone.Extensions.Remarker.Remarker.Service;
+using YoderZone.Extensions.NLog;
+using YoderZone.Extensions.Options;
+using YoderZone.Extensions.Options.ViewModel;
+using YoderZone.Extensions.Remarker.Service;
 
 #endregion
 
@@ -36,28 +48,64 @@ using YoderZone.Extensions.Remarker.Remarker.Service;
 [ComVisible(true)]
 public sealed class RemarkerGeneralOptionsPage : DialogPage
 {
+    #region Static Fields
+
+    /// <summary>
+    ///     The logger.
+    /// </summary>
+    private static readonly Logger logger = SettingsHelper.CreateLogger();
+
+    #endregion
+
     // private readonly RemarkerSettings settings = RemarkerSettings.Default;
 
     #region Fields
 
+    /// <summary>
+    ///     The model.
+    /// </summary>
     private readonly CommentOptions model;
 
+    /// <summary>
+    ///     Manager for profile.
+    /// </summary>
     private readonly ProfileManager profileManager;
 
+    /// <summary>
+    ///     The service.
+    /// </summary>
     private readonly RemarkerService service;
 
+    /// <summary>
+    ///     The control.
+    /// </summary>
     private CommentOptionsPage control;
 
+    /// <summary>
+    ///     true if this
+    ///     YoderZone.Extensions.Remarker.Options.RemarkerGeneralOptionsPage is
+    ///     activated.
+    /// </summary>
     private bool isActivated;
 
+    /// <summary>
+    ///     true if should save.
+    /// </summary>
     private bool shouldSave;
 
     #endregion
 
     #region Constructors and Destructors
 
+    /// <summary>
+    ///     Initializes a new instance of the
+    ///     YoderZone.Extensions.Remarker.Options.RemarkerGeneralOptionsPage
+    ///     class.
+    /// </summary>
     public RemarkerGeneralOptionsPage()
     {
+        logger.Trace("Entered RemarkerGeneralOptionsPage().");
+
         this.profileManager = new ProfileManager();
         this.service = this.profileManager.Service;
         this.model = new CommentOptions();
@@ -71,12 +119,13 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// <summary>
     ///     Gets the window that is used as the user interface of the dialog page.
     /// </summary>
-    /// <value>
-    ///     An <see cref="T:System.Windows.Forms.IWin32Window" /> that provides the
-    ///     handle to the
-    ///     window that acts as the user interface for the dialog page.
-    /// </value>
     /// <seealso cref="P:Microsoft.VisualStudio.Shell.DialogPage.Window" />
+    /// ###
+    /// <value>
+    ///     An <see cref="T:System.Windows.Forms.IWin32Window" /> that provides
+    ///     the handle to the window that acts as the user interface for the
+    ///     dialog page.
+    /// </value>
     [Browsable(false)]
     protected override IWin32Window Window
     {
@@ -92,20 +141,21 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     #region Methods
 
     /// <summary>
-    ///     Releases the unmanaged resources that are used by a dialog page class and
-    ///     optionally
-    ///     releases the managed resources; the parent class,
+    ///     Releases the unmanaged resources that are used by a dialog page class
+    ///     and optionally releases the managed resources; the parent class,
     ///     <see cref="T:System.ComponentModel.Component" /> supports unmanaged
     ///     resources.
     /// </summary>
-    /// <param name="disposing">
-    ///     true to release both managed and unmanaged resources; false to release only
-    ///     unmanaged
-    ///     resources.
-    /// </param>
     /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
+    /// ###
+    /// <param name="disposing">
+    ///     true to release both managed and unmanaged resources; false to
+    ///     release only unmanaged resources.
+    /// </param>
     protected override void Dispose(bool disposing)
     {
+        logger.Trace("Entered Dispose().");
+
         CommentOptionsPage page = this.control;
         if (page != null && page.IsDisposed == false)
         {
@@ -118,9 +168,16 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// <summary>
     ///     Called by Visual Studio when an Options page is activated.
     /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
+    /// <seealso
+    ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.OnActivate(CancelEventArgs)" />
+    /// ###
+    /// <param name="e">
+    ///     [in] Arguments to event handler.
+    /// </param>
     protected override void OnActivate(CancelEventArgs e)
     {
+        logger.Trace("Entered OnActivate().");
+
         if (!this.isActivated)
         {
             this.profileManager.ProtectSettings();
@@ -135,9 +192,16 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// <summary>
     ///     Called by Visual Studio when changes should be saved.
     /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
+    /// <seealso
+    ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.OnApply(PageApplyEventArgs)" />
+    /// ###
+    /// <param name="e">
+    ///     [in] Arguments to event handler.
+    /// </param>
     protected override void OnApply(PageApplyEventArgs e)
     {
+        logger.Trace("Entered OnApply().");
+
         base.OnApply(e);
         this.shouldSave = true;
     }
@@ -145,9 +209,15 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// <summary>
     ///     Called by Visual Studio when closing Options.
     /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
+    /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.OnClosed(EventArgs)" />
+    /// ###
+    /// <param name="e">
+    ///     [in] Arguments to event handler.
+    /// </param>
     protected override void OnClosed(EventArgs e)
     {
+        logger.Trace("Entered OnClosed().");
+
         if (!this.isActivated)
         {
             // noop
@@ -168,9 +238,16 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// <summary>
     ///     Called by Visual Studio when an Options page is deactivated.
     /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
+    /// <seealso
+    ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.OnDeactivate(CancelEventArgs)" />
+    /// ###
+    /// <param name="e">
+    ///     [in] Arguments to event handler.
+    /// </param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
+        logger.Trace("Entered method.");
+
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
         {
@@ -186,9 +263,13 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
         this.ApplyChanges();
     }
 
-    // Transfers settings from the model to the service.
+    /// <summary>
+    ///     Transfers settings from the model to the service.
+    /// </summary>
     private void ApplyChanges()
     {
+        logger.Trace("Entered ApplyChanges().");
+
         this.service.GiganticFactor = this.model.Plus3;
         this.service.HugeFactor = this.model.Plus2;
         this.service.LargeFactor = this.model.Plus1;
@@ -198,9 +279,13 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
         this.service.FontFamily = this.model.SelectedFontFamilyName;
     }
 
-    // Transfers settings from the service to the model.
+    /// <summary>
+    ///     Transfers settings from the service to the model.
+    /// </summary>
     private void SetValues()
     {
+        logger.Trace("Entered SetValues().");
+
         this.model.Plus3 = this.service.GiganticFactor;
         this.model.Plus2 = this.service.HugeFactor;
         this.model.Plus1 = this.service.LargeFactor;

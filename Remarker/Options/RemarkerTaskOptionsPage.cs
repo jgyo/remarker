@@ -16,18 +16,19 @@ namespace YoderZone.Extensions.Remarker.Options
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+using global::NLog;
+
 using Microsoft.VisualStudio.Shell;
 
-using YoderZone.Extensions.OptionsDialog;
-using YoderZone.Extensions.OptionsDialog.ViewModel;
-using YoderZone.Extensions.OptionsPackage.Remarker.Utilities;
-using YoderZone.Extensions.Remarker.Remarker.Service;
-
-using TaskOptions =
-    YoderZone.Extensions.OptionsDialog.ViewModel.TaskOptions;
+using YoderZone.Extensions.NLog;
+using YoderZone.Extensions.Options;
+using YoderZone.Extensions.Options.ViewModel;
+using YoderZone.Extensions.Remarker.Service;
+using YoderZone.Extensions.Remarker.Utilities;
 
 #endregion
 
@@ -41,6 +42,12 @@ using TaskOptions =
 [ComVisible(true)]
 public sealed class RemarkerTaskOptionsPage : DialogPage
 {
+    /// <summary>
+    /// The logger.
+    /// </summary>
+    private static readonly Logger logger =
+        SettingsHelper.CreateLogger();
+
     #region Fields
 
     private readonly TaskOptions model;
@@ -112,6 +119,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
     protected override void Dispose(bool disposing)
     {
+        logger.Trace("Entered Dispose().");
+
         if (this.control != null && this.control.IsDisposed == false)
         {
             this.control.Dispose();
@@ -126,6 +135,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnActivate(CancelEventArgs e)
     {
+        logger.Trace("Entered OnActivate().");
+
         if (!this.isActivated)
         {
             this.profileManager.ProtectSettings();
@@ -143,6 +154,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnApply(PageApplyEventArgs e)
     {
+        logger.Trace("Entered OnApply().");
+
         base.OnApply(e);
         this.shouldSave = true;
     }
@@ -153,6 +166,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnClosed(EventArgs e)
     {
+        logger.Trace("Entered OnClosed().");
+
         if (!this.isActivated)
         {
             // no op
@@ -176,6 +191,9 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
+        Contract.Requires<ArgumentNullException>(e != null);
+        logger.Trace("Entered OnDeactivate().");
+
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
         {
@@ -200,6 +218,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.SaveSettingsToStorage()" />
     private void ApplyChanges()
     {
+        logger.Trace("Entered ApplyChanges().");
+
         TaskAttributes task = this.model.Tasks[0];
         this.service.Task01 = task.Name;
         this.service.TaskBold01 = task.IsBold;
@@ -263,6 +283,8 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
 
     private void SetValues()
     {
+        logger.Trace("Entered SetValues().");
+
         var task = new TaskAttributes
         {
             Name = this.service.Task01,

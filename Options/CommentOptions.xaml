@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="YoderZone.Extensions.OptionsDialog.CommentOptionsControl"
+<UserControl x:Class="YoderZone.Extensions.Options.CommentOptionsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:YoderZone.Extensions.OptionsDialog.Controls"
+             xmlns:controls="clr-namespace:YoderZone.Extensions.Options.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:optionsDialog="clr-namespace:YoderZone.Extensions.OptionsDialog"
-             xmlns:vm="clr-namespace:YoderZone.Extensions.OptionsDialog.ViewModel"
+             xmlns:options="clr-namespace:YoderZone.Extensions.Options"
+             xmlns:viewModel="clr-namespace:YoderZone.Extensions.Options.ViewModel"
              MinWidth="477"
              KeyboardNavigation.DirectionalNavigation="Contained"
-             d:DataContext="{d:DesignInstance Type=vm:CommentOptions}"
+             SnapsToDevicePixels="True"
+             d:DataContext="{d:DesignInstance Type=viewModel:CommentOptions}"
              d:DesignHeight="538"
              d:DesignWidth="514"
              mc:Ignorable="d">
@@ -67,8 +68,8 @@
                                     Margin="1"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="#00000000"
+                                    BorderBrush="#00000000"
                                     BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid x:Name="markGrid">
                                     <Path x:Name="optionMark"
@@ -105,6 +106,9 @@
             </Setter>
         </Style>
     </UserControl.Resources>
+
+    <!--  !++ Layout Root  -->
+
     <DockPanel LastChildFill="False"
                SnapsToDevicePixels="True">
         <TextBlock DockPanel.Dock="Top"
@@ -113,8 +117,13 @@
                    FontWeight="Bold"
                    Text="Remarker Comments" />
         <TextBlock DockPanel.Dock="Top"
-                   Text="Use the settings on this page to configure how Remarker presents comments in your code. You can change the font to something that looks better than the default code font, and modify the sizing factors for for the resized comments using the resizing markers. The colors used can be modified on the Fonts and Colors page under Environment."
-                   TextWrapping="Wrap" />
+                   TextWrapping="Wrap">
+            Use the settings on this page to configure how Remarker presents comments
+            in your code. You can change the font to something that looks better than
+            the default code font, and modify the sizing factors for for the resized
+            comments using the resizing markers. The colors used can be modified on
+            the Fonts and Colors page under Environment.
+        </TextBlock>
         <GroupBox DockPanel.Dock="Top">
             <GroupBox.Header>
                 <Label Content="Font"
@@ -261,93 +270,93 @@
                            Margin="3,7"
                            Text="+++" />
                 <controls:TextBoxFix x:Name="pppTextBox"
-                                     Grid.Row="1"
-                                     Grid.Column="2"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Plus3Text,
-                                                    FallbackValue=2.0,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="1"
+                                      Grid.Column="2"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Plus3Text,
+                                                     FallbackValue=2.0,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="3"
                            Margin="3,7"
                            Text="-" />
                 <controls:TextBoxFix x:Name="mTextBox"
-                                     Grid.Row="1"
-                                     Grid.Column="4"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Less1Text,
-                                                    FallbackValue=0.85,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="1"
+                                      Grid.Column="4"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Less1Text,
+                                                     FallbackValue=0.85,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
                            Margin="3,7"
                            Text="++" />
                 <controls:TextBoxFix x:Name="ppTextBox"
-                                     Grid.Row="2"
-                                     Grid.Column="2"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Plus2Text,
-                                                    FallbackValue=1.6667,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="2"
+                                      Grid.Column="2"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Plus2Text,
+                                                     FallbackValue=1.6667,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="3"
                            Margin="3,7"
                            Text="--" />
                 <controls:TextBoxFix x:Name="mmTextBox"
-                                     Grid.Row="2"
-                                     Grid.Column="4"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Less2Text,
-                                                    FallbackValue=0.70,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="2"
+                                      Grid.Column="4"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Less2Text,
+                                                     FallbackValue=0.70,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
                            Margin="3,7"
                            Text="+" />
                 <controls:TextBoxFix x:Name="pTextBox"
-                                     Grid.Row="3"
-                                     Grid.Column="2"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Plus1Text,
-                                                    FallbackValue=1.3333,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="3"
+                                      Grid.Column="2"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Plus1Text,
+                                                     FallbackValue=1.3333,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="3"
                            Grid.Column="3"
                            Margin="3,7"
@@ -356,25 +365,25 @@
                 <!--  ++ Growth Factors  -->
 
                 <controls:TextBoxFix x:Name="mmmTextBox"
-                                     Grid.Row="3"
-                                     Grid.Column="4"
-                                     Width="45"
-                                     Height="23"
-                                     Margin="3,3,0,3"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Text="{Binding Less3Text,
-                                                    FallbackValue=0.55,
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged,
-                                                    ValidatesOnDataErrors=True}" />
+                                      Grid.Row="3"
+                                      Grid.Column="4"
+                                      Width="45"
+                                      Height="23"
+                                      Margin="3,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Text="{Binding Less3Text,
+                                                     FallbackValue=0.55,
+                                                     Mode=TwoWay,
+                                                     UpdateSourceTrigger=PropertyChanged,
+                                                     ValidatesOnDataErrors=True}" />
             </Grid>
         </GroupBox>
         <TextBlock HorizontalAlignment="Center"
                    DockPanel.Dock="Top"
                    Text="{Binding Version,
                                   RelativeSource={RelativeSource FindAncestor,
-                                                                 AncestorType=optionsDialog:CommentOptionsControl}}" />
+                                                                 AncestorType=options:CommentOptionsControl}}" />
     </DockPanel>
 </UserControl>

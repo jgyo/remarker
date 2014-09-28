@@ -1,5 +1,9 @@
-﻿namespace YoderZone.Extensions.OptionsDialog
+﻿namespace YoderZone.Extensions.Options
 {
+using System.Windows.Controls;
+
+using YoderZone.Extensions.Options;
+
 partial class TaskOptionsPage
 {
     /// <summary>
@@ -30,7 +34,7 @@ partial class TaskOptionsPage
     {
         this.host = new System.Windows.Forms.Integration.ElementHost();
         this.taskOptionControl = new
-        YoderZone.Extensions.OptionsDialog.TaskOptionsControl();
+        TaskOptionsControl();
         this.SuspendLayout();
         //
         // host
@@ -54,9 +58,8 @@ partial class TaskOptionsPage
 
     #endregion
 
-    private System.Windows.Forms.Integration.ElementHost elementHost1;
     private System.Windows.Forms.Integration.ElementHost host;
-    private YoderZone.Extensions.OptionsDialog.TaskOptionsControl
+    private TaskOptionsControl
     taskOptionControl;
 
 }

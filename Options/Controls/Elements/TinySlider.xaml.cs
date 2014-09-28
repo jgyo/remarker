@@ -1,4 +1,4 @@
-﻿namespace YoderZone.Extensions.OptionsDialog.Controls.Elements
+﻿namespace YoderZone.Extensions.Options.Controls.Elements
 {
 using System;
 using System.Windows;

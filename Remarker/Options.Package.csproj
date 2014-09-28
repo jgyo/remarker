@@ -10,6 +10,7 @@
     <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
     <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
     <AssemblyFileVersionSettings>None.IncrementOnDemand.DateStamp.TimeStamp</AssemblyFileVersionSettings>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>yoder.ico</ApplicationIcon>
@@ -38,6 +39,48 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -73,6 +116,9 @@
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -84,6 +130,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Options\LoggingOptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfoDebug.cs" />
     <Compile Include="Options\Guids.cs" />
     <Compile Include="Options\RemarkerTaskOptionsPage.cs">
@@ -92,56 +141,56 @@
     <Compile Include="Options\RemarkerGeneralOptionsPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Remarker\FormatDefinitions\Definitions.cs" />
-    <None Include="app.config" />
-    <None Include="Remarker\RemarkerTestPage.cs" />
-    <Compile Include="Remarker\RemarkTagger.cs" />
-    <Compile Include="Remarker\RemarkTaggerProvider.cs" />
-    <Compile Include="Remarker\Service\Indexes\FontFamilyIndex.cs" />
-    <Compile Include="Remarker\Service\Indexes\ColorIndex.cs" />
-    <Compile Include="Remarker\Service\IRemarkerService.cs" />
-    <Compile Include="Remarker\Service\Indexes\IsBoldIndex.cs" />
-    <Compile Include="Remarker\Service\ProfileManager.cs">
+    <Compile Include="FormatDefinitions\Definitions.cs" />
+    <Compile Include="Service\Indexes\ColorIndex.cs" />
+    <Compile Include="Service\Indexes\FontFamilyIndex.cs" />
+    <Compile Include="Service\Indexes\IsBoldIndex.cs" />
+    <None Include="packages.config" />
+    <None Include="RemarkerTestPage.cs" />
+    <Compile Include="RemarkTagger.cs" />
+    <Compile Include="RemarkTaggerProvider.cs" />
+    <Compile Include="Service\IRemarkerService.cs" />
+    <Compile Include="Service\ProfileManager.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Remarker\Service\RemarkerService.cs" />
-    <Compile Include="Remarker\Utilities\Classification.cs" />
-    <Compile Include="Remarker\Utilities\FormatMapService.cs" />
-    <Compile Include="Remarker\Utilities\Resources.cs" />
-    <Compile Include="Remarker\Utilities\TaskSettings.cs" />
-    <Compile Include="Remarker\Utilities\ViewWatcher.cs" />
-    <Compile Include="Remarker\FormatDefinitions\NormalCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\NormalImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\NormalQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\GiganticCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\GiganticImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\GiganticQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\HugeCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\HugeImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\HugeQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\LargeCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\LargeImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\LargeQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\MicroCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\MicroImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\MicroQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\SmallCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\SmallImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\SmallQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\TinyCommentFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\TinyImportantFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\TinyQuestionFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\StrikeoutFormat.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task01Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task02Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task03Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task04Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task05Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task06Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task07Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task08Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task09Format.cs" />
-    <Compile Include="Remarker\FormatDefinitions\Task10Format.cs" />
+    <Compile Include="Service\RemarkerService.cs" />
+    <Compile Include="Utilities\Classification.cs" />
+    <Compile Include="Utilities\FormatMapService.cs" />
+    <Compile Include="Utilities\Resources.cs" />
+    <Compile Include="Utilities\TaskSettings.cs" />
+    <Compile Include="Utilities\ViewWatcher.cs" />
+    <Compile Include="FormatDefinitions\NormalCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\NormalImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\NormalQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\GiganticCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\GiganticImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\GiganticQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\HugeCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\HugeImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\HugeQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\LargeCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\LargeImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\LargeQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\MicroCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\MicroImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\MicroQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\SmallCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\SmallImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\SmallQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\TinyCommentFormat.cs" />
+    <Compile Include="FormatDefinitions\TinyImportantFormat.cs" />
+    <Compile Include="FormatDefinitions\TinyQuestionFormat.cs" />
+    <Compile Include="FormatDefinitions\StrikeoutFormat.cs" />
+    <Compile Include="FormatDefinitions\Task01Format.cs" />
+    <Compile Include="FormatDefinitions\Task02Format.cs" />
+    <Compile Include="FormatDefinitions\Task03Format.cs" />
+    <Compile Include="FormatDefinitions\Task04Format.cs" />
+    <Compile Include="FormatDefinitions\Task05Format.cs" />
+    <Compile Include="FormatDefinitions\Task06Format.cs" />
+    <Compile Include="FormatDefinitions\Task07Format.cs" />
+    <Compile Include="FormatDefinitions\Task08Format.cs" />
+    <Compile Include="FormatDefinitions\Task09Format.cs" />
+    <Compile Include="FormatDefinitions\Task10Format.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -194,19 +243,24 @@
     <Resource Include="yoder.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\nlogconfig\NLogConfig\NLogConfig.csproj">
+      <Project>{0885B814-25A1-4BB4-A1CB-EC79E5DA6A4D}</Project>
+      <Name>NLogConfig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Options\Options.Dialog.csproj">
       <Project>{c9404365-1701-475b-9fb3-0c364253eac2}</Project>
       <Name>Options.Dialog</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

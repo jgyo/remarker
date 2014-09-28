@@ -9,11 +9,13 @@
 // Last Modified On : 09 06, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsDialog
+namespace YoderZone.Extensions.Options
 {
 #region Imports
 
 using System.Windows.Forms;
+
+using YoderZone.Extensions.Options.ViewModel;
 
 #endregion
 
@@ -24,14 +26,14 @@ using System.Windows.Forms;
 /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
 public partial class CommentOptionsPage : UserControl
 {
-    private readonly ViewModel.CommentOptions model;
+    private readonly CommentOptions model;
 
     #region Constructors and Destructors
 
     /// <summary>
     ///     Initializes a new instance of the Options.CommentOptionsPage class.
     /// </summary>
-    public CommentOptionsPage(ViewModel.CommentOptions commentOptions)
+    public CommentOptionsPage(CommentOptions commentOptions)
     {
         this.model = commentOptions;
         this.InitializeComponent();

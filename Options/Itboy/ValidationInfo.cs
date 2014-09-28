@@ -1,12 +1,10 @@
 // See http://www.codeproject.com/Articles/13922/Validate-user-input-in-Windows-Forms
 
-namespace Options.Itboy
+namespace YoderZone.Extensions.Options.Itboy
 {
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-using YoderZone.Extensions.OptionsDialog.Itboy;
 
 partial class Validator
 {

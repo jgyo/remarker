@@ -1,10 +1,6 @@
 ﻿namespace YoderZone.Extensions.Options
 {
-using System.Windows.Controls;
-
-using YoderZone.Extensions.Options;
-
-partial class CommentOptionsPage
+partial class LoggingOptionsWindow
 {
     /// <summary>
     /// Required designer variable.
@@ -17,9 +13,9 @@ partial class CommentOptionsPage
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing && (this.components != null))
+        if (disposing && (components != null))
         {
-            this.components.Dispose();
+            components.Dispose();
         }
         base.Dispose(disposing);
     }
@@ -33,28 +29,26 @@ partial class CommentOptionsPage
     private void InitializeComponent()
     {
         this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-        this.commentOptions1 = new
-        CommentOptionsControl();
+        this.loggingOptions1 = new YoderZone.Extensions.Options.LoggingOptions();
         this.SuspendLayout();
         //
         // elementHost1
         //
         this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.elementHost1.Location = new System.Drawing.Point(3, 3);
+        this.elementHost1.Location = new System.Drawing.Point(0, 0);
         this.elementHost1.Name = "elementHost1";
-        this.elementHost1.Size = new System.Drawing.Size(514, 498);
+        this.elementHost1.Size = new System.Drawing.Size(466, 477);
         this.elementHost1.TabIndex = 0;
         this.elementHost1.Text = "elementHost1";
-        this.elementHost1.Child = this.commentOptions1;
+        this.elementHost1.Child = this.loggingOptions1;
         //
-        // CommentOptionsPage
+        // LoggingOptionsWindow
         //
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.Controls.Add(this.elementHost1);
-        this.Name = "CommentOptionsPage";
-        this.Padding = new System.Windows.Forms.Padding(3);
-        this.Size = new System.Drawing.Size(520, 504);
+        this.Name = "LoggingOptionsWindow";
+        this.Size = new System.Drawing.Size(466, 477);
         this.ResumeLayout(false);
 
     }
@@ -62,8 +56,6 @@ partial class CommentOptionsPage
     #endregion
 
     private System.Windows.Forms.Integration.ElementHost elementHost1;
-    private CommentOptionsControl commentOptions1;
-
-
+    private LoggingOptions loggingOptions1;
 }
 }

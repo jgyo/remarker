@@ -8,7 +8,7 @@
 // Last Modified On : 09 13, 2014
 // ***********************************************************************
 
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 #region Imports
 
@@ -21,7 +21,7 @@ using System.Drawing.Text;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-using Options;
+using global::Options;
 
 #endregion
 

@@ -8,7 +8,7 @@
 // Last Modified By : Gil Yoder
 // Last Modified On : 09 09, 2014
 // ***********************************************************************
-namespace YoderZone.Extensions.OptionsDialog.ViewModel
+namespace YoderZone.Extensions.Options.ViewModel
 {
 using System;
 using System.Globalization;
