@@ -104,7 +104,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     public RemarkerGeneralOptionsPage()
     {
-        logger.Trace("Entered RemarkerGeneralOptionsPage().");
+        logger.Debug("Entered constructor.");
 
         this.profileManager = new ProfileManager();
         this.service = this.profileManager.Service;
@@ -154,7 +154,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void Dispose(bool disposing)
     {
-        logger.Trace("Entered Dispose().");
+        logger.Debug("Entered method.");
 
         CommentOptionsPage page = this.control;
         if (page != null && page.IsDisposed == false)
@@ -176,7 +176,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnActivate(CancelEventArgs e)
     {
-        logger.Trace("Entered OnActivate().");
+        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -200,7 +200,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnApply(PageApplyEventArgs e)
     {
-        logger.Trace("Entered OnApply().");
+        logger.Debug("Entered method.");
 
         base.OnApply(e);
         this.shouldSave = true;
@@ -216,7 +216,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnClosed(EventArgs e)
     {
-        logger.Trace("Entered OnClosed().");
+        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -246,7 +246,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
-        logger.Trace("Entered method.");
+        logger.Debug("Entered method.");
 
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
@@ -268,7 +268,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     private void ApplyChanges()
     {
-        logger.Trace("Entered ApplyChanges().");
+        logger.Debug("Entered method.");
 
         this.service.GiganticFactor = this.model.Plus3;
         this.service.HugeFactor = this.model.Plus2;
@@ -284,7 +284,7 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     private void SetValues()
     {
-        logger.Trace("Entered SetValues().");
+        logger.Debug("Entered method.");
 
         this.model.Plus3 = this.service.GiganticFactor;
         this.model.Plus2 = this.service.HugeFactor;

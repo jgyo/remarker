@@ -52,7 +52,7 @@ public class SmallCommentFormat : ClassificationFormatDefinition
     public SmallCommentFormat()
     {
 
-        logger.Trace("Entered SmallCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Small (-)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

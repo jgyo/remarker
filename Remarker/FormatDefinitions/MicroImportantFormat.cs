@@ -52,7 +52,7 @@ public class MicroImportantFormat : ClassificationFormatDefinition
     public MicroImportantFormat()
     {
 
-        logger.Trace("Entered MicroImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Micro (---)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

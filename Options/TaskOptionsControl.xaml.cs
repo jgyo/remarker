@@ -3,6 +3,9 @@
 using System.Reflection;
 using System.Windows.Controls;
 
+using global::NLog;
+
+using YoderZone.Extensions.NLog;
 using YoderZone.Extensions.Options.ViewModel;
 
 /// <summary>
@@ -10,13 +13,15 @@ using YoderZone.Extensions.Options.ViewModel;
 /// </summary>
 public partial class TaskOptionsControl : UserControl
 {
-    private bool canDeactivate;
+    private Logger logger = SettingsHelper.CreateLogger();
 
     private bool isEditing;
 
     //! Constructor
     public TaskOptionsControl()
     {
+        logger.Debug("Entered constructor.");
+
         InitializeComponent();
     }
 
@@ -37,6 +42,8 @@ public partial class TaskOptionsControl : UserControl
     {
         get
         {
+            logger.Debug("Entered property get.");
+
             // Extract the version
             var assembly = typeof(TaskOptionsControl).Assembly;
             var attribs = assembly.GetCustomAttributes(typeof(
@@ -57,6 +64,8 @@ public partial class TaskOptionsControl : UserControl
     private void DataGrid_BeginningEdit(object sender,
                                         DataGridBeginningEditEventArgs e)
     {
+        logger.Debug("Entered method.");
+
         this.isEditing = true;
         if (e.Column == this.colorColumn)
         {
@@ -78,6 +87,8 @@ public partial class TaskOptionsControl : UserControl
     private void DataGrid_CellEditEnding(object sender,
                                          DataGridCellEditEndingEventArgs e)
     {
+        logger.Debug("Entered method.");
+
         this.isEditing = false;
         if (e.Column == this.colorColumn)
         {

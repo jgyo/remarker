@@ -1,10 +1,10 @@
 namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
-    using global::NLog;
+using global::NLog;
 
-    using YoderZone.Extensions.NLog;
+using YoderZone.Extensions.NLog;
 
-    public class ColorIndex
+public class ColorIndex
 {
     /// <summary>
     /// The logger.
@@ -16,7 +16,7 @@ namespace YoderZone.Extensions.Remarker.Service.Indexes
 
     public ColorIndex(RemarkerService service)
     {
-        logger.Trace("Entered ColorIndex().");
+        logger.Debug("Entered constructor.");
 
         this.service = service;
     }

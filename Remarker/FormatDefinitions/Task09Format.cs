@@ -45,22 +45,30 @@ public class Task09Format : ClassificationFormatDefinition
     /// </summary>
     public Task09Format()
     {
-        logger.Trace("Entered Task09Format()");
-
-        var service = Package.GetGlobalService(typeof(IRemarkerService)) as
-                      RemarkerService;
-        if (service == null)
+        logger.Debug("Entered constructor.");
+        try
         {
-            // ReSharper disable once NotResolvedInText
-            throw new ArgumentNullException("service");
-        }
 
-        this.DisplayName = "Remarker Task09";
-        this.ForegroundColor = service.TaskColor09.ConvertStringToWpfColor();
-        this.FontTypeface = new Typeface(service.TaskTypeface09);
-        this.IsBold = service.TaskBold09;
-        this.ForegroundCustomizable = true;
-        this.BackgroundCustomizable = true;
+            var service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                          RemarkerService;
+            if (service == null)
+            {
+                // ReSharper disable once NotResolvedInText
+                throw new ArgumentNullException("service");
+            }
+
+            this.DisplayName = "Remarker Task09";
+            this.ForegroundColor = service.TaskColor09.ConvertStringToWpfColor();
+            this.FontTypeface = new Typeface(service.TaskTypeface09);
+            this.IsBold = service.TaskBold09;
+            this.ForegroundCustomizable = true;
+            this.BackgroundCustomizable = true;
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex.Message, ex);
+            throw;
+        }
     }
 
     #endregion

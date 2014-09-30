@@ -52,7 +52,7 @@ public class NormalCommentFormat : ClassificationFormatDefinition
     public NormalCommentFormat()
     {
 
-        logger.Trace("Entered NormalCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Normal";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

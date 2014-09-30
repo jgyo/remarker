@@ -52,7 +52,7 @@ public class HugeImportantFormat : ClassificationFormatDefinition
     public HugeImportantFormat()
     {
 
-        logger.Trace("Entered HugeImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Huge (++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

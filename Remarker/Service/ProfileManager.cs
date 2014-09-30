@@ -82,7 +82,7 @@ public class ProfileManager : Component, IProfileManager
 
     public bool CommitSettings()
     {
-        logger.Trace("Entered CommitSettings().");
+        logger.Debug("Entered method.");
 
         lock (dataLock)
         {
@@ -112,7 +112,7 @@ public class ProfileManager : Component, IProfileManager
 
     public void LoadSettingsFromStorage()
     {
-        logger.Trace("Entered LoadSettingsFromStorage().");
+        logger.Debug("Entered method.");
 
         this.LoadSettingsFromStorage(this.Service);
     }
@@ -120,7 +120,7 @@ public class ProfileManager : Component, IProfileManager
     public void LoadSettingsFromStorage(RemarkerService service)
     {
         Contract.Requires<ArgumentNullException>(service != null);
-        logger.Trace("Entered LoadSettingsFromStorage().");
+        logger.Debug("Entered method.");
 
         lock (dataLock)
         {
@@ -156,8 +156,7 @@ public class ProfileManager : Component, IProfileManager
 
     public void LoadSettingsFromXml(IVsSettingsReader reader)
     {
-        Contract.Requires<ArgumentNullException>(reader != null);
-        logger.Trace("Entered LoadSettingsFromXml().");
+        logger.Debug("Entered method.");
 
         string valueKeysString;
         reader.ReadSettingString("ValueKeys", out valueKeysString);
@@ -179,7 +178,7 @@ public class ProfileManager : Component, IProfileManager
 
     public bool ProtectSettings()
     {
-        logger.Trace("Entered ProtectSettings().");
+        logger.Debug("Entered method.");
 
         lock (dataLock)
         {
@@ -203,7 +202,7 @@ public class ProfileManager : Component, IProfileManager
 
     public void ResetSettings()
     {
-        logger.Trace("Entered ResetSettings().");
+        logger.Debug("Entered method.");
 
         this.ResetSettings(this.Service);
     }
@@ -211,7 +210,7 @@ public class ProfileManager : Component, IProfileManager
     public void ResetSettings(RemarkerService service)
     {
         Contract.Requires<ArgumentNullException>(service != null);
-        logger.Trace("Entered ResetSettings().");
+        logger.Debug("Entered method.");
 
         service.Package.UserRegistryRoot.DeleteSubKey(SUBKEY_NAME, false);
         this.LoadSettingsFromStorage(this.Service);
@@ -219,7 +218,7 @@ public class ProfileManager : Component, IProfileManager
 
     public bool RollBackSettings()
     {
-        logger.Trace("Entered RollBackSettings().");
+        logger.Debug("Entered method.");
 
         lock (dataLock)
         {
@@ -247,7 +246,7 @@ public class ProfileManager : Component, IProfileManager
 
     public void SaveSettingsToStorage()
     {
-        logger.Trace("Entered SaveSettingsToStorage().");
+        logger.Debug("Entered method.");
 
         this.SaveSettingsToStorage(this.Service);
     }
@@ -255,7 +254,7 @@ public class ProfileManager : Component, IProfileManager
     public void SaveSettingsToStorage(RemarkerService service)
     {
         Contract.Requires<ArgumentNullException>(service != null);
-        logger.Trace("Entered SaveSettingsToStorage().");
+        logger.Debug("Entered method.");
 
         lock (dataLock)
         {
@@ -288,8 +287,7 @@ public class ProfileManager : Component, IProfileManager
 
     public void SaveSettingsToXml(IVsSettingsWriter writer)
     {
-        Contract.Requires<ArgumentNullException>(writer != null);
-        logger.Trace("Entered SaveSettingsToXml().");
+        logger.Debug("Entered method.");
 
         RemarkerService service = this.Service;
 

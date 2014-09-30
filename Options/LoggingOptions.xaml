@@ -18,15 +18,15 @@
                    Text="Remarker Diagnostics" />
         <TextBlock DockPanel.Dock="Top"
                    TextWrapping="Wrap">
-            If you are having problems with Remarker, you can enable and configure
-            diagnostic logging on this page. There are several levels of logging from
-            which to choose listed roughly in order of importance and frequency. The
-            most frequent messages as well as the least important are categorized
-            as Trace messages at the top of the list. The least frequent, but most
-            important are categorized as Fatal messages. Most of the time you want
-            to have the more important messages set to be logged, but for diagnostic
-            purposes you might want to have the least important messages logged
-            as well.
+            You can enable (or disable) and configure
+            diagnostic logging on this page. The levels you select determine the
+            amount of logging to collect. Trace usually includes details about
+            parameters and variables, and generally produces the most volume.
+            Debug generally contains program flow information, and can also
+            produce a large amount of information. As you go down the levels
+            the amount of logging produced by each is less than those above.
+            Generally you should select consecutive levels starting at the bottom
+            of the column.
         </TextBlock>
         <GroupBox Margin="0,4,0,0"
                   DockPanel.Dock="Top">
@@ -35,24 +35,37 @@
             </GroupBox.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0"
                       VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Margin="4"
                                TextWrapping="Wrap">
-                        If you wish to disable all logging, uncheck the check box below.
+                        To disable Remarker logging clear the check box below.
+                        Check it to enable logging.
                     </TextBlock>
                     <CheckBox x:Name="onOff"
                               Grid.Row="1"
                               Margin="4"
-                              Content="Logging Enabled"
+                              Content="Remarker Logging"
                               IsChecked="{Binding IsLoggingEnabled}" />
+                    <TextBlock Grid.Row="2"
+                               Margin="4"
+                               TextWrapping="Wrap">
+                        This check box controls internal logging for the logging
+                        system itself.
+                    </TextBlock>
+                    <CheckBox Grid.Row="3"
+                              Margin="4"
+                              Content="Internal Logging Diagnostics"
+                              IsChecked="{Binding IsNLogConfigLoggingEnabled}" />
                 </Grid>
                 <Grid Grid.Column="1"
                       Margin="4,0"
@@ -76,10 +89,8 @@
                     <CheckBox Grid.Row="0"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsTraceEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsTraceEnabled}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                Margin="4"
@@ -87,10 +98,8 @@
                     <CheckBox Grid.Row="1"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsDebugEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsDebugEnabled}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                Margin="4"
@@ -98,10 +107,8 @@
                     <CheckBox Grid.Row="2"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsInfoEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsInfoEnabled}" />
                     <TextBlock Grid.Row="3"
                                Grid.Column="0"
                                Margin="4"
@@ -109,10 +116,8 @@
                     <CheckBox Grid.Row="3"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsWarnEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsWarnEnabled}" />
                     <TextBlock Grid.Row="4"
                                Grid.Column="0"
                                Margin="4"
@@ -120,10 +125,8 @@
                     <CheckBox Grid.Row="4"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsErrorEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsErrorEnabled}" />
                     <TextBlock Grid.Row="5"
                                Grid.Column="0"
                                Margin="4"
@@ -132,29 +135,38 @@
                     <CheckBox Grid.Row="5"
                               Grid.Column="1"
                               Margin="4"
-                              IsChecked="{Binding IsFatalEnabled}"
                               VerticalAlignment="Center"
-                              IsEnabled="{Binding ElementName=onOff,
-                                                  Path=IsChecked}" />
+                              IsChecked="{Binding IsFatalEnabled}" />
                 </Grid>
             </Grid>
         </GroupBox>
         <GroupBox DockPanel.Dock="Top">
             <GroupBox.Header>
-                <Label FontWeight="Bold">Log Folder</Label>
+                <Label FontWeight="Bold">Log Folders</Label>
             </GroupBox.Header>
             <DockPanel LastChildFill="False">
-                <TextBlock Margin="4"
-                           DockPanel.Dock="Top"
-                           Text="{Binding LogFilesPath}"
-                           TextWrapping="Wrap" />
-                <Grid DockPanel.Dock="Top">
-                    <Button Margin="4"
-                            HorizontalAlignment="Left"
-                            Click="OpenFolderButtonClicked"
-                            Content="Open Folder"
-                            Padding="10,2" />
-                </Grid>
+                <Button Margin="4"
+                        HorizontalContentAlignment="Left"
+                        Click="OpenFolderButtonClicked"
+                        DockPanel.Dock="Top"
+                        IsEnabled="{Binding LogFilesPathExists}"
+                        Padding="10,2"
+                        Tag="{Binding LogFilesPath}">
+                    <TextBlock HorizontalAlignment="Left"
+                               Text="{Binding LogFilesPath}"
+                               TextTrimming="CharacterEllipsis" />
+                </Button>
+                <Button Margin="4"
+                        HorizontalContentAlignment="Left"
+                        Click="OpenFolderButtonClicked"
+                        DockPanel.Dock="Top"
+                        IsEnabled="{Binding NLogConfigLogFilePathExists}"
+                        Padding="10,2"
+                        Tag="{Binding NLogConfigLogFilePath}">
+                    <TextBlock HorizontalAlignment="Left"
+                               Text="{Binding NLogConfigLogFilePath}"
+                               TextTrimming="CharacterEllipsis" />
+                </Button>
             </DockPanel>
         </GroupBox>
         <TextBlock HorizontalAlignment="Center"

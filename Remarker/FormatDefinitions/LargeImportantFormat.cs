@@ -52,7 +52,7 @@ public class LargeImportantFormat : ClassificationFormatDefinition
     public LargeImportantFormat()
     {
 
-        logger.Trace("Entered LargeImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Large (+)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

@@ -24,12 +24,12 @@ namespace YoderZone.Extensions.Remarker.Options
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using global::NLog;
-using global::NLog.Config;
 
 using Microsoft.VisualStudio.Shell;
 
@@ -72,15 +72,11 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
 
     private bool isWarnEnabled;
 
-    private LoggingRule loggingRule1;
-
-    private LoggingRule loggingRule2;
-
-    private SettingsHelper settingsHelper;
-
     private bool shouldSave;
 
-    private ILoggingOptionsModel model;
+    private readonly ILoggingOptionsModel model;
+
+    private bool isNLogConfigLoggingEnabled;
 
     #endregion
 
@@ -187,6 +183,25 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
         }
     }
 
+    public bool IsNLogConfigLoggingEnabled
+    {
+        get
+        {
+            return this.isNLogConfigLoggingEnabled;
+        }
+        set
+        {
+            // IsNLogConfigLoggingEnabled setter guard
+            if (this.isNLogConfigLoggingEnabled == value)
+            {
+                return;
+            }
+
+            this.isNLogConfigLoggingEnabled = value;
+            this.OnPropertyChanged();
+        }
+    }
+
     public bool IsTraceEnabled
     {
         get
@@ -225,23 +240,62 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
         }
     }
 
-    public string LogFilesPath { get; private set; }
+    public string LogFilesPath
+    {
+        get
+        {
+            SettingsHelper value;
+            return !SettingsHelper.InstanceList.TryGetValue("Remarker",
+                    out value) ? null : value.LogFilesPath;
+        }
+    }
+
+    public string NLogConfigLogFilePath
+    {
+        get
+        {
+            SettingsHelper value;
+            return !SettingsHelper.InstanceList.TryGetValue("NLogConfig",
+                    out value) ? null : value.LogFilesPath;
+        }
+    }
+
+    public bool NLogConfigLogFilePathExists
+    {
+        get
+        {
+            return this.NLogConfigLogFilePath != null &&
+                   Directory.Exists(this.NLogConfigLogFilePath);
+        }
+    }
+
+    public bool LogFilesPathExists
+    {
+        get
+        {
+            return this.LogFilesPath != null &&
+                   Directory.Exists(this.LogFilesPath);
+        }
+    }
 
     #endregion
 
     public LoggingOptionsPage()
     {
-        logger.Trace("Entered cstor.");
+        logger.Debug("Entered constructor.");
 
-        this.settingsHelper = SettingsHelper.InstanceList["Remarker"];
-        this.LogFilesPath = this.settingsHelper.LogFilesPath;
-        this.loggingRule1 = this.settingsHelper.GetRule("rule1");
-        this.loggingRule2 = this.settingsHelper.GetRule("rule2");
-
-        this.profileManager = new ProfileManager();
-        this.service = this.profileManager.Service;
-        this.model = this;
-        this.isActivated = false;
+        try
+        {
+            this.profileManager = new ProfileManager();
+            this.service = this.profileManager.Service;
+            this.model = this;
+            this.isActivated = false;
+        }
+        catch (Exception ex)
+        {
+            logger.Fatal(ex.Message, ex);
+            throw;
+        }
     }
 
     #region Properties
@@ -262,14 +316,19 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
 
     protected override void Dispose(bool disposing)
     {
-        this.logger.Trace("Entered method.");
+        this.logger.Debug("Entered method.");
         LoggingOptionsWindow page = this.control;
+        if (page != null && page.IsDisposed == false)
+        {
+            page.Dispose();
+        }
+
         base.Dispose(disposing);
     }
 
     protected override void OnActivate(CancelEventArgs e)
     {
-        this.logger.Trace("Entered method.");
+        this.logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -288,7 +347,7 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnApply(PageApplyEventArgs e)
     {
-        logger.Trace("Entered method.");
+        logger.Debug("Entered method.");
         base.OnApply(e);
         this.shouldSave = true;
     }
@@ -299,10 +358,10 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnClosed(EventArgs e)
     {
-        logger.Trace("Entered method.");
+        logger.Debug("Entered method.");
         if (!this.isActivated)
         {
-            // noop
+            // no op
         }
         else if (this.shouldSave)
         {
@@ -318,12 +377,12 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
     }
 
     /// <summary>
-    /// Handles Deactive messages from the Visual Studio environment.
+    /// Handles Deactivate events from the Visual Studio environment.
     /// </summary>
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
-        logger.Trace("Entered method.");
+        logger.Debug("Entered method.");
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
         {
@@ -341,10 +400,11 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
 
     private void ApplyChanges()
     {
-        logger.Trace("Entered method.");
+        logger.Debug("Entered method.");
 
         this.service.IsLoggingEnabled = this.IsLoggingEnabled;
 
+        this.service.IsNLogConfigLoggingEnabled = this.IsNLogConfigLoggingEnabled;
         this.service.IsDebugEnabled = this.IsDebugEnabled;
         this.service.IsErrorEnabled = this.IsErrorEnabled;
         this.service.IsFatalEnabled = this.IsFatalEnabled;
@@ -352,94 +412,7 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
         this.service.IsTraceEnabled = this.IsTraceEnabled;
         this.service.IsWarnEnabled = this.IsWarnEnabled;
 
-        this.ApplyLogConfiguration();
-    }
-
-    public void ApplyLogConfiguration()
-    {
-        if (this.IsDebugEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Debug);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Debug);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Debug);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Debug);
-        }
-
-        if (this.IsErrorEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Error);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Error);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Error);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Error);
-        }
-
-        if (this.IsFatalEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Fatal);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Fatal);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Fatal);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Fatal);
-        }
-
-        if (this.IsInfoEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Info);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Info);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Info);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Info);
-        }
-
-        if (this.IsTraceEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Trace);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Trace);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Trace);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Trace);
-        }
-
-        if (this.IsWarnEnabled && this.IsLoggingEnabled)
-        {
-            this.loggingRule1.EnableLoggingForLevel(LogLevel.Warn);
-            this.loggingRule2.EnableLoggingForLevel(LogLevel.Warn);
-        }
-        else
-        {
-            this.loggingRule1.DisableLoggingForLevel(LogLevel.Warn);
-            this.loggingRule2.DisableLoggingForLevel(LogLevel.Warn);
-        }
-    }
-
-    private void GetCurrentSettings()
-    {
-
-
-        this.IsDebugEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                  LogLevel.Debug);
-        this.IsErrorEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                  LogLevel.Error);
-        this.IsFatalEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                  LogLevel.Fatal);
-        this.IsInfoEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                 LogLevel.Info);
-        this.IsTraceEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                  LogLevel.Trace);
-        this.IsWarnEnabled = this.loggingRule1.IsLoggingEnabledForLevel(
-                                 LogLevel.Warn);
+        this.service.UpdateLoggingSettings();
     }
 
     private void OnPropertyChanged([CallerMemberName] string propertyName =
@@ -454,9 +427,10 @@ public sealed class LoggingOptionsPage : DialogPage, ILoggingOptionsModel
 
     private void SetValues()
     {
-        this.logger.Trace("Entered method.");
+        this.logger.Debug("Entered method.");
 
         this.IsLoggingEnabled = this.service.IsLoggingEnabled;
+        this.IsNLogConfigLoggingEnabled = this.service.IsNLogConfigLoggingEnabled;
 
         this.IsDebugEnabled = this.service.IsDebugEnabled;
         this.IsErrorEnabled = this.service.IsErrorEnabled;

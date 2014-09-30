@@ -19,5 +19,11 @@ public interface ILoggingOptionsModel : INotifyPropertyChanged
     bool IsWarnEnabled { get; set; }
 
     string LogFilesPath { get; }
+
+    string NLogConfigLogFilePath { get; }
+
+    bool NLogConfigLogFilePathExists { get; }
+
+    bool LogFilesPathExists { get; }
 }
 }

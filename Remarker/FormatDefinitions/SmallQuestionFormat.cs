@@ -52,7 +52,7 @@ public class SmallQuestionFormat : ClassificationFormatDefinition
     public SmallQuestionFormat()
     {
 
-        logger.Trace("Entered SmallQuestionFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Small (-)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

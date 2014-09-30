@@ -52,7 +52,7 @@ public class StrikeoutFormat : ClassificationFormatDefinition
     public StrikeoutFormat()
     {
 
-        logger.Trace("Entered StrikeoutFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Strikeout - Normal";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalStrikeoutColor;

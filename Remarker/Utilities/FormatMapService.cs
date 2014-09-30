@@ -114,7 +114,7 @@ internal sealed class FormatMapService : IDisposable
     /// <seealso cref="M:System.IDisposable.Dispose()" />
     public void Dispose()
     {
-        logger.Trace("Entered Dispose().");
+        logger.Debug("Entered method.");
 
         if (this.textView != null)
         {
@@ -137,7 +137,7 @@ internal sealed class FormatMapService : IDisposable
 
     internal void UpdateFormatDefinitions()
     {
-        logger.Trace("Entered UpdateFormatDefinitions().");
+        logger.Debug("Entered method.");
 
         //! This method is called by the constructor, and two event handlers:
         //! FormatMapChanged, and OnViewGotAggregateFocus. The latter
@@ -264,7 +264,7 @@ internal sealed class FormatMapService : IDisposable
     /// </param>
     private void FormatMapChanged(object sender, EventArgs e)
     {
-        logger.Trace("Entered FormatMapChanged().");
+        logger.Debug("Entered method.");
 
         this.UpdateFormatDefinitions();
     }
@@ -280,7 +280,7 @@ internal sealed class FormatMapService : IDisposable
     /// </param>
     private void OnViewClosed(object sender, EventArgs e)
     {
-        logger.Trace("Entered OnViewClosed().");
+        logger.Debug("Entered method.");
 
         var view = sender as ITextView;
         if (view != null)
@@ -293,7 +293,7 @@ internal sealed class FormatMapService : IDisposable
 
     private void OnViewGotAggregateFocus(object sender, EventArgs e)
     {
-        logger.Trace("Entered OnViewGotAggregateFocus().");
+        logger.Debug("Entered method.");
 
         var view = sender as ITextView;
         if (view != null)
@@ -313,7 +313,7 @@ internal sealed class FormatMapService : IDisposable
         Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(RemarkSize),
                                              remarkSize));
 
-        logger.Trace("Entered UpdateCommentFontSize().");
+        logger.Debug("Entered method.");
 
         // Get the default text classification.
         var textType = this.typeRegistry.GetClassificationType("text");

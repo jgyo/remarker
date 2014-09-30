@@ -19,6 +19,9 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 
+using global::NLog;
+
+using YoderZone.Extensions.NLog;
 using YoderZone.Extensions.Options.ViewModel;
 
 #endregion
@@ -29,6 +32,8 @@ using YoderZone.Extensions.Options.ViewModel;
 /// <seealso cref="T:System.Windows.Forms.UserControl" />
 public partial class TaskOptionsPage : UserControl
 {
+    private Logger logger = SettingsHelper.CreateLogger();
+
     #region Static Fields
 
     #endregion
@@ -44,6 +49,8 @@ public partial class TaskOptionsPage : UserControl
     /// </summary>
     public TaskOptionsPage(TaskOptions model)
     {
+        logger.Debug("Entered constructor.");
+
         this.InitializeComponent();
         this.control = this.taskOptionControl;
         this.control.DataContext = model;
@@ -61,6 +68,8 @@ public partial class TaskOptionsPage : UserControl
 
     public bool CanDeactivate()
     {
+        logger.Debug("Entered method.");
+
         return this.control.CanDeactivate;
     }
 }

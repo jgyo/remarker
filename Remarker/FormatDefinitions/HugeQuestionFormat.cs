@@ -52,7 +52,7 @@ public class HugeQuestionFormat : ClassificationFormatDefinition
     public HugeQuestionFormat()
     {
 
-        logger.Trace("Entered HugeQuestionFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Huge (++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

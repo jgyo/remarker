@@ -49,6 +49,8 @@ public class RemarkTaggerProvider : IViewTaggerProvider
 
     #region Fields
 
+#pragma warning disable 0649
+
     /// <summary>
     ///     The buffer tag aggregator factory service.
     /// </summary>
@@ -90,9 +92,7 @@ public class RemarkTaggerProvider : IViewTaggerProvider
     public ITagger<T> CreateTagger<T>(ITextView textView,
                                       ITextBuffer buffer) where T : ITag
     {
-        Contract.Requires<ArgumentNullException>(textView != null);
-        Contract.Requires<ArgumentNullException>(buffer != null);
-        logger.Trace("Entered CreateTagger().");
+        logger.Debug("Entered method.");
 
         var service = Package.GetGlobalService(typeof(IRemarkerService)) as
                       RemarkerService;

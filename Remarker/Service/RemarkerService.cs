@@ -57,20 +57,28 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public RemarkerService(RemarkerPackage package)
     {
-        this.Package = package;
-        this.Profile = new ProfileManager();
-        this.colorIndex = new ColorIndex(this);
-        this.fontFamilyIndex = new FontFamilyIndex(this);
-        this.isBoldIndex = new IsBoldIndex(this);
+        try
+        {
+            this.Package = package;
+            this.Profile = new ProfileManager();
+            this.colorIndex = new ColorIndex(this);
+            this.fontFamilyIndex = new FontFamilyIndex(this);
+            this.isBoldIndex = new IsBoldIndex(this);
 
-        this.Load();
+            this.Load();
+        }
+        catch (Exception ex)
+        {
+            logger.Fatal(ex.Message, ex);
+            throw;
+        }
     }
 
     #endregion
 
     #region Public Events
 
-    public event EventHandler FormatSettingsChanged;
+    public event EventHandler SettingsChanged;
 
     #endregion
 
@@ -143,6 +151,8 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
     public bool IsInfoEnabled { get; set; }
 
     public bool IsLoggingEnabled { get; set; }
+
+    public bool IsNLogConfigLoggingEnabled { get; set; }
 
     public bool IsTraceEnabled { get; set; }
 
@@ -277,6 +287,7 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
         get
         {
             yield return "IsLoggingEnabled";
+            yield return "IsNLogConfigLoggingEnabled";
             yield return "IsTraceEnabled";
             yield return "IsDebugEnabled";
             yield return "IsInfoEnabled";
@@ -347,14 +358,14 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public void Load()
     {
-        logger.Trace("Entered Load().");
+        logger.Debug("Entered method.");
 
         this.Profile.LoadSettingsFromStorage(this);
     }
 
     public void Load(RegistryKey key, string valueName)
     {
-        logger.Trace("Entered Load(RegistryKey key, string valueName).");
+        logger.Debug("Entered method.");
 
         string value = key == null ? null : key.GetValue(valueName) as string;
 
@@ -363,7 +374,7 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public void Load(string value, string valueName)
     {
-        logger.Trace("Entered Load(string value, string valueName).");
+        logger.Debug("Entered method.");
 
         float floatResult;
         bool boolResult;
@@ -372,6 +383,10 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
             case "IsLoggingEnabled":
                 this.IsLoggingEnabled = !bool.TryParse(value, out boolResult) ||
                                         boolResult;
+                break;
+            case "IsNLogConfigLoggingEnabled":
+                this.IsNLogConfigLoggingEnabled = bool.TryParse(value, out boolResult) &&
+                                                  boolResult;
                 break;
             case "IsTraceEnabled":
                 this.IsTraceEnabled = bool.TryParse(value, out boolResult) && boolResult;
@@ -386,8 +401,7 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
                 this.IsWarnEnabled = !bool.TryParse(value, out boolResult) || boolResult;
                 break;
             case "IsFatalEnabled":
-                this.IsFatalEnabled = !bool.TryParse(value, out boolResult) ||
-                                          boolResult;
+                this.IsFatalEnabled = !bool.TryParse(value, out boolResult) || boolResult;
                 break;
             case "IsErrorEnabled":
                 this.IsErrorEnabled = !bool.TryParse(value, out boolResult) || boolResult;
@@ -546,7 +560,7 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public void Load(IVsSettingsReader reader, string valueName)
     {
-        logger.Trace("Entered Load(IVsSettingsReader reader, string valueName).");
+        logger.Debug("Entered method.");
 
         string value;
         reader.ReadSettingString(valueName, out value);
@@ -555,10 +569,10 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public void OnSettingsChanged()
     {
-        logger.Trace("Entered OnSettingsChanged().");
+        logger.Debug("Entered method.");
 
         this.Profile.SaveSettingsToStorage(this);
-        EventHandler h = this.FormatSettingsChanged;
+        EventHandler h = this.SettingsChanged;
         if (h == null)
         {
             return;
@@ -571,12 +585,15 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
     {
         Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(
                     valueName));
-        logger.Trace("Entered ReadValue().");
+        logger.Debug("Entered method.");
 
         switch (valueName)
         {
             case "IsLoggingEnabled":
                 return this.IsLoggingEnabled.ToString(CultureInfo.InvariantCulture);
+            case "IsNLogConfigLoggingEnabled":
+                return this.IsNLogConfigLoggingEnabled.ToString(
+                           CultureInfo.InvariantCulture);
             case "IsTraceEnabled":
                 return this.IsTraceEnabled.ToString(CultureInfo.InvariantCulture);
             case "IsDebugEnabled":
@@ -692,25 +709,132 @@ public class RemarkerService : IRemarkerService, IRemarkerSettings
 
     public void ResetSettings()
     {
-        logger.Trace("Entered ResetSettings().");
+        logger.Debug("Entered method.");
 
         this.Profile.ResetSettings();
     }
 
     public void Save(RegistryKey key, string valueName)
     {
-        logger.Trace("Entered Save(RegistryKey key, string valueName).");
+        logger.Debug("Entered method.");
+        logger.Trace("key: {0}", key);
+        logger.Trace("valueName: {0}", valueName);
 
         string value = this.ReadValue(valueName);
+        logger.Trace("value: {0}", value);
+
         key.SetValue(valueName, value);
     }
 
     public void Save(IVsSettingsWriter writer, string valueName)
     {
-        logger.Trace("Entered Save(IVsSettingsWriter writer, string valueName).");
+        logger.Debug("Entered method.");
 
         string value = this.ReadValue(valueName);
         writer.WriteSettingString(valueName, value);
+    }
+
+    public void UpdateInternalNLogConfigLoggingLevel()
+    {
+        logger.Debug("Entered method.");
+
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Debug,
+            this.IsDebugEnabled && this.IsNLogConfigLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Error,
+            this.IsErrorEnabled && this.IsNLogConfigLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Fatal,
+            this.IsFatalEnabled && this.IsNLogConfigLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Info,
+            this.IsInfoEnabled && this.IsNLogConfigLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Trace,
+            this.IsTraceEnabled && this.IsNLogConfigLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "NLogConfig",
+            "NLogLogRule",
+            LogLevel.Warn,
+            this.IsWarnEnabled && this.IsNLogConfigLoggingEnabled);
+    }
+
+    public void UpdateLoggingSettings()
+    {
+        logger.Debug("Entered method.");
+
+        if (this.IsNLogConfigLoggingEnabled &&
+                !SettingsHelper.IsInternalLoggingInitialized)
+        {
+            var logLevels = new List<LogLevel>();
+            if(this.IsDebugEnabled)
+            { logLevels.Add(LogLevel.Debug); }
+            if(this.IsErrorEnabled)
+            { logLevels.Add(LogLevel.Error); }
+            if(this.IsFatalEnabled)
+            { logLevels.Add(LogLevel.Fatal); }
+            if(this.IsInfoEnabled)
+            { logLevels.Add(LogLevel.Info); }
+            if(this.IsTraceEnabled)
+            { logLevels.Add(LogLevel.Trace); }
+            if(this.IsWarnEnabled)
+            { logLevels.Add(LogLevel.Warn); }
+
+            SettingsHelper.InitializeInternalLogging(logLevels);
+        }
+
+        this.UpdateLoggingSettings("rule1");
+        this.UpdateLoggingSettings("rule2");
+        this.UpdateInternalNLogConfigLoggingLevel();
+
+        SettingsHelper.InstanceList["Remarker"].UpdateConfiguration();
+    }
+
+    public void UpdateLoggingSettings(string ruleName)
+    {
+        logger.Debug("Entered method.");
+
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Debug,
+            this.IsDebugEnabled && this.IsLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Error,
+            this.IsErrorEnabled && this.IsLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Fatal,
+            this.IsFatalEnabled && this.IsLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Info,
+            this.IsInfoEnabled && this.IsLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Trace,
+            this.IsTraceEnabled && this.IsLoggingEnabled);
+        SettingsHelper.SetRuleLevel(
+            "Remarker",
+            ruleName,
+            LogLevel.Warn,
+            this.IsWarnEnabled && this.IsLoggingEnabled);
     }
 
     #endregion

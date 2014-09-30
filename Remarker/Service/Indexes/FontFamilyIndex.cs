@@ -1,10 +1,10 @@
 namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
-    using global::NLog;
+using global::NLog;
 
-    using YoderZone.Extensions.NLog;
+using YoderZone.Extensions.NLog;
 
-    public class FontFamilyIndex
+public class FontFamilyIndex
 {
     /// <summary>
     /// The logger.
@@ -16,7 +16,7 @@ namespace YoderZone.Extensions.Remarker.Service.Indexes
 
     public FontFamilyIndex(RemarkerService service)
     {
-        logger.Trace("Entered FontFamilyIndex().");
+        logger.Debug("Entered constructor.");
 
         this.service = service;
     }

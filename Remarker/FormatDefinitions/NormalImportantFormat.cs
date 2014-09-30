@@ -52,7 +52,7 @@ public class NormalImportantFormat : ClassificationFormatDefinition
     public NormalImportantFormat()
     {
 
-        logger.Trace("Entered NormalImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Normal";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

@@ -39,7 +39,7 @@ public static class Resources
 
     public static string ConvertColorToString(this System.Drawing.Color color)
     {
-        logger.Trace("Entered ConvertColorToString().");
+        logger.Debug("Entered method.");
 
         var colorString = string.Format("{0:x2}{1:x2}{2:x2}", color.R, color.G,
                                         color.B);
@@ -49,7 +49,7 @@ public static class Resources
     public static string ConvertWpfColorToString(this
             System.Windows.Media.Color color)
     {
-        logger.Trace("Entered ConvertWpfColorToString().");
+        logger.Debug("Entered method.");
 
         var colorString = string.Format("{0:x2}{1:x2}{2:x2}", color.R, color.G,
                                         color.B);
@@ -58,7 +58,7 @@ public static class Resources
 
     public static Color ConvertStringToWpfColor(this string colorString)
     {
-        logger.Trace("Entered ConvertStringToWpfColor().");
+        logger.Debug("Entered method.");
 
         var result = Colors.Black;
         if (string.IsNullOrEmpty(colorString))
@@ -90,7 +90,7 @@ public static class Resources
     public static System.Drawing.Color ConvertStringToColor(
         this string colorString)
     {
-        logger.Trace("Entered ConvertStringToColor().");
+        logger.Debug("Entered method.");
 
         var result = System.Drawing.Color.Black;
         if (string.IsNullOrEmpty(colorString))
@@ -124,7 +124,7 @@ public static class Resources
         System.Diagnostics.Contracts.Contract.Requires(colorComponent != null);
         System.Diagnostics.Contracts.Contract.Requires(colorComponent.Length ==
                 2);
-        logger.Trace("Entered ConvertColorComponentToByte().");
+        logger.Debug("Entered method.");
 
         colorComponent = colorComponent.ToLower();
         return (byte)(colorComponent[0].ConvertHexCharToDecimal() * 16 +
@@ -134,7 +134,7 @@ public static class Resources
 
     public static byte ConvertHexCharToDecimal(this char hexChar)
     {
-        logger.Trace("Entered ConvertHexCharToDecimal().");
+        logger.Debug("Entered method.");
 
         switch (hexChar)
         {

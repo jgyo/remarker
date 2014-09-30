@@ -48,11 +48,15 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
 
     #region Fields
 
+#pragma warning disable 0649
+
     /// <summary>
     ///     The format map service.
     /// </summary>
     [Import]
     private IClassificationFormatMapService formatMapService;
+
+#pragma warning disable 0649
 
     /// <summary>
     ///     The type registry.
@@ -83,8 +87,7 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
     ///     cref="M:Microsoft.VisualStudio.Text.Editor.IWpfTextViewCreationListener.TextViewCreated(IWpfTextView)" />
     public void TextViewCreated(IWpfTextView view)
     {
-        Contract.Requires<ArgumentNullException>(view != null);
-        logger.Trace("Entered TextViewCreated().");
+        logger.Debug("Entered method.");
 
         this.service = Package.GetGlobalService(typeof(IRemarkerService)) as
                        RemarkerService;
@@ -94,7 +97,7 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
             return;
         }
 
-        this.service.FormatSettingsChanged += this.service_FormatSettingsChanged;
+        this.service.SettingsChanged += this.ServiceSettingsChanged;
         this.textView = view;
 
         //textViews.Add(view);
@@ -103,9 +106,9 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
         this.UpdateFormatSettings();
     }
 
-    private void service_FormatSettingsChanged(object sender, EventArgs args)
+    private void ServiceSettingsChanged(object sender, EventArgs args)
     {
-        logger.Trace("Entered service_FormatSettingsChanged().");
+        logger.Debug("Entered method.");
 
         if (this.formater == null)
         {
@@ -118,7 +121,7 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
 
     private void UpdateFormatSettings()
     {
-        logger.Trace("Entered UpdateFormatSettings().");
+        logger.Debug("Entered method.");
 
         this.formater = this.textView.Properties.GetOrCreateSingletonProperty(
                             () =>
@@ -137,7 +140,7 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
     void textView_Closed(object sender, System.EventArgs e)
     {
         Contract.Requires<ArgumentNullException>(sender != null);
-        logger.Trace("Entered textView_Closed().");
+        logger.Debug("Entered method.");
 
         var wpfTextView = sender as IWpfTextView;
         if (wpfTextView == null)
@@ -146,7 +149,7 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
             return;
         }
 
-        this.service.FormatSettingsChanged -= this.service_FormatSettingsChanged;
+        this.service.SettingsChanged -= this.ServiceSettingsChanged;
         wpfTextView.Closed -= this.textView_Closed;
     }
 

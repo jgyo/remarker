@@ -52,7 +52,7 @@ public class NormalQuestionFormat : ClassificationFormatDefinition
     public NormalQuestionFormat()
     {
 
-        logger.Trace("Entered NormalQuestionFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Normal";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

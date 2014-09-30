@@ -129,7 +129,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         Contract.Requires<ArgumentNullException>(registry != null);
         Contract.Requires<ArgumentNullException>(tagAggregator != null);
         Contract.Requires<ArgumentNullException>(service != null);
-        logger.Trace("Entered RemarkTagger().");
+        logger.Debug("Entered constructor.");
 
         this.service = service;
 
@@ -153,6 +153,15 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     /// </summary>
     public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
+    protected virtual void OnTagsChanged(SnapshotSpanEventArgs e)
+    {
+        var handler = this.TagsChanged;
+        if (handler != null)
+        {
+            handler(this, e);
+        }
+    }
+
     #endregion
 
     #region Public Methods and Operators
@@ -174,7 +183,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         Contract.Ensures(
             Contract.Result<IEnumerable<ITagSpan<ClassificationTag>>>() != null);
 
-        logger.Trace("Entered GetTags().");
+        logger.Debug("Entered method.");
 
         // ######## SECTION ONE
         if (spans.Count == 0)
@@ -188,6 +197,12 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         ITextSnapshot snapshot = spans[0].Snapshot;
         IContentType contentType = snapshot.TextBuffer.ContentType;
         logger.Trace("contentType: {0}", contentType);
+
+        // Remarker does not currently work for SQL documents
+        if (contentType.DisplayName.Contains("SQL"))
+        {
+            return this.EmptyTagList;
+        }
 
         // ######## SECTION THREE
         if (!contentType.IsOfType("code"))
@@ -209,6 +224,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             if (!currentTagSpan.Tag.ClassificationType.Classification.ToLower()
                     .Contains("comment"))
             {
+                logger.Debug("Not a comment. Looping back.");
                 continue;
             }
 
@@ -313,12 +329,16 @@ internal class RemarkTagger : ITagger<ClassificationTag>
 
             // ######## SECTION FOURTEEN
             // Create a tagSpan with the current values.
+            var span = new SnapshotSpan(snapshotSpan.Snapshot,
+                                        snapshotSpan.Start + start,
+                                        length);
             var commentTagSpan =
                 new TagSpan<ClassificationTag>(
-                new SnapshotSpan(snapshotSpan.Snapshot, snapshotSpan.Start + start,
-                                 length),
+                span,
                 commentTag);
+
             resultClassificationTags.Add(commentTagSpan);
+            //OnTagsChanged(new SnapshotSpanEventArgs(span));
 
             //++ TaskName section
 
@@ -338,10 +358,13 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                     continue;
                 }
 
+                const string taskNamePattern =
+                    @"^\s*(\*?|<!--|//)\s*[!?x]?(\+{{0,3}}|-{{0,3}})\s+(?<taskName>{0}\b)";
+
                 bool isMatch = Regex.IsMatch(
                                    workingText,
                                    string.Format(
-                                       @"^\s*/*\s*[!?x]?(\+{{0,3}}|-{{0,3}})\s+(?<taskName>{0}\b)",
+                                       taskNamePattern,
                                        Regex.Escape(value)),
                                    RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
                                    | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
@@ -356,7 +379,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 Match matches = Regex.Match(
                                     workingText,
                                     string.Format(
-                                        @"^\s*/*\s*[!?x]?(\+{{0,3}}|-{{0,3}})\s+(?<taskName>{0}\b)",
+                                        taskNamePattern,
                                         Regex.Escape(value)),
                                     RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace
                                     | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
@@ -380,13 +403,15 @@ internal class RemarkTagger : ITagger<ClassificationTag>
 
             ClassificationTag taskTag = this.remarkerTags[taskClassName];
 
+            span = new SnapshotSpan(snapshotSpan.Snapshot, snapshotSpan.Start + start,
+                                    length);
             var taskTagSpan =
                 new TagSpan<ClassificationTag>(
-                new SnapshotSpan(snapshotSpan.Snapshot, snapshotSpan.Start + start,
-                                 length),
+                span,
                 taskTag);
 
             resultClassificationTags.Add(taskTagSpan);
+            //OnTagsChanged(new SnapshotSpanEventArgs(span));
         }
 
         logger.Trace("Count of classification tags to return: {0}",
@@ -420,7 +445,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(
                 Classification), classification));
         Contract.Ensures(Contract.Result<string>() != null);
-        logger.Trace("Entered DetermineTagName().");
+        logger.Debug("Entered method.");
 
         string result = string.Format("{0} - ", classification);
 

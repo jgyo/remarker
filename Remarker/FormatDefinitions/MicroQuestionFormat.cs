@@ -52,7 +52,7 @@ public class MicroQuestionFormat : ClassificationFormatDefinition
     public MicroQuestionFormat()
     {
 
-        logger.Trace("Entered MicroQuestionFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Micro (---)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

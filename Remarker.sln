@@ -56,13 +56,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		AssemblyInfoVersionSettings = 
-		AssemblyFileVersionSettings = 
-		AssemblyVersionSettings = None.IncrementOnDemand.DeltaDayStamp.Increment
-		UpdateAssemblyInfoVersion = False
-		UpdateAssemblyFileVersion = False
-		UpdateAssemblyVersion = True
-		AssemblyInfoFilePath = 
 		ConfigurationFilter = 
+		AssemblyInfoFilePath = 
+		UpdateAssemblyVersion = True
+		UpdateAssemblyFileVersion = False
+		UpdateAssemblyInfoVersion = False
+		AssemblyVersionSettings = None.None.DeltaDayStamp.Increment
+		AssemblyFileVersionSettings = 
+		AssemblyInfoVersionSettings = 
 	EndGlobalSection
 EndGlobal

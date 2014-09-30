@@ -52,7 +52,7 @@ public class MicroCommentFormat : ClassificationFormatDefinition
     public MicroCommentFormat()
     {
 
-        logger.Trace("Entered MicroCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Micro (---)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

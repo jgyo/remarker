@@ -52,7 +52,7 @@ public class LargeCommentFormat : ClassificationFormatDefinition
     public LargeCommentFormat()
     {
 
-        logger.Trace("Entered LargeCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Large (+)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

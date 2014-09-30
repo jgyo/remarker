@@ -52,7 +52,7 @@ public class GiganticCommentFormat : ClassificationFormatDefinition
     public GiganticCommentFormat()
     {
 
-        logger.Trace("Entered GiganticCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Gigantic (+++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

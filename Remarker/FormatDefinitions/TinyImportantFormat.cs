@@ -53,7 +53,7 @@ public class TinyImportantFormat : ClassificationFormatDefinition
     public TinyImportantFormat()
     {
 
-        logger.Trace("Entered TinyImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Tiny (--)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

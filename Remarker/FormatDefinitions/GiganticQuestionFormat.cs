@@ -52,7 +52,7 @@ public class GiganticQuestionFormat : ClassificationFormatDefinition
     public GiganticQuestionFormat()
     {
 
-        logger.Trace("Entered GiganticQuestionFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Gigantic (+++)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

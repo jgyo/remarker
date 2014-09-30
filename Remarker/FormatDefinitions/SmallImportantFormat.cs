@@ -52,7 +52,7 @@ public class SmallImportantFormat : ClassificationFormatDefinition
     public SmallImportantFormat()
     {
 
-        logger.Trace("Entered SmallImportantFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Small (-)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

@@ -2,6 +2,7 @@
 {
 #region Imports
 
+using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
 
@@ -43,17 +44,30 @@ public class Task07Format : ClassificationFormatDefinition
     /// </summary>
     public Task07Format()
     {
+        logger.Debug("Entered constructor.");
+        try
+        {
+            var service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                          RemarkerService;
+            if (service == null)
+            {
+                // ReSharper disable once NotResolvedInText
+                throw new ArgumentNullException("service");
+            }
 
-        logger.Trace("Entered Task07Format()");
-        var service = Package.GetGlobalService(typeof(IRemarkerService)) as
-                      RemarkerService;
-        this.DisplayName = "Remarker Task07";
-        this.ForegroundColor =
-            service.TaskColor07.ConvertStringToWpfColor();
-        this.FontTypeface = new Typeface(service.TaskTypeface07);
-        this.IsBold = service.TaskBold07;
-        this.ForegroundCustomizable = true;
-        this.BackgroundCustomizable = true;
+            this.DisplayName = "Remarker Task07";
+            this.ForegroundColor =
+                service.TaskColor07.ConvertStringToWpfColor();
+            this.FontTypeface = new Typeface(service.TaskTypeface07);
+            this.IsBold = service.TaskBold07;
+            this.ForegroundCustomizable = true;
+            this.BackgroundCustomizable = true;
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex.Message, ex);
+            throw;
+        }
     }
 
     #endregion

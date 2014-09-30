@@ -119,7 +119,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
     protected override void Dispose(bool disposing)
     {
-        logger.Trace("Entered Dispose().");
+        logger.Debug("Entered method.");
 
         if (this.control != null && this.control.IsDisposed == false)
         {
@@ -135,7 +135,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnActivate(CancelEventArgs e)
     {
-        logger.Trace("Entered OnActivate().");
+        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -154,7 +154,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnApply(PageApplyEventArgs e)
     {
-        logger.Trace("Entered OnApply().");
+        logger.Debug("Entered method.");
 
         base.OnApply(e);
         this.shouldSave = true;
@@ -166,7 +166,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnClosed(EventArgs e)
     {
-        logger.Trace("Entered OnClosed().");
+        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -191,8 +191,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
-        Contract.Requires<ArgumentNullException>(e != null);
-        logger.Trace("Entered OnDeactivate().");
+        logger.Debug("Entered method.");
 
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
@@ -218,7 +217,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.SaveSettingsToStorage()" />
     private void ApplyChanges()
     {
-        logger.Trace("Entered ApplyChanges().");
+        logger.Debug("Entered method.");
 
         TaskAttributes task = this.model.Tasks[0];
         this.service.Task01 = task.Name;
@@ -283,7 +282,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
 
     private void SetValues()
     {
-        logger.Trace("Entered SetValues().");
+        logger.Debug("Entered method.");
 
         var task = new TaskAttributes
         {

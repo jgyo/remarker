@@ -52,7 +52,7 @@ public class TinyCommentFormat : ClassificationFormatDefinition
     public TinyCommentFormat()
     {
 
-        logger.Trace("Entered TinyCommentFormat()");
+        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Tiny (--)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 using global::NLog;
+using global::NLog.Config;
 
 using Microsoft.VisualStudio.Shell;
 
@@ -42,6 +43,10 @@ using YoderZone.Extensions.Remarker.Service;
 [ProvideOptionPage(typeof(RemarkerTaskOptionsPage), "Remarker",
                    "Task Settings", 110, 0, true)]
 
+//+ This attribute registers an Options page.
+[ProvideOptionPage(typeof(LoggingOptionsPage), "Remarker",
+                   "Logging Options", 110, 0, true)]
+
 //+ Used to implement a VSPackage's Visual Studio settings
 //+ support
 [ProvideProfile(typeof(ProfileManager), "Remarker", "Settings", 110, 0,
@@ -72,15 +77,16 @@ public sealed class RemarkerPackage : Package
                             "YoderZone");
         var fileTarget = FileTargetFactory.CreateFileTarget("RemarkerLog",
                          "remarker${shortdate}.log", nLogConfiguration);
+
         var loggingRule1 =
             RuleFactory.CreateRule("YoderZone.Extensions.Remarker*", fileTarget,
                                    LogLevel.Info);
         var loggingRule2 = RuleFactory.CreateRule("YoderZone.Extensions.Options*",
-                           fileTarget, LogLevel.Info);
+                           fileTarget, LogLevel.Off);
+
         nLogConfiguration.AddTarget(fileTarget, true);
         nLogConfiguration.AddRule("rule1", loggingRule1, true);
         nLogConfiguration.AddRule("rule2", loggingRule2);
-
     }
 
     /// <summary>
@@ -92,17 +98,40 @@ public sealed class RemarkerPackage : Package
     /// </summary>
     public RemarkerPackage()
     {
-        logger.Trace("Entered RemarkerPackage().");
+        logger.Debug("Entered constructor.");
 
-        var container = (IServiceContainer)this;
-        var callback = new ServiceCreatorCallback(this.CreateService);
-        container.AddService(typeof(IRemarkerService), callback, true);
+        try
+        {
+            var container = (IServiceContainer)this;
+            var callback = new ServiceCreatorCallback(this.CreateService);
+            container.AddService(typeof(IRemarkerService), callback, true);
+
+        }
+        catch (Exception ex)
+        {
+            logger.Fatal(ex.Message, ex);
+            throw;
+        }
+
+    }
+
+    /// <summary>
+    /// Called when the VSPackage is loaded by Visual Studio.
+    /// </summary>
+    protected override void Initialize()
+    {
+        base.Initialize();
+
+        this.service = Package.GetGlobalService(typeof(IRemarkerService)) as
+                       RemarkerService;
+
+        this.service.UpdateLoggingSettings();
     }
 
     private object CreateService(IServiceContainer container,
                                  Type servicetype)
     {
-        logger.Trace("Entered CreateService().");
+        logger.Debug("Entered method.");
 
         if (typeof(IRemarkerService) != servicetype)
         {
@@ -115,8 +144,8 @@ public sealed class RemarkerPackage : Package
             return this.service;
         }
 
-        logger.Info("Creating service type: {0}",
-                    servicetype);
+        logger.Trace("Service type: {0}",
+                     servicetype);
 
         this.service = new RemarkerService(this);
         logger.Trace("Returning the current {0} service.", servicetype);
