@@ -13,16 +13,14 @@ namespace YoderZone.Extensions.Remarker.FormatDefinitions
 {
 #region Imports
 
-using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Utilities;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A tiny comment format.
@@ -36,13 +34,7 @@ using YoderZone.Extensions.Remarker.Utilities;
 [ClassificationType(ClassificationTypeNames =
                         Definitions.CommentNormalTinyType)]
 public class TinyCommentFormat : ClassificationFormatDefinition
-{
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        NLog.SettingsHelper.CreateLogger();
-
+{
     #region Constructors and Destructors
 
     /// <summary>
@@ -51,8 +43,6 @@ public class TinyCommentFormat : ClassificationFormatDefinition
     /// </summary>
     public TinyCommentFormat()
     {
-
-        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Comment - Tiny (--)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalCommentColor;

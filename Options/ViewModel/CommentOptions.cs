@@ -156,33 +156,9 @@ public class CommentOptions : INotifyPropertyChanged, IDataErrorInfo
     /// </summary>
     public CommentOptions()
     {
-        this.FontFamilies = new List<FontAttributes>();
-        var installedFontCollection = new InstalledFontCollection();
-        FontFamily[] fontFamilyArray = installedFontCollection.Families;
+        this.FontFamilies = FontHelper.FontFamilies;
 
-        FontAttributes select = null;
-        var bitmap = new Bitmap(100, 100);
-        using (Graphics graphics = Graphics.FromImage(bitmap))
-        {
-            foreach (var fontFamily in fontFamilyArray)
-            {
-                try
-                {
-                    var fontAttributes = new FontAttributes(fontFamily, graphics);
-                    this.FontFamilies.Add(fontAttributes);
-                    if (fontAttributes.Name.Contains("Verdana"))
-                    {
-                        select = fontAttributes;
-                    }
-                }
-                catch (ArgumentException ex)
-                {
-                    Trace.WriteLine(string.Format("CommentOptions::CommentOptions: {0}", ex));
-                }
-            }
-        }
-
-        this.SelectedFontFamily = select;
+        this.SelectedFontFamily = FontHelper.Verdana;
     }
 
     #endregion

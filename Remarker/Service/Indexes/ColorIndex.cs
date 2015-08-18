@@ -1,22 +1,11 @@
 namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
-using global::NLog;
-
-using YoderZone.Extensions.NLog;
-
-public class ColorIndex
+    public class ColorIndex
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     private readonly RemarkerService service;
 
     public ColorIndex(RemarkerService service)
     {
-        logger.Debug("Entered constructor.");
 
         this.service = service;
     }

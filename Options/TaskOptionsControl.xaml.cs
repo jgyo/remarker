@@ -1,99 +1,94 @@
 ﻿namespace YoderZone.Extensions.Options
 {
-using System.Reflection;
-using System.Windows.Controls;
+    using System.Windows.Controls;
 
-using global::NLog;
+    using YoderZone.Extensions.Options.ViewModel;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Options.ViewModel;
-
-/// <summary>
-/// Interaction logic for TaskOptionsControl.xaml
-/// </summary>
-public partial class TaskOptionsControl : UserControl
-{
-    private Logger logger = SettingsHelper.CreateLogger();
-
-    private bool isEditing;
-
-    //! Constructor
-    public TaskOptionsControl()
+    /// <summary>
+    /// Interaction logic for TaskOptionsControl.xaml
+    /// </summary>
+    public partial class TaskOptionsControl : UserControl
     {
-        logger.Debug("Entered constructor.");
+        #region Fields
 
-        InitializeComponent();
-    }
+        private bool isEditing;
 
-    public bool CanDeactivate
-    {
-        get
+        #endregion
+
+        #region Constructors and Destructors
+
+        //! Constructor
+        public TaskOptionsControl()
         {
-            if (this.isEditing)
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public bool CanDeactivate
+        {
+            get
             {
-                this.dataGrid.CommitEdit();
+                if (this.isEditing)
+                {
+                    this.dataGrid.CommitEdit();
+                }
+
+                return !this.isEditing;
             }
-
-            return !this.isEditing;
         }
-    }
 
-    public string Version
-    {
-        get
+        public string Version
         {
-            logger.Debug("Entered property get.");
-
-            // Extract the version
-            var assembly = typeof(TaskOptionsControl).Assembly;
-            var attribs = assembly.GetCustomAttributes(typeof(
-                              System.Reflection.AssemblyFileVersionAttribute), false);
-            string version;
-            if (attribs.Length == 0) { version = "1.2"; }
-            else
+            get
             {
-                var attrib = (AssemblyFileVersionAttribute)attribs[0];
-                version = attrib.Version;
+                // Extract the version
+                var assembly = typeof(TaskOptionsControl).Assembly;
+                string fullName = assembly.FullName;
+                string[] strings = fullName.Split(',');
+                var version = strings[1];
+                strings = version.Split('=');
+                version = strings[1];
+
+                return $"Copyright © Gil Yoder 2014 - Version {version}";
             }
-
-            return string.Format("Copyright © Gil Yoder 2014 - Version {0}",
-                                 version);
         }
-    }
 
-    private void DataGrid_BeginningEdit(object sender,
-                                        DataGridBeginningEditEventArgs e)
-    {
-        logger.Debug("Entered method.");
+        #endregion
 
-        this.isEditing = true;
-        if (e.Column == this.colorColumn)
+        #region Methods
+
+        private void DataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            e.Column.Width = DataGridLength.Auto;
-            return;
-        }
-        if (e.Column == this.boldColumn)
-        {
-            var taskAttributes = e.Row.Item as TaskAttributes;
-            if (taskAttributes == null)
+            this.isEditing = true;
+            if (e.Column == this.colorColumn)
             {
+                e.Column.Width = DataGridLength.Auto;
                 return;
             }
+            if (e.Column == this.boldColumn)
+            {
+                var taskAttributes = e.Row.Item as TaskAttributes;
+                if (taskAttributes == null)
+                {
+                    return;
+                }
 
-            taskAttributes.IsBold = !taskAttributes.IsBold;
+                taskAttributes.IsBold = !taskAttributes.IsBold;
+            }
         }
-    }
 
-    private void DataGrid_CellEditEnding(object sender,
-                                         DataGridCellEditEndingEventArgs e)
-    {
-        logger.Debug("Entered method.");
-
-        this.isEditing = false;
-        if (e.Column == this.colorColumn)
+        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            e.Column.Width = 39;
+            this.isEditing = false;
+            if (e.Column == this.colorColumn)
+            {
+                e.Column.Width = 39;
+            }
         }
+
+        #endregion
     }
-}
 }

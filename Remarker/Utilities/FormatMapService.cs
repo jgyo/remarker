@@ -13,20 +13,17 @@ namespace YoderZone.Extensions.Remarker.Utilities
 {
 #region Imports
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Windows.Media;
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Windows.Media;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Text.Editor;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
+    using YoderZone.Extensions.Remarker.FormatDefinitions;
+    using YoderZone.Extensions.Remarker.Service;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Remarker.FormatDefinitions;
-using YoderZone.Extensions.Remarker.Service;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A format map service.
@@ -34,12 +31,6 @@ using YoderZone.Extensions.Remarker.Service;
 /// <seealso cref="T:System.IDisposable" />
 internal sealed class FormatMapService : IDisposable
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     #region Fields
 
     /// <summary>
@@ -82,11 +73,10 @@ internal sealed class FormatMapService : IDisposable
                             IClassificationFormatMap formatMap,
                             IClassificationTypeRegistryService typeRegistry)
     {
-        Contract.Requires<ArgumentNullException>(textView != null);
-        Contract.Requires<ArgumentNullException>(service != null);
-        Contract.Requires<ArgumentNullException>(formatMap != null);
-        Contract.Requires<ArgumentNullException>(typeRegistry != null);
-        logger.Trace("Entered FormatMapService().");
+        Contract.Requires(textView != null);
+        Contract.Requires(service != null);
+        Contract.Requires(formatMap != null);
+        Contract.Requires(typeRegistry != null);
 
         //+ FormatMapService Constructor
 
@@ -114,7 +104,6 @@ internal sealed class FormatMapService : IDisposable
     /// <seealso cref="M:System.IDisposable.Dispose()" />
     public void Dispose()
     {
-        logger.Debug("Entered method.");
 
         if (this.textView != null)
         {
@@ -137,7 +126,6 @@ internal sealed class FormatMapService : IDisposable
 
     internal void UpdateFormatDefinitions()
     {
-        logger.Debug("Entered method.");
 
         //! This method is called by the constructor, and two event handlers:
         //! FormatMapChanged, and OnViewGotAggregateFocus. The latter
@@ -264,7 +252,6 @@ internal sealed class FormatMapService : IDisposable
     /// </param>
     private void FormatMapChanged(object sender, EventArgs e)
     {
-        logger.Debug("Entered method.");
 
         this.UpdateFormatDefinitions();
     }
@@ -280,7 +267,6 @@ internal sealed class FormatMapService : IDisposable
     /// </param>
     private void OnViewClosed(object sender, EventArgs e)
     {
-        logger.Debug("Entered method.");
 
         var view = sender as ITextView;
         if (view != null)
@@ -293,7 +279,6 @@ internal sealed class FormatMapService : IDisposable
 
     private void OnViewGotAggregateFocus(object sender, EventArgs e)
     {
-        logger.Debug("Entered method.");
 
         var view = sender as ITextView;
         if (view != null)
@@ -309,11 +294,9 @@ internal sealed class FormatMapService : IDisposable
     private void UpdateCommentFontSize(IClassificationType formatType,
                                        RemarkSize remarkSize)
     {
-        Contract.Requires<ArgumentNullException>(formatType != null);
-        Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(RemarkSize),
+        Contract.Requires(formatType != null);
+        Contract.Requires(Enum.IsDefined(typeof(RemarkSize),
                                              remarkSize));
-
-        logger.Debug("Entered method.");
 
         // Get the default text classification.
         var textType = this.typeRegistry.GetClassificationType("text");
@@ -354,7 +337,7 @@ internal sealed class FormatMapService : IDisposable
                 fontSize = emSize;
                 break;
             default:
-                throw new ArgumentOutOfRangeException("remarkSize");
+                throw new ArgumentOutOfRangeException(nameof(remarkSize));
         }
 
         var typeProperties = this.formatMap.GetTextProperties(
@@ -382,9 +365,9 @@ internal sealed class FormatMapService : IDisposable
         string font,
         bool isBold)
     {
-        Contract.Requires<ArgumentNullException>(taskType != null);
-        Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(color));
-        Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(font));
+        Contract.Requires(taskType != null);
+        Contract.Requires(!string.IsNullOrEmpty(color));
+        Contract.Requires(!string.IsNullOrEmpty(font));
 
         // Get the task's current settings for a basis (mainly the size).
         var textProperties = this.formatMap.GetTextProperties(taskType);

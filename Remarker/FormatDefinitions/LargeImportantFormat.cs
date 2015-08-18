@@ -13,16 +13,14 @@ namespace YoderZone.Extensions.Remarker.FormatDefinitions
 {
 #region Imports
 
-using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Utilities;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A large important format.
@@ -36,13 +34,7 @@ using YoderZone.Extensions.Remarker.Utilities;
 [ClassificationType(ClassificationTypeNames =
                         Definitions.CommentImportantLargeType)]
 public class LargeImportantFormat : ClassificationFormatDefinition
-{
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        NLog.SettingsHelper.CreateLogger();
-
+{
     #region Constructors and Destructors
 
     /// <summary>
@@ -51,8 +43,6 @@ public class LargeImportantFormat : ClassificationFormatDefinition
     /// </summary>
     public LargeImportantFormat()
     {
-
-        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Large (+)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

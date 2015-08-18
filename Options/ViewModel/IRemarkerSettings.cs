@@ -1,6 +1,8 @@
 namespace YoderZone.Extensions.Options.ViewModel
 {
-public interface IRemarkerSettings
+    using global::Options;
+
+    public interface IRemarkerSettings
 {
     float EmSize { get; set; }
 
@@ -86,25 +88,25 @@ public interface IRemarkerSettings
 
     string TaskColor10 { get; set; }
 
-    string TaskTypeface01 { get; set; }
+    FontAttributes TaskTypeface01 { get; set; }
 
-    string TaskTypeface02 { get; set; }
+    FontAttributes TaskTypeface02 { get; set; }
 
-    string TaskTypeface03 { get; set; }
+    FontAttributes TaskTypeface03 { get; set; }
 
-    string TaskTypeface04 { get; set; }
+    FontAttributes TaskTypeface04 { get; set; }
 
-    string TaskTypeface05 { get; set; }
+    FontAttributes TaskTypeface05 { get; set; }
 
-    string TaskTypeface06 { get; set; }
+    FontAttributes TaskTypeface06 { get; set; }
 
-    string TaskTypeface07 { get; set; }
+    FontAttributes TaskTypeface07 { get; set; }
 
-    string TaskTypeface08 { get; set; }
+    FontAttributes TaskTypeface08 { get; set; }
 
-    string TaskTypeface09 { get; set; }
+    FontAttributes TaskTypeface09 { get; set; }
 
-    string TaskTypeface10 { get; set; }
+    FontAttributes TaskTypeface10 { get; set; }
 
     float TinyFactor { get; set; }
 

@@ -20,7 +20,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
-#endregion
+using global::Options;
+
+    #endregion
 
 /// <summary>
 ///     A task's options.
@@ -56,7 +58,9 @@ public class TaskOptions : INotifyPropertyChanged
 
     private TaskAttributes selectedTask;
 
-    private string selectedFont;
+    private FontAttributes selectedFontFamily;
+
+    // private string selectedFont;
 
     #endregion
 
@@ -70,8 +74,29 @@ public class TaskOptions : INotifyPropertyChanged
     public TaskOptions()
     {
         this.tasks = new ObservableCollection<TaskAttributes>();
+        this.FontFamilies = FontHelper.FontFamilies;
+        this.SelectedFontFamily = FontHelper.Verdana;
 
     }
+
+    public FontAttributes SelectedFontFamily
+    {
+        get
+        {
+            return this.selectedFontFamily;
+        }
+        private set
+        {
+            if (value == this.selectedFontFamily)
+            {
+                return;
+            }
+            this.selectedFontFamily = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public List<FontAttributes> FontFamilies { get; private set; }
 
     #endregion
 
@@ -86,7 +111,7 @@ public class TaskOptions : INotifyPropertyChanged
 
     #region Public Properties
 
-    public List<string> FontNames { get; set; }
+    // public List<string> FontNames { get; set; }
 
     /// <summary>
     ///     Gets or sets the selected color.
@@ -188,7 +213,7 @@ public class TaskOptions : INotifyPropertyChanged
             this.SelectedColor = value.Color;
             this.SelectedFontWeight = value.IsBold;
             this.SelectedName = value.Name;
-            this.SelectedFont = value.Typeface;
+            this.SelectedFontFamily = value.Typeface;
         }
     }
 
@@ -198,7 +223,7 @@ public class TaskOptions : INotifyPropertyChanged
         switch (e.PropertyName)
         {
             case "Typeface":
-                this.SelectedFont = this.selectedTask.Typeface;
+                this.SelectedFontFamily = this.selectedTask.Typeface;
                 break;
             case "Name":
                 this.SelectedName = this.selectedTask.Name;
@@ -212,18 +237,18 @@ public class TaskOptions : INotifyPropertyChanged
         }
     }
 
-    public string SelectedFont
-    {
-        get
-        {
-            return this.selectedFont;
-        }
-        set
-        {
-            this.selectedFont = value;
-            this.OnPropertyChanged();
-        }
-    }
+    //public string SelectedFont
+    //{
+    //    get
+    //    {
+    //        return this.selectedFont;
+    //    }
+    //    set
+    //    {
+    //        this.selectedFont = value;
+    //        this.OnPropertyChanged();
+    //    }
+    //}
 
     #endregion
 

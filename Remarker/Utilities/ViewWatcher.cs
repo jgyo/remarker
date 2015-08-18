@@ -13,22 +13,18 @@ namespace YoderZone.Extensions.Remarker.Utilities
 {
 #region Imports
 
-using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
+    using System;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
 
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Utilities;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.Utilities;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.Service;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.OptionsPackage.Remarker.Service;
-using YoderZone.Extensions.Remarker.Service;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A view watcher.
@@ -40,12 +36,6 @@ using YoderZone.Extensions.Remarker.Service;
 [ContentType("code")]
 internal sealed class ViewWatcher : IWpfTextViewCreationListener
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     #region Fields
 
 #pragma warning disable 0649
@@ -87,13 +77,11 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
     ///     cref="M:Microsoft.VisualStudio.Text.Editor.IWpfTextViewCreationListener.TextViewCreated(IWpfTextView)" />
     public void TextViewCreated(IWpfTextView view)
     {
-        logger.Debug("Entered method.");
 
         this.service = Package.GetGlobalService(typeof(IRemarkerService)) as
                        RemarkerService;
         if (this.service == null)
         {
-            logger.Error("Unable to get an IRemarkerService.");
             return;
         }
 
@@ -108,20 +96,11 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
 
     private void ServiceSettingsChanged(object sender, EventArgs args)
     {
-        logger.Debug("Entered method.");
-
-        if (this.formater == null)
-        {
-            logger.Info("this.formatter is still null");
-            return;
-        }
-
-        this.formater.UpdateFormatDefinitions();
+        this.formater?.UpdateFormatDefinitions();
     }
 
     private void UpdateFormatSettings()
     {
-        logger.Debug("Entered method.");
 
         this.formater = this.textView.Properties.GetOrCreateSingletonProperty(
                             () =>
@@ -133,19 +112,16 @@ internal sealed class ViewWatcher : IWpfTextViewCreationListener
 
         if (this.formater == null)
         {
-            logger.Error("Unable to create the FormatMapService.");
         }
     }
 
-    void textView_Closed(object sender, System.EventArgs e)
+    void textView_Closed(object sender, EventArgs e)
     {
-        Contract.Requires<ArgumentNullException>(sender != null);
-        logger.Debug("Entered method.");
+        Contract.Requires(sender != null);
 
         var wpfTextView = sender as IWpfTextView;
         if (wpfTextView == null)
         {
-            logger.Error("sender is not an IWpfTextView.");
             return;
         }
 

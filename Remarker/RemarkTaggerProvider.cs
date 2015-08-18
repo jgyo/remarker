@@ -13,24 +13,18 @@ namespace YoderZone.Extensions.Remarker
 {
 #region Imports
 
-using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics.Contracts;
+    using System.ComponentModel.Composition;
 
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Text;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.Text.Tagging;
+    using Microsoft.VisualStudio.Utilities;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.Service;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.OptionsPackage.Remarker.Service;
-using YoderZone.Extensions.Remarker.Service;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A remark tagger provider.
@@ -41,12 +35,6 @@ using YoderZone.Extensions.Remarker.Service;
 [TagType(typeof(ClassificationTag))]
 public class RemarkTaggerProvider : IViewTaggerProvider
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     #region Fields
 
 #pragma warning disable 0649
@@ -92,7 +80,6 @@ public class RemarkTaggerProvider : IViewTaggerProvider
     public ITagger<T> CreateTagger<T>(ITextView textView,
                                       ITextBuffer buffer) where T : ITag
     {
-        logger.Debug("Entered method.");
 
         var service = Package.GetGlobalService(typeof(IRemarkerService)) as
                       RemarkerService;

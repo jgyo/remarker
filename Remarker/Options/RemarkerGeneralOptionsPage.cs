@@ -22,21 +22,18 @@ namespace YoderZone.Extensions.Remarker.Options
 {
 #region Imports
 
-using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Shell;
 
-using Microsoft.VisualStudio.Shell;
+    using YoderZone.Extensions.Options;
+    using YoderZone.Extensions.Options.ViewModel;
+    using YoderZone.Extensions.Remarker.Service;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Options;
-using YoderZone.Extensions.Options.ViewModel;
-using YoderZone.Extensions.Remarker.Service;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A remarker general options page.
@@ -48,15 +45,6 @@ using YoderZone.Extensions.Remarker.Service;
 [ComVisible(true)]
 public sealed class RemarkerGeneralOptionsPage : DialogPage
 {
-    #region Static Fields
-
-    /// <summary>
-    ///     The logger.
-    /// </summary>
-    private static readonly Logger logger = SettingsHelper.CreateLogger();
-
-    #endregion
-
     // private readonly RemarkerSettings settings = RemarkerSettings.Default;
 
     #region Fields
@@ -104,7 +92,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     public RemarkerGeneralOptionsPage()
     {
-        logger.Debug("Entered constructor.");
 
         this.profileManager = new ProfileManager();
         this.service = this.profileManager.Service;
@@ -127,14 +114,8 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     ///     dialog page.
     /// </value>
     [Browsable(false)]
-    protected override IWin32Window Window
-    {
-        get
-        {
-            return this.control ?? (this.control = new CommentOptionsPage(
-                this.model));
-        }
-    }
+    protected override IWin32Window Window => this.control ?? (this.control = new CommentOptionsPage(
+                                                                                  this.model));
 
     #endregion
 
@@ -154,7 +135,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void Dispose(bool disposing)
     {
-        logger.Debug("Entered method.");
 
         CommentOptionsPage page = this.control;
         if (page != null && page.IsDisposed == false)
@@ -176,7 +156,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnActivate(CancelEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -200,7 +179,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnApply(PageApplyEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         base.OnApply(e);
         this.shouldSave = true;
@@ -216,7 +194,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnClosed(EventArgs e)
     {
-        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -246,7 +223,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
@@ -268,7 +244,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     private void ApplyChanges()
     {
-        logger.Debug("Entered method.");
 
         this.service.GiganticFactor = this.model.Plus3;
         this.service.HugeFactor = this.model.Plus2;
@@ -284,7 +259,6 @@ public sealed class RemarkerGeneralOptionsPage : DialogPage
     /// </summary>
     private void SetValues()
     {
-        logger.Debug("Entered method.");
 
         this.model.Plus3 = this.service.GiganticFactor;
         this.model.Plus2 = this.service.HugeFactor;

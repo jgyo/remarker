@@ -13,16 +13,14 @@ namespace YoderZone.Extensions.Remarker.FormatDefinitions
 {
 #region Imports
 
-using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Utilities;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A tiny question format.
@@ -37,12 +35,6 @@ using YoderZone.Extensions.Remarker.Utilities;
                         Definitions.CommentQuestionTinyType)]
 public class TinyQuestionFormat : ClassificationFormatDefinition
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        NLog.SettingsHelper.CreateLogger();
-
     #region Constructors and Destructors
 
     /// <summary>
@@ -51,8 +43,6 @@ public class TinyQuestionFormat : ClassificationFormatDefinition
     /// </summary>
     public TinyQuestionFormat()
     {
-
-        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Question - Tiny (--)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalQuestionColor;

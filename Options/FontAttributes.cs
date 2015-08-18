@@ -58,7 +58,6 @@ public class FontAttributes
     /// <value>
     ///     The font family.
     /// </value>
-    [Bindable(BindableSupport.No)]
     public FontFamily FontFamily { get; private set; }
 
     /// <summary>

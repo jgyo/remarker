@@ -1,26 +1,15 @@
 ﻿namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
-using System;
-using System.Diagnostics.Contracts;
+    using System;
+    using System.Diagnostics.Contracts;
 
-using global::NLog;
-
-using YoderZone.Extensions.NLog;
-
-public class IsBoldIndex
+    public class IsBoldIndex
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     private readonly RemarkerService service;
 
     public IsBoldIndex(RemarkerService service)
     {
-        Contract.Requires<ArgumentNullException>(service != null);
-        logger.Debug("Entered constructor.");
+        Contract.Requires(service != null);
 
         this.service = service;
     }

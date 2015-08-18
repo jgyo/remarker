@@ -13,17 +13,14 @@ namespace YoderZone.Extensions.Remarker.FormatDefinitions
 {
 #region Imports
 
-using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Utilities;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A tiny important format.
@@ -37,13 +34,7 @@ using YoderZone.Extensions.Remarker.Utilities;
 [ClassificationType(ClassificationTypeNames =
                         Definitions.CommentImportantTinyType)]
 public class TinyImportantFormat : ClassificationFormatDefinition
-{
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
+{
     #region Constructors and Destructors
 
     /// <summary>
@@ -52,8 +43,6 @@ public class TinyImportantFormat : ClassificationFormatDefinition
     /// </summary>
     public TinyImportantFormat()
     {
-
-        logger.Debug("Entered constructor.");
         this.DisplayName = "Remarker Important - Tiny (--)";
         this.IsBold = false;
         this.ForegroundColor = Resources.NormalImportantColor;

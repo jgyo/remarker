@@ -1,8 +1,8 @@
 namespace YoderZone.Extensions.Remarker.Utilities
 {
-using System.Windows;
+    using System.Windows;
 
-internal class TaskSettings
+    internal class TaskSettings
 {
     public string Name { get; set; }
     public string Color { get; set; }

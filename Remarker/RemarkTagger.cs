@@ -13,24 +13,21 @@ namespace YoderZone.Extensions.Remarker
 {
 #region Imports
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Text.RegularExpressions;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Text.RegularExpressions;
 
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+    using Microsoft.VisualStudio.Text;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Text.Tagging;
+    using Microsoft.VisualStudio.Utilities;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.FormatDefinitions;
+    using YoderZone.Extensions.Remarker.Service;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Remarker.FormatDefinitions;
-using YoderZone.Extensions.Remarker.Service;
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A remark tagger.
@@ -42,14 +39,13 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     /// <summary>
     /// The logger.
     /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
 
     #region Fields
 
     /// <summary>
     ///     List of empty tags.
     /// </summary>
+    // ReSharper disable once CollectionNeverUpdated.Local
     private readonly List<ITagSpan<ClassificationTag>> EmptyTagList =
         new List<ITagSpan<ClassificationTag>>();
 
@@ -126,10 +122,9 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         ITagAggregator<IClassificationTag> tagAggregator,
         RemarkerService service)
     {
-        Contract.Requires<ArgumentNullException>(registry != null);
-        Contract.Requires<ArgumentNullException>(tagAggregator != null);
-        Contract.Requires<ArgumentNullException>(service != null);
-        logger.Debug("Entered constructor.");
+        Contract.Requires(registry != null);
+        Contract.Requires(tagAggregator != null);
+        Contract.Requires(service != null);
 
         this.service = service;
 
@@ -155,11 +150,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
 
     protected virtual void OnTagsChanged(SnapshotSpanEventArgs e)
     {
-        var handler = this.TagsChanged;
-        if (handler != null)
-        {
-            handler(this, e);
-        }
+        this.TagsChanged?.Invoke(this, e);
     }
 
     #endregion
@@ -179,11 +170,9 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     public IEnumerable<ITagSpan<ClassificationTag>> GetTags(
         NormalizedSnapshotSpanCollection spans)
     {
-        Contract.Requires<ArgumentNullException>(spans != null);
+        Contract.Requires(spans != null);
         Contract.Ensures(
             Contract.Result<IEnumerable<ITagSpan<ClassificationTag>>>() != null);
-
-        logger.Debug("Entered method.");
 
         // ######## SECTION ONE
         if (spans.Count == 0)
@@ -196,7 +185,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         // Get the first span in order to get it's snapshotSpan.
         ITextSnapshot snapshot = spans[0].Snapshot;
         IContentType contentType = snapshot.TextBuffer.ContentType;
-        logger.Trace("contentType: {0}", contentType);
 
         // Remarker does not currently work for SQL documents
         if (contentType.DisplayName.Contains("SQL"))
@@ -217,14 +205,10 @@ internal class RemarkTagger : ITagger<ClassificationTag>
         // Iterate through all of the IClassificationTags
         foreach (var currentTagSpan in this.aggregator.GetTags(spans))
         {
-            logger.Trace("currentTagSpan.Tag.ClassificationType: {0}",
-                         currentTagSpan.Tag.ClassificationType);
-
             // ######## SECTION SIX
             if (!currentTagSpan.Tag.ClassificationType.Classification.ToLower()
                     .Contains("comment"))
             {
-                logger.Debug("Not a comment. Looping back.");
                 continue;
             }
 
@@ -241,7 +225,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             // ######## SECTION NINE
             SnapshotSpan snapshotSpan = normalizedSpans[0];
             string workingText = snapshotSpan.GetText();
-            logger.Trace("workingText: {0}", workingText);
 
             // ######## SECTION TEN
             if (string.IsNullOrWhiteSpace(workingText))
@@ -282,11 +265,8 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             }
             else
             {
-                logger.Trace("No match found for {0}.", workingText);
                 continue;
             }
-
-            logger.Trace("Match found, commentClass: {0}", commentClass);
 
             // Determine where comment start and end,
             // and the amount of emphasis.
@@ -297,7 +277,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             // that the text is a comment.
             if (commentPart.Success == false)
             {
-                logger.Error("No reachable code reached in GetTags().");
                 continue;
             }
 
@@ -307,7 +286,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             int emphasisAmount = 0;
             if (emphasisPart.Success)
             {
-                logger.Trace("Emphasis found in comment.");
                 string emphasis = emphasisPart.Value;
                 bool isPlus = !string.IsNullOrEmpty(emphasis) && emphasis[0] == '+';
                 emphasisAmount = emphasis.Length * (isPlus ? 1 : -1);
@@ -325,7 +303,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             // ######## SECTION THIRTEEN
             // Get a comment tag.
             ClassificationTag commentTag = this.remarkerTags[commentTagName];
-            logger.Trace("commentTag: {0}", commentTag);
 
             // ######## SECTION FOURTEEN
             // Create a tagSpan with the current values.
@@ -374,8 +351,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                     continue;
                 }
 
-                logger.Trace("Match found for task named {0}.", name);
-
                 Match matches = Regex.Match(
                                     workingText,
                                     string.Format(
@@ -414,9 +389,6 @@ internal class RemarkTagger : ITagger<ClassificationTag>
             //OnTagsChanged(new SnapshotSpanEventArgs(span));
         }
 
-        logger.Trace("Count of classification tags to return: {0}",
-                     resultClassificationTags.Count);
-
         return resultClassificationTags;
     }
 
@@ -442,12 +414,11 @@ internal class RemarkTagger : ITagger<ClassificationTag>
     private string DetermineTagName(Classification classification,
                                     int emphasis)
     {
-        Contract.Requires<ArgumentException>(Enum.IsDefined(typeof(
+        Contract.Requires(Enum.IsDefined(typeof(
                 Classification), classification));
         Contract.Ensures(Contract.Result<string>() != null);
-        logger.Debug("Entered method.");
 
-        string result = string.Format("{0} - ", classification);
+        string result = $"{classification} - ";
 
         switch (emphasis)
         {
@@ -473,7 +444,7 @@ internal class RemarkTagger : ITagger<ClassificationTag>
                 result += "25em";
                 break;
             default:
-                throw new ArgumentOutOfRangeException("emphasis");
+                throw new ArgumentOutOfRangeException(nameof(emphasis));
         }
 
         return result;

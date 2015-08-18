@@ -13,24 +13,20 @@ namespace YoderZone.Extensions.Remarker.Options
 {
 #region Imports
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Shell;
 
-using Microsoft.VisualStudio.Shell;
+    using YoderZone.Extensions.Options;
+    using YoderZone.Extensions.Options.ViewModel;
+    using YoderZone.Extensions.Remarker.Service;
+    using YoderZone.Extensions.Remarker.Utilities;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Options;
-using YoderZone.Extensions.Options.ViewModel;
-using YoderZone.Extensions.Remarker.Service;
-using YoderZone.Extensions.Remarker.Utilities;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A remarker general options page.
@@ -42,12 +38,6 @@ using YoderZone.Extensions.Remarker.Utilities;
 [ComVisible(true)]
 public sealed class RemarkerTaskOptionsPage : DialogPage
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
-
     #region Fields
 
     private readonly TaskOptions model;
@@ -92,13 +82,7 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// </value>
     /// <seealso cref="P:Microsoft.VisualStudio.Shell.DialogPage.Window" />
     [Browsable(false)]
-    protected override IWin32Window Window
-    {
-        get
-        {
-            return this.control ?? (this.control = new TaskOptionsPage(this.model));
-        }
-    }
+    protected override IWin32Window Window => this.control ?? (this.control = new TaskOptionsPage(this.model));
 
     #endregion
 
@@ -119,7 +103,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
     protected override void Dispose(bool disposing)
     {
-        logger.Debug("Entered method.");
 
         if (this.control != null && this.control.IsDisposed == false)
         {
@@ -135,7 +118,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnActivate(CancelEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -154,7 +136,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnApply(PageApplyEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         base.OnApply(e);
         this.shouldSave = true;
@@ -166,7 +147,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnClosed(EventArgs e)
     {
-        logger.Debug("Entered method.");
 
         if (!this.isActivated)
         {
@@ -191,7 +171,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     /// <param name="e">[in] Arguments to event handler.</param>
     protected override void OnDeactivate(CancelEventArgs e)
     {
-        logger.Debug("Entered method.");
 
         base.OnDeactivate(e);
         if (e.Cancel || this.control == null)
@@ -217,7 +196,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
     ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.SaveSettingsToStorage()" />
     private void ApplyChanges()
     {
-        logger.Debug("Entered method.");
 
         TaskAttributes task = this.model.Tasks[0];
         this.service.Task01 = task.Name;
@@ -282,7 +260,6 @@ public sealed class RemarkerTaskOptionsPage : DialogPage
 
     private void SetValues()
     {
-        logger.Debug("Entered method.");
 
         var task = new TaskAttributes
         {

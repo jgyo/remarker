@@ -17,7 +17,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
-#endregion
+using global::Options;
+
+    #endregion
 
 /// <summary>
 ///     A task attributes.
@@ -46,7 +48,7 @@ public class TaskAttributes : INotifyPropertyChanged
     /// <summary>
     ///     The type face.
     /// </summary>
-    private string typeFace;
+    private FontAttributes typeFace;
 
     #endregion
 
@@ -127,7 +129,7 @@ public class TaskAttributes : INotifyPropertyChanged
     /// <value>
     ///     The typeface.
     /// </value>
-    public string Typeface
+    public FontAttributes Typeface
     {
         get
         {
