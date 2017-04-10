@@ -1,9 +1,13 @@
 ﻿Filename: issues.txt
 Created:  Sep 17, 2014 08:31:52.765
-Modified: Aug 28, 2015
+Modified: April 10, 2017
 Title:    YoderZone.Com.Extensions.Remarker
 
 Updates:
+
+April 10, 2017
+
+	Updated package to support VS 2017.
 
 Aug 28, 2015:
 

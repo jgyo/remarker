@@ -29,7 +29,7 @@ public partial class CommentOptionsControl : UserControl
             strings = version.Split('=');
             version = strings[1];
 
-            return $"Copyright © Gil Yoder 2014 - Version {version}";
+            return $"Version {version}";
         }
     }
 }

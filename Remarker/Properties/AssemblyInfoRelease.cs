@@ -1,4 +1,5 @@
 ﻿#if ! DEBUG
+
 using System;
 using System.Reflection;
 using System.Resources;
@@ -30,6 +31,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.4.*")]
+[assembly: AssemblyVersion("1.4.6309")]
 [assembly: AssemblyInformationalVersion("2015.8.16.2104")]
 #endif

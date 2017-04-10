@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Options.Package", "Remarker\Options.Package.csproj", "{727853F1-B687-48DD-A474-9ACFEFDBCC16}"
 EndProject
@@ -45,13 +45,11 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VD_Solution = <?xml version="1.0" encoding="utf-16"?>|§r|§n<DocumentsSolution xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">|§r|§n  <m_persistedPinnedDocumentGroupLabels />|§r|§n</DocumentsSolution>
-		AssemblyInfoVersionSettings = 
-		AssemblyFileVersionSettings = 
-		AssemblyVersionSettings = None.None.DeltaDayStamp.Increment
-		UpdateAssemblyInfoVersion = False
-		UpdateAssemblyFileVersion = False
+	EndGlobalSection
+	GlobalSection(AutomaticVersions) = postSolution
 		UpdateAssemblyVersion = True
-		AssemblyInfoFilePath = 
-		ConfigurationFilter = 
+		UpdateAssemblyFileVersion = False
+		UpdateAssemblyInfoVersion = False
+		AssemblyVersionSettings = None.None.DeltaDayStamp.Increment
 	EndGlobalSection
 EndGlobal
