@@ -100,13 +100,9 @@ public class ProfileManager : Component, IProfileManager
         }
     }
 
-    public void LoadSettingsFromStorage()
-    {
+        public void LoadSettingsFromStorage() => this.LoadSettingsFromStorage(this.Service);
 
-        this.LoadSettingsFromStorage(this.Service);
-    }
-
-    public void LoadSettingsFromStorage(RemarkerService service)
+        public void LoadSettingsFromStorage(RemarkerService service)
     {
         Contract.Requires(service != null);
 
@@ -145,9 +141,8 @@ public class ProfileManager : Component, IProfileManager
     public void LoadSettingsFromXml(IVsSettingsReader reader)
     {
 
-        string valueKeysString;
-        reader.ReadSettingString("ValueKeys", out valueKeysString);
-        RemarkerService service = this.Service;
+            reader.ReadSettingString("ValueKeys", out var valueKeysString);
+            RemarkerService service = this.Service;
 
         foreach (var valueKey in valueKeysString.Split(';').Where(
                      valueKey => !string.IsNullOrWhiteSpace(valueKey)))
@@ -185,13 +180,9 @@ public class ProfileManager : Component, IProfileManager
         }
     }
 
-    public void ResetSettings()
-    {
+        public void ResetSettings() => this.ResetSettings(this.Service);
 
-        this.ResetSettings(this.Service);
-    }
-
-    public void ResetSettings(RemarkerService service)
+        public void ResetSettings(RemarkerService service)
     {
         Contract.Requires(service != null);
 
@@ -226,13 +217,9 @@ public class ProfileManager : Component, IProfileManager
         }
     }
 
-    public void SaveSettingsToStorage()
-    {
+        public void SaveSettingsToStorage() => this.SaveSettingsToStorage(this.Service);
 
-        this.SaveSettingsToStorage(this.Service);
-    }
-
-    public void SaveSettingsToStorage(RemarkerService service)
+        public void SaveSettingsToStorage(RemarkerService service)
     {
         Contract.Requires(service != null);
 

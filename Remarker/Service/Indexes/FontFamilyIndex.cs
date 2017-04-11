@@ -6,13 +6,9 @@ namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
     private readonly RemarkerService service;
 
-    public FontFamilyIndex(RemarkerService service)
-    {
+        public FontFamilyIndex(RemarkerService service) => this.service = service;
 
-        this.service = service;
-    }
-
-    public string this[int index]
+        public string this[int index]
     {
         get
         {

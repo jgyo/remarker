@@ -18,10 +18,7 @@
         #region Constructors and Destructors
 
         //! Constructor
-        public TaskOptionsControl()
-        {
-            InitializeComponent();
-        }
+        public TaskOptionsControl() => InitializeComponent();
 
         #endregion
 

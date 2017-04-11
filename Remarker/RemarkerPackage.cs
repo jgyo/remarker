@@ -1,13 +1,10 @@
 ﻿namespace YoderZone.Extensions.Remarker
 {
+    using Microsoft.VisualStudio.Shell;
     using System;
     using System.ComponentModel.Design;
-    using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
-
-    using Microsoft.VisualStudio.Shell;
-
     using YoderZone.Extensions.Remarker.Options;
     using YoderZone.Extensions.Remarker.Service;
 
@@ -45,25 +42,16 @@
     [Guid(Guids.guidRemarkerPkgString)]
     public sealed class RemarkerPackage : Package, IDisposable
     {
-        #region Constants
-
         // Default version: 1.4
         public const int DEFAULT_VERSION = 0x0104;
-
-        #endregion
-
-        #region Fields
 
         /// <summary>
         /// The logger.
         /// </summary>
-        private static readonly int version = RemarkerPackage.GetCurrentVersion();
+        private static readonly int _version = RemarkerPackage.GetCurrentVersion();
 
-        private RemarkerService service;
-
-        #endregion
-
-        #region Constructors and Destructors
+        private bool _disposedValue = false;
+        private RemarkerService _service;
 
         static RemarkerPackage()
         {
@@ -84,39 +72,44 @@
                 var callback = new ServiceCreatorCallback(this.CreateService);
                 container.AddService(typeof(IRemarkerService), callback, true);
             }
-                // ReSharper disable once RedundantCatchClause
-                // ReSharper disable once UnusedVariable
+            // ReSharper disable once RedundantCatchClause
+            // ReSharper disable once UnusedVariable
             catch (Exception)
             {
                 throw;
             }
         }
 
-        #endregion
+        public static int Version => RemarkerPackage._version;
 
-        #region Properties
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose() =>
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
 
-        public static int Version => RemarkerPackage.version;
-
-        #endregion
-
-        #region Methods
-
-        private object CreateService(IServiceContainer container, Type servicetype)
+        protected override void Dispose(bool disposing)
         {
-            if (typeof(IRemarkerService) != servicetype)
+            base.Dispose(disposing);
+
+            if (!this._disposedValue)
             {
-                return null;
+                if (disposing)
+                {
+                    this._service.Dispose();
+                }
+
+                this._disposedValue = true;
             }
+        }
 
-            if (this.service != null)
-            {
-                return this.service;
-            }
+        /// <summary>
+        /// Called when the VSPackage is loaded by Visual Studio.
+        /// </summary>
+        protected override void Initialize()
+        {
+            base.Initialize();
 
-            this.service = new RemarkerService(this);
-
-            return this.service;
+            this._service = Package.GetGlobalService(typeof(IRemarkerService)) as RemarkerService;
         }
 
         private static int GetCurrentVersion()
@@ -147,42 +140,23 @@
             return 0;
         }
 
-        /// <summary>
-        /// Called when the VSPackage is loaded by Visual Studio.
-        /// </summary>
-        protected override void Initialize()
+        private object CreateService(IServiceContainer container, Type servicetype)
         {
-            base.Initialize();
-
-            this.service = Package.GetGlobalService(typeof(IRemarkerService)) as RemarkerService;
-        }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (!disposedValue)
+            if (typeof(IRemarkerService) != servicetype)
             {
-                if (disposing)
-                {
-                    this.service.Dispose();
-                }
-
-                disposedValue = true;
+                return null;
             }
+
+            if (this._service != null)
+            {
+                return this._service;
+            }
+
+            this._service = new RemarkerService(this);
+
+            return this._service;
         }
 
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-        }
-        #endregion
-
-        #endregion
+        // To detect redundant calls
     }
 }

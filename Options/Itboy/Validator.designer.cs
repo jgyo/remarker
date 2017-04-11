@@ -25,15 +25,13 @@ partial class Validator
                 this.components = null;
             }
 
-            if (this.errorProvider != null)
+            if (this._errorProvider != null)
             {
-                this.errorProvider.Dispose();
-                this.errorProvider = null;
+                this._errorProvider.Dispose();
+                this._errorProvider = null;
             }
         }
     }
-
-    #region Component Designer generated code
 
     /// <summary>
     /// Required method for Designer support - do not modify
@@ -44,6 +42,5 @@ partial class Validator
         this.components = new System.ComponentModel.Container();
     }
 
-    #endregion
 }
 }

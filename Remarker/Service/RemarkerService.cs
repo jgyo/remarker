@@ -116,13 +116,7 @@ namespace YoderZone.Extensions.Remarker.Service
 
         public RemarkerPackage Package { get; private set; }
 
-        public ProfileManager Profile
-        {
-            get
-            {
-                return this.profile;
-            }
-        }
+        public ProfileManager Profile => this.profile;
 
         public float SmallFactor { get; set; }
 
@@ -300,16 +294,11 @@ namespace YoderZone.Extensions.Remarker.Service
         // }
 
         // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
+        public void Dispose() =>
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-        }
 
-        public void Load()
-        {
-            this.Profile.LoadSettingsFromStorage(this);
-        }
+        public void Load() => this.Profile.LoadSettingsFromStorage(this);
 
         public void Load(RegistryKey key, string valueName)
         {
@@ -498,8 +487,7 @@ namespace YoderZone.Extensions.Remarker.Service
 
         public void Load(IVsSettingsReader reader, string valueName)
         {
-            string value;
-            reader.ReadSettingString(valueName, out value);
+            reader.ReadSettingString(valueName, out var value);
             this.Load(value, valueName);
         }
 
@@ -630,10 +618,7 @@ namespace YoderZone.Extensions.Remarker.Service
             return null;
         }
 
-        public void ResetSettings()
-        {
-            this.Profile.ResetSettings();
-        }
+        public void ResetSettings() => this.Profile.ResetSettings();
 
         public void Save(RegistryKey key, string valueName)
         {

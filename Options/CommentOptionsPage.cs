@@ -11,40 +11,37 @@
 
 namespace YoderZone.Extensions.Options
 {
-#region Imports
+    #region Imports
 
-using System.Windows.Forms;
+    using System.Windows.Forms;
 
-using YoderZone.Extensions.Options.ViewModel;
+    using YoderZone.Extensions.Options.ViewModel;
 
-#endregion
-
-/// <summary>
-///     The options page.
-/// </summary>
-/// <seealso cref="T:System.Windows.Forms.UserControl" />
-/// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-public partial class CommentOptionsPage : UserControl
-{
-    private readonly CommentOptions model;
-
-    #region Constructors and Destructors
+    #endregion Imports
 
     /// <summary>
-    ///     Initializes a new instance of the Options.CommentOptionsPage class.
+    ///     The options page.
     /// </summary>
-    public CommentOptionsPage(CommentOptions commentOptions)
+    /// <seealso cref="T:System.Windows.Forms.UserControl" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    public partial class CommentOptionsPage : UserControl
     {
-        this.model = commentOptions;
-        this.InitializeComponent();
-        this.commentOptions1.DataContext = commentOptions;
-    }
+        private readonly CommentOptions _model;
 
-    #endregion
+        #region Constructors and Destructors
 
-    public bool CanDeactivate()
-    {
-        return this.model.Error == "";
+        /// <summary>
+        ///     Initializes a new instance of the Options.CommentOptionsPage class.
+        /// </summary>
+        public CommentOptionsPage(CommentOptions commentOptions)
+        {
+            this._model = commentOptions;
+            this.InitializeComponent();
+            this.commentOptions1.DataContext = commentOptions;
+        }
+
+        #endregion Constructors and Destructors
+
+        public bool CanDeactivate() => this._model.Error == "";
     }
-}
 }

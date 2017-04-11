@@ -50,12 +50,8 @@ public partial class TaskOptionsPage : UserControl
         this.control.DataContext = model;
     }
 
-    #endregion
+        #endregion
 
-    public bool CanDeactivate()
-    {
-
-        return this.control.CanDeactivate;
+        public bool CanDeactivate() => this.control.CanDeactivate;
     }
-}
 }

@@ -11,157 +11,137 @@
 
 namespace YoderZone.Extensions.Options.ViewModel
 {
-#region Imports
+    #region Imports
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
+    using global::Options;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Windows.Media;
 
-using global::Options;
-
-    #endregion
-
-/// <summary>
-///     A task attributes.
-/// </summary>
-/// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-public class TaskAttributes : INotifyPropertyChanged
-{
-    #region Fields
+    #endregion Imports
 
     /// <summary>
-    ///     The color.
+    ///     A task attributes.
     /// </summary>
-    private Color color;
-
-    /// <summary>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is
-    ///     bold.
-    /// </summary>
-    private bool isBold;
-
-    /// <summary>
-    ///     The name.
-    /// </summary>
-    private string name;
-
-    /// <summary>
-    ///     The type face.
-    /// </summary>
-    private FontAttributes typeFace;
-
-    #endregion
-
-    #region Public Events
-
-    /// <summary>
-    ///     Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
-
-    /// <summary>
-    ///     Gets or sets the color.
-    /// </summary>
-    /// <value>
-    ///     The color.
-    /// </value>
-    public Color Color
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    public class TaskAttributes : INotifyPropertyChanged
     {
-        get
+        #region Fields
+
+        /// <summary>
+        ///     The color.
+        /// </summary>
+        private Color _color;
+
+        /// <summary>
+        ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is
+        ///     bold.
+        /// </summary>
+        private bool _isBold;
+
+        /// <summary>
+        ///     The name.
+        /// </summary>
+        private string _name;
+
+        /// <summary>
+        ///     The type face.
+        /// </summary>
+        private FontAttributes _typeFace;
+
+        #endregion Fields
+
+        #region Public Events
+
+        /// <summary>
+        ///     Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion Public Events
+
+        #region Public Properties
+
+        /// <summary>
+        ///     Gets or sets the color.
+        /// </summary>
+        /// <value>
+        ///     The color.
+        /// </value>
+        public Color Color
         {
-            return this.color;
+            get => this._color;
+            set
+            {
+                this._color = value;
+                this.OnPropertyChanged();
+            }
         }
-        set
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this
+        ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is bold.
+        /// </summary>
+        /// <value>
+        ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is
+        ///     bold, false
+        ///     if not.
+        /// </value>
+        public bool IsBold
         {
-            this.color = value;
-            this.OnPropertyChanged();
+            get => this._isBold;
+            set
+            {
+                this._isBold = value;
+                this.OnPropertyChanged();
+            }
         }
+
+        /// <summary>
+        ///     Gets or sets the name.
+        /// </summary>
+        /// <value>
+        ///     The name.
+        /// </value>
+        public string Name
+        {
+            get => this._name;
+            set
+            {
+                this._name = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the typeface.
+        /// </summary>
+        /// <value>
+        ///     The typeface.
+        /// </value>
+        public FontAttributes Typeface
+        {
+            get => this._typeFace;
+            set
+            {
+                this._typeFace = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        #endregion Public Properties
+
+        #region Methods
+
+        /// <summary>
+        ///     Executes the property changed action.
+        /// </summary>
+        /// <param name="propertyName" type="string">
+        ///     Name of the property.
+        /// </param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string
+            propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        #endregion Methods
     }
-
-    /// <summary>
-    ///     Gets or sets a value indicating whether this
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is bold.
-    /// </summary>
-    /// <value>
-    ///     true if this YoderZone.Extensions.OptionsDialog.ViewModel.TaskAttributes is
-    ///     bold, false
-    ///     if not.
-    /// </value>
-    public bool IsBold
-    {
-        get
-        {
-            return this.isBold;
-        }
-        set
-        {
-            this.isBold = value;
-            this.OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the name.
-    /// </summary>
-    /// <value>
-    ///     The name.
-    /// </value>
-    public string Name
-    {
-        get
-        {
-            return this.name;
-        }
-        set
-        {
-            this.name = value;
-            this.OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the typeface.
-    /// </summary>
-    /// <value>
-    ///     The typeface.
-    /// </value>
-    public FontAttributes Typeface
-    {
-        get
-        {
-            return this.typeFace;
-        }
-        set
-        {
-            this.typeFace = value;
-            this.OnPropertyChanged();
-        }
-    }
-
-    #endregion
-
-    #region Methods
-
-    /// <summary>
-    ///     Executes the property changed action.
-    /// </summary>
-    /// <param name="propertyName" type="string">
-    ///     Name of the property.
-    /// </param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string
-            propertyName = null)
-    {
-        PropertyChangedEventHandler handler = this.PropertyChanged;
-        if (handler != null)
-        {
-            handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    #endregion
-}
 }

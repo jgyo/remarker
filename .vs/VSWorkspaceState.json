@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Options\\Controls",
     "\\Remarker"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\Remarker\\source.extension.vsixmanifest",
   "PreviewInSolutionExplorer": false
 }

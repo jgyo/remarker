@@ -11,353 +11,346 @@
 
 namespace YoderZone.Extensions.Remarker.Options
 {
-#region Imports
+    #region Imports
 
+    using Microsoft.VisualStudio.Shell;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-
-    using Microsoft.VisualStudio.Shell;
-
     using YoderZone.Extensions.Options;
     using YoderZone.Extensions.Options.ViewModel;
     using YoderZone.Extensions.Remarker.Service;
     using YoderZone.Extensions.Remarker.Utilities;
 
-    #endregion
-
-/// <summary>
-///     A remarker general options page.
-/// </summary>
-/// <seealso cref="T:Microsoft.VisualStudio.Shell.DialogPage" />
-[ClassInterface(ClassInterfaceType.AutoDual)]
-[ToolboxItem(false)]
-[CLSCompliant(false)]
-[ComVisible(true)]
-public sealed class RemarkerTaskOptionsPage : DialogPage
-{
-    #region Fields
-
-    private readonly TaskOptions model;
-
-    private readonly ProfileManager profileManager;
+    #endregion Imports
 
     /// <summary>
-    ///     Options for controlling the operation.
+    ///     A remarker general options page.
     /// </summary>
-    //private readonly RemarkerSettings service = RemarkerSettings.Default;
-    private readonly RemarkerService service;
-
-    private TaskOptionsPage control;
-
-    private bool isActivated;
-
-    private bool shouldSave;
-
-    #endregion
-
-    #region Constructors and Destructors
-
-    public RemarkerTaskOptionsPage()
+    /// <seealso cref="T:Microsoft.VisualStudio.Shell.DialogPage" />
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+    [ToolboxItem(false)]
+    [CLSCompliant(false)]
+    [ComVisible(true)]
+    public sealed class RemarkerTaskOptionsPage : DialogPage
     {
-        this.profileManager = new ProfileManager();
-        this.service = this.profileManager.Service;
-        this.model = new TaskOptions();
-        this.isActivated = false;
-    }
+        #region Fields
 
-    #endregion
+        private readonly TaskOptions _model;
 
-    #region Properties
+        private readonly ProfileManager _profileManager;
 
-    /// <summary>
-    ///     Gets the window that is used as the user interface of the dialog page.
-    /// </summary>
-    /// <value>
-    ///     An <see cref="T:System.Windows.Forms.IWin32Window" /> that provides the
-    ///     handle to the
-    ///     window that acts as the user interface for the dialog page.
-    /// </value>
-    /// <seealso cref="P:Microsoft.VisualStudio.Shell.DialogPage.Window" />
-    [Browsable(false)]
-    protected override IWin32Window Window => this.control ?? (this.control = new TaskOptionsPage(this.model));
+        /// <summary>
+        ///     Options for controlling the operation.
+        /// </summary>
+        //private readonly RemarkerSettings service = RemarkerSettings.Default;
+        private readonly RemarkerService _service;
 
-    #endregion
+        private TaskOptionsPage _control;
 
-    #region Methods
+        private bool _isActivated;
 
-    /// <summary>
-    ///     Releases the unmanaged resources that are used by a dialog page class and
-    ///     optionally
-    ///     releases the managed resources; the parent class,
-    ///     <see cref="T:System.ComponentModel.Component" /> supports unmanaged
-    ///     resources.
-    /// </summary>
-    /// <param name="disposing">
-    ///     true to release both managed and unmanaged resources; false to release only
-    ///     unmanaged
-    ///     resources.
-    /// </param>
-    /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
-    protected override void Dispose(bool disposing)
-    {
+        private bool _shouldSave;
 
-        if (this.control != null && this.control.IsDisposed == false)
+        #endregion Fields
+
+        #region Constructors and Destructors
+
+        public RemarkerTaskOptionsPage()
         {
-            this.control.Dispose();
+            this._profileManager = new ProfileManager();
+            this._service = this._profileManager.Service;
+            this._model = new TaskOptions();
+            this._isActivated = false;
         }
 
-        base.Dispose(disposing);
-    }
+        #endregion Constructors and Destructors
 
-    /// <summary>
-    ///     Handles Windows Activate messages from the Visual Studio environment.
-    /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
-    protected override void OnActivate(CancelEventArgs e)
-    {
+        #region Properties
 
-        if (!this.isActivated)
+        /// <summary>
+        ///     Gets the window that is used as the user interface of the dialog page.
+        /// </summary>
+        /// <value>
+        ///     An <see cref="T:System.Windows.Forms.IWin32Window" /> that provides the
+        ///     handle to the
+        ///     window that acts as the user interface for the dialog page.
+        /// </value>
+        /// <seealso cref="P:Microsoft.VisualStudio.Shell.DialogPage.Window" />
+        [Browsable(false)]
+        protected override IWin32Window Window => this._control ?? (this._control = new TaskOptionsPage(this._model));
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        ///     Releases the unmanaged resources that are used by a dialog page class and
+        ///     optionally
+        ///     releases the managed resources; the parent class,
+        ///     <see cref="T:System.ComponentModel.Component" /> supports unmanaged
+        ///     resources.
+        /// </summary>
+        /// <param name="disposing">
+        ///     true to release both managed and unmanaged resources; false to release only
+        ///     unmanaged
+        ///     resources.
+        /// </param>
+        /// <seealso cref="M:Microsoft.VisualStudio.Shell.DialogPage.Dispose(bool)" />
+        protected override void Dispose(bool disposing)
         {
-            this.profileManager.ProtectSettings();
-            this.isActivated = true;
-            this.shouldSave = false;
-            this.SetValues();
+            if (this._control != null && this._control.IsDisposed == false)
+            {
+                this._control.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
-        base.OnActivate(e);
-    }
-
-    /// <summary>
-    /// Handles Apply messages from the Visual Studio environment.
-    /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
-    protected override void OnApply(PageApplyEventArgs e)
-    {
-
-        base.OnApply(e);
-        this.shouldSave = true;
-    }
-
-    /// <summary>
-    /// Handles Close messages from the Visual Studio environment.
-    /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
-    protected override void OnClosed(EventArgs e)
-    {
-
-        if (!this.isActivated)
+        /// <summary>
+        ///     Handles Windows Activate messages from the Visual Studio environment.
+        /// </summary>
+        /// <param name="e">[in] Arguments to event handler.</param>
+        protected override void OnActivate(CancelEventArgs e)
         {
-            // no op
-        }
-        else if (this.shouldSave)
-        {
-            this.profileManager.CommitSettings();
-        }
-        else
-        {
-            this.profileManager.RollBackSettings();
+            if (!this._isActivated)
+            {
+                this._profileManager.ProtectSettings();
+                this._isActivated = true;
+                this._shouldSave = false;
+                this.SetValues();
+            }
+
+            base.OnActivate(e);
         }
 
-        this.isActivated = false;
-        base.OnClosed(e);
-    }
-
-    /// <summary>
-    ///     Handles Deactivate messages from the Visual Studio environment.
-    /// </summary>
-    /// <param name="e">[in] Arguments to event handler.</param>
-    protected override void OnDeactivate(CancelEventArgs e)
-    {
-
-        base.OnDeactivate(e);
-        if (e.Cancel || this.control == null)
+        /// <summary>
+        /// Handles Apply messages from the Visual Studio environment.
+        /// </summary>
+        /// <param name="e">[in] Arguments to event handler.</param>
+        protected override void OnApply(PageApplyEventArgs e)
         {
-            return;
+            base.OnApply(e);
+            this._shouldSave = true;
         }
 
-        e.Cancel = !this.control.CanDeactivate();
-        if (e.Cancel)
+        /// <summary>
+        /// Handles Close messages from the Visual Studio environment.
+        /// </summary>
+        /// <param name="e">[in] Arguments to event handler.</param>
+        protected override void OnClosed(EventArgs e)
         {
-            return;
+            if (!this._isActivated)
+            {
+                // no op
+            }
+            else if (this._shouldSave)
+            {
+                this._profileManager.CommitSettings();
+            }
+            else
+            {
+                this._profileManager.RollBackSettings();
+            }
+
+            this._isActivated = false;
+            base.OnClosed(e);
         }
 
-        this.ApplyChanges();
+        /// <summary>
+        ///     Handles Deactivate messages from the Visual Studio environment.
+        /// </summary>
+        /// <param name="e">[in] Arguments to event handler.</param>
+        protected override void OnDeactivate(CancelEventArgs e)
+        {
+            base.OnDeactivate(e);
+            if (e.Cancel || this._control == null)
+            {
+                return;
+            }
+
+            e.Cancel = !this._control.CanDeactivate();
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.ApplyChanges();
+        }
+
+        /// <summary>
+        ///     Called by Visual Studio to store the settings of a dialog page in local
+        ///     storage,
+        ///     typically the registry.
+        /// </summary>
+        /// <seealso
+        ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.SaveSettingsToStorage()" />
+        private void ApplyChanges()
+        {
+            TaskAttributes task = this._model.Tasks[0];
+            this._service.Task01 = task.Name;
+            this._service.TaskBold01 = task.IsBold;
+            this._service.TaskColor01 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface01 = task.Typeface;
+
+            task = this._model.Tasks[1];
+            this._service.Task02 = task.Name;
+            this._service.TaskBold02 = task.IsBold;
+            this._service.TaskColor02 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface02 = task.Typeface;
+
+            task = this._model.Tasks[2];
+            this._service.Task03 = task.Name;
+            this._service.TaskBold03 = task.IsBold;
+            this._service.TaskColor03 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface03 = task.Typeface;
+
+            task = this._model.Tasks[3];
+            this._service.Task04 = task.Name;
+            this._service.TaskBold04 = task.IsBold;
+            this._service.TaskColor04 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface04 = task.Typeface;
+
+            task = this._model.Tasks[4];
+            this._service.Task05 = task.Name;
+            this._service.TaskBold05 = task.IsBold;
+            this._service.TaskColor05 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface05 = task.Typeface;
+
+            task = this._model.Tasks[5];
+            this._service.Task06 = task.Name;
+            this._service.TaskBold06 = task.IsBold;
+            this._service.TaskColor06 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface06 = task.Typeface;
+
+            task = this._model.Tasks[6];
+            this._service.Task07 = task.Name;
+            this._service.TaskBold07 = task.IsBold;
+            this._service.TaskColor07 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface07 = task.Typeface;
+
+            task = this._model.Tasks[7];
+            this._service.Task08 = task.Name;
+            this._service.TaskBold08 = task.IsBold;
+            this._service.TaskColor08 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface08 = task.Typeface;
+
+            task = this._model.Tasks[8];
+            this._service.Task09 = task.Name;
+            this._service.TaskBold09 = task.IsBold;
+            this._service.TaskColor09 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface09 = task.Typeface;
+
+            task = this._model.Tasks[9];
+            this._service.Task10 = task.Name;
+            this._service.TaskBold10 = task.IsBold;
+            this._service.TaskColor10 = task.Color.ConvertWpfColorToString();
+            this._service.TaskTypeface10 = task.Typeface;
+        }
+
+        private void SetValues()
+        {
+            var task = new TaskAttributes
+            {
+                Name = this._service.Task01,
+                IsBold = this._service.TaskBold01,
+                Color =
+                this._service.TaskColor01.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface01
+            };
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var tasks = new List<TaskAttributes>(10)
+            {
+                task
+            };
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task02,
+                IsBold = this._service.TaskBold02,
+                Color = this._service.TaskColor02.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface02
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task03,
+                IsBold = this._service.TaskBold03,
+                Color = this._service.TaskColor03.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface03
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task04,
+                IsBold = this._service.TaskBold04,
+                Color = this._service.TaskColor04.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface04
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task05,
+                IsBold = this._service.TaskBold05,
+                Color = this._service.TaskColor05.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface05
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task06,
+                IsBold = this._service.TaskBold06,
+                Color = this._service.TaskColor06.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface06
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task07,
+                IsBold = this._service.TaskBold07,
+                Color = this._service.TaskColor07.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface07
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task08,
+                IsBold = this._service.TaskBold08,
+                Color = this._service.TaskColor08.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface08
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task09,
+                IsBold = this._service.TaskBold09,
+                Color = this._service.TaskColor09.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface09
+            };
+            tasks.Add(task);
+
+            task = new TaskAttributes
+            {
+                Name = this._service.Task10,
+                IsBold = this._service.TaskBold10,
+                Color = this._service.TaskColor10.ConvertStringToWpfColor(),
+                Typeface = this._service.TaskTypeface10
+            };
+            tasks.Add(task);
+
+            this._model.LoadTasks(tasks);
+        }
+
+        #endregion Methods
     }
-
-    /// <summary>
-    ///     Called by Visual Studio to store the settings of a dialog page in local
-    ///     storage,
-    ///     typically the registry.
-    /// </summary>
-    /// <seealso
-    ///     cref="M:Microsoft.VisualStudio.Shell.DialogPage.SaveSettingsToStorage()" />
-    private void ApplyChanges()
-    {
-
-        TaskAttributes task = this.model.Tasks[0];
-        this.service.Task01 = task.Name;
-        this.service.TaskBold01 = task.IsBold;
-        this.service.TaskColor01 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface01 = task.Typeface;
-
-        task = this.model.Tasks[1];
-        this.service.Task02 = task.Name;
-        this.service.TaskBold02 = task.IsBold;
-        this.service.TaskColor02 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface02 = task.Typeface;
-
-        task = this.model.Tasks[2];
-        this.service.Task03 = task.Name;
-        this.service.TaskBold03 = task.IsBold;
-        this.service.TaskColor03 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface03 = task.Typeface;
-
-        task = this.model.Tasks[3];
-        this.service.Task04 = task.Name;
-        this.service.TaskBold04 = task.IsBold;
-        this.service.TaskColor04 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface04 = task.Typeface;
-
-        task = this.model.Tasks[4];
-        this.service.Task05 = task.Name;
-        this.service.TaskBold05 = task.IsBold;
-        this.service.TaskColor05 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface05 = task.Typeface;
-
-        task = this.model.Tasks[5];
-        this.service.Task06 = task.Name;
-        this.service.TaskBold06 = task.IsBold;
-        this.service.TaskColor06 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface06 = task.Typeface;
-
-        task = this.model.Tasks[6];
-        this.service.Task07 = task.Name;
-        this.service.TaskBold07 = task.IsBold;
-        this.service.TaskColor07 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface07 = task.Typeface;
-
-        task = this.model.Tasks[7];
-        this.service.Task08 = task.Name;
-        this.service.TaskBold08 = task.IsBold;
-        this.service.TaskColor08 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface08 = task.Typeface;
-
-        task = this.model.Tasks[8];
-        this.service.Task09 = task.Name;
-        this.service.TaskBold09 = task.IsBold;
-        this.service.TaskColor09 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface09 = task.Typeface;
-
-        task = this.model.Tasks[9];
-        this.service.Task10 = task.Name;
-        this.service.TaskBold10 = task.IsBold;
-        this.service.TaskColor10 = task.Color.ConvertWpfColorToString();
-        this.service.TaskTypeface10 = task.Typeface;
-    }
-
-    private void SetValues()
-    {
-
-        var task = new TaskAttributes
-        {
-            Name = this.service.Task01,
-            IsBold = this.service.TaskBold01,
-            Color =
-            this.service.TaskColor01.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface01
-        };
-
-        // ReSharper disable once UseObjectOrCollectionInitializer
-        var tasks = new List<TaskAttributes>(10);
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task02,
-            IsBold = this.service.TaskBold02,
-            Color = this.service.TaskColor02.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface02
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task03,
-            IsBold = this.service.TaskBold03,
-            Color = this.service.TaskColor03.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface03
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task04,
-            IsBold = this.service.TaskBold04,
-            Color = this.service.TaskColor04.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface04
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task05,
-            IsBold = this.service.TaskBold05,
-            Color = this.service.TaskColor05.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface05
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task06,
-            IsBold = this.service.TaskBold06,
-            Color = this.service.TaskColor06.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface06
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task07,
-            IsBold = this.service.TaskBold07,
-            Color = this.service.TaskColor07.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface07
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task08,
-            IsBold = this.service.TaskBold08,
-            Color = this.service.TaskColor08.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface08
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task09,
-            IsBold = this.service.TaskBold09,
-            Color = this.service.TaskColor09.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface09
-        };
-        tasks.Add(task);
-
-        task = new TaskAttributes
-        {
-            Name = this.service.Task10,
-            IsBold = this.service.TaskBold10,
-            Color = this.service.TaskColor10.ConvertStringToWpfColor(),
-            Typeface = this.service.TaskTypeface10
-        };
-        tasks.Add(task);
-
-        this.model.LoadTasks(tasks);
-    }
-
-    #endregion
-}
 }

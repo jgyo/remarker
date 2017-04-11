@@ -21,21 +21,12 @@ public partial class TinySlider : UserControl
         return Math.Min(255d, Math.Max(0d, value));
     }
 
-    public TinySlider()
-    {
-        InitializeComponent();
-    }
+        public TinySlider() => InitializeComponent();
 
-    public double Value
+        public double Value
     {
-        get
-        {
-            return (double)this.GetValue(ValueProperty);
+            get => (double)this.GetValue(ValueProperty);
+            set => this.SetValue(ValueProperty, value);
         }
-        set
-        {
-            this.SetValue(ValueProperty, value);
-        }
-    }
 }
 }

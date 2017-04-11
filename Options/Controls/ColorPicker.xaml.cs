@@ -11,176 +11,149 @@
 
 namespace YoderZone.Extensions.Options.Controls
 {
-#region Imports
+    #region Imports
 
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
 
-#endregion
+    #endregion Imports
 
-/// <summary>
-///     Interaction logic for UserControl1.xaml
-/// </summary>
-public partial class ColorPicker : UserControl
-{
-    #region Static Fields
-
-    public static readonly DependencyProperty BlueValueProperty =
-        DependencyProperty.Register(
-            "BlueValue",
-            typeof(double),
-            typeof(ColorPicker),
-            new FrameworkPropertyMetadata(
-                default(double),
-                OnColorValuePropertyChanged,
-                OnCoerceValueCallback));
-
-    public static readonly DependencyProperty ColorSwathProperty =
-        DependencyProperty.Register(
-            "ColorSwath",
-            typeof(Color),
-            typeof(ColorPicker),
-            new FrameworkPropertyMetadata(Colors.Coral,
-                                          OnColorSwathPropertyChanged));
-
-    public static readonly DependencyProperty GreenValueProperty =
-        DependencyProperty.Register(
-            "GreenValue",
-            typeof(double),
-            typeof(ColorPicker),
-            new FrameworkPropertyMetadata(
-                default(double),
-                OnColorValuePropertyChanged,
-                OnCoerceValueCallback));
-
-    public static readonly DependencyProperty RedValueProperty =
-        DependencyProperty.Register(
-            "RedValue",
-            typeof(double),
-            typeof(ColorPicker),
-            new FrameworkPropertyMetadata(
-                default(double),
-                OnColorValuePropertyChanged,
-                OnCoerceValueCallback));
-
-    #endregion
-
-    #region Constructors and Destructors
-
-    public ColorPicker()
+    /// <summary>
+    ///     Interaction logic for UserControl1.xaml
+    /// </summary>
+    public partial class ColorPicker : UserControl
     {
-        this.InitializeComponent();
+        #region Static Fields
+
+        public static readonly DependencyProperty BlueValueProperty =
+            DependencyProperty.Register(
+                "BlueValue",
+                typeof(double),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(
+                    default(double),
+                    OnColorValuePropertyChanged,
+                    OnCoerceValueCallback));
+
+        public static readonly DependencyProperty ColorSwathProperty =
+            DependencyProperty.Register(
+                "ColorSwath",
+                typeof(Color),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(Colors.Coral,
+                                              OnColorSwathPropertyChanged));
+
+        public static readonly DependencyProperty GreenValueProperty =
+            DependencyProperty.Register(
+                "GreenValue",
+                typeof(double),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(
+                    default(double),
+                    OnColorValuePropertyChanged,
+                    OnCoerceValueCallback));
+
+        public static readonly DependencyProperty RedValueProperty =
+            DependencyProperty.Register(
+                "RedValue",
+                typeof(double),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(
+                    default(double),
+                    OnColorValuePropertyChanged,
+                    OnCoerceValueCallback));
+
+        #endregion Static Fields
+
+        #region Constructors and Destructors
+
+        public ColorPicker() => this.InitializeComponent();
+
+        #endregion Constructors and Destructors
+
+        #region Public Properties
+
+        public double BlueValue
+        {
+            get => (double)this.GetValue(BlueValueProperty);
+            set => this.SetValue(BlueValueProperty, value);
+        }
+
+        public Color ColorSwath
+        {
+            get => (Color)this.GetValue(ColorSwathProperty);
+            set => this.SetValue(ColorSwathProperty, value);
+        }
+
+        public double GreenValue
+        {
+            get => (double)this.GetValue(GreenValueProperty);
+            set => this.SetValue(GreenValueProperty, value);
+        }
+
+        public double RedValue
+        {
+            get => (double)this.GetValue(RedValueProperty);
+            set => this.SetValue(RedValueProperty, value);
+        }
+
+        #endregion Public Properties
+
+        #region Methods
+
+        private static object OnCoerceValueCallback(DependencyObject d,
+                object basevalue)
+        {
+            var value = (double)basevalue;
+            return Math.Min(255d, Math.Max(0d, value));
+        }
+
+        private static void OnColorSwathPropertyChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
+        {
+            var colorPicker = d as ColorPicker;
+            if (colorPicker == null || !(e.NewValue is Color))
+            {
+                return;
+            }
+
+            colorPicker.Dispatcher.Invoke(
+                () =>
+            {
+                colorPicker.SetCurrentValue(RedValueProperty, (double)
+                                            (((Color)e.NewValue).ScR * 255f));
+                colorPicker.SetCurrentValue(GreenValueProperty, (double)
+                                            (((Color)e.NewValue).ScG * 255f));
+                colorPicker.SetCurrentValue(BlueValueProperty, (double)
+                                            (((Color)e.NewValue).ScB * 255f));
+            });
+        }
+
+        private static void OnColorValuePropertyChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
+        {
+            var colorPicker = d as ColorPicker;
+            if (colorPicker == null)
+            {
+                return;
+            }
+
+            var color = new Color
+            {
+                ScA = 1f,
+                ScR = (float)(colorPicker.RedValue / 255d),
+                ScG = (float)(colorPicker.GreenValue / 255d),
+                ScB = (float)(colorPicker.BlueValue / 255d)
+            };
+
+            colorPicker.Dispatcher.Invoke(
+                () => colorPicker.SetCurrentValue(ColorSwathProperty, color));
+        }
+
+        #endregion Methods
     }
-
-    #endregion
-
-    #region Public Properties
-
-    public double BlueValue
-    {
-        get
-        {
-            return (double)this.GetValue(BlueValueProperty);
-        }
-        set
-        {
-            this.SetValue(BlueValueProperty, value);
-        }
-    }
-
-    public Color ColorSwath
-    {
-        get
-        {
-            return (Color)this.GetValue(ColorSwathProperty);
-        }
-        set
-        {
-            this.SetValue(ColorSwathProperty, value);
-        }
-    }
-
-    public double GreenValue
-    {
-        get
-        {
-            return (double)this.GetValue(GreenValueProperty);
-        }
-        set
-        {
-            this.SetValue(GreenValueProperty, value);
-        }
-    }
-
-    public double RedValue
-    {
-        get
-        {
-            return (double)this.GetValue(RedValueProperty);
-        }
-        set
-        {
-            this.SetValue(RedValueProperty, value);
-        }
-    }
-
-    #endregion
-
-    #region Methods
-
-    private static object OnCoerceValueCallback(DependencyObject d,
-            object basevalue)
-    {
-        var value = (double)basevalue;
-        return Math.Min(255d, Math.Max(0d, value));
-    }
-
-    private static void OnColorSwathPropertyChanged(
-        DependencyObject d,
-        DependencyPropertyChangedEventArgs e)
-    {
-        var colorPicker = d as ColorPicker;
-        if (colorPicker == null || !(e.NewValue is Color))
-        {
-            return;
-        }
-
-        colorPicker.Dispatcher.Invoke(
-            () =>
-        {
-            colorPicker.SetCurrentValue(RedValueProperty, (double)
-                                        (((Color)e.NewValue).ScR * 255f));
-            colorPicker.SetCurrentValue(GreenValueProperty, (double)
-                                        (((Color)e.NewValue).ScG * 255f));
-            colorPicker.SetCurrentValue(BlueValueProperty, (double)
-                                        (((Color)e.NewValue).ScB * 255f));
-        });
-    }
-
-    private static void OnColorValuePropertyChanged(
-        DependencyObject d,
-        DependencyPropertyChangedEventArgs e)
-    {
-        var colorPicker = d as ColorPicker;
-        if (colorPicker == null)
-        {
-            return;
-        }
-
-        var color = new Color
-        {
-            ScA = 1f,
-            ScR = (float)(colorPicker.RedValue / 255d),
-            ScG = (float)(colorPicker.GreenValue / 255d),
-            ScB = (float)(colorPicker.BlueValue / 255d)
-        };
-
-        colorPicker.Dispatcher.Invoke(
-            () => colorPicker.SetCurrentValue(ColorSwathProperty, color));
-    }
-
-    #endregion
-}
 }

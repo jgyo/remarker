@@ -47,54 +47,33 @@ public partial class PopupColorPicker : UserControl
             typeof(PopupColorPicker),
             new PropertyMetadata(default(bool)));
 
-    #endregion
+        #endregion
 
-    #region Constructors and Destructors
+        #region Constructors and Destructors
 
-    public PopupColorPicker()
+        public PopupColorPicker() => this.InitializeComponent();
+
+        #endregion
+
+        #region Public Properties
+
+        public Color ColorSwath
     {
-        this.InitializeComponent();
-    }
-
-    #endregion
-
-    #region Public Properties
-
-    public Color ColorSwath
-    {
-        get
-        {
-            return (Color)this.GetValue(ColorSwathProperty);
+            get => (Color)this.GetValue(ColorSwathProperty);
+            set => this.SetValue(ColorSwathProperty, value);
         }
-        set
-        {
-            this.SetValue(ColorSwathProperty, value);
-        }
-    }
 
     public bool DisablePopup
     {
-        get
-        {
-            return (bool)this.GetValue(DisablePopupProperty);
+            get => (bool)this.GetValue(DisablePopupProperty);
+            set => this.SetValue(DisablePopupProperty, value);
         }
-        set
-        {
-            this.SetValue(DisablePopupProperty, value);
-        }
-    }
 
     public bool IsOpen
     {
-        get
-        {
-            return (bool)this.GetValue(IsOpenProperty);
+            get => (bool)this.GetValue(IsOpenProperty);
+            set => this.SetValue(IsOpenProperty, value);
         }
-        set
-        {
-            this.SetValue(IsOpenProperty, value);
-        }
-    }
 
     #endregion
 }

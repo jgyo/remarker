@@ -1,5 +1,6 @@
 ﻿namespace YoderZone.Extensions.Options
 {
+    using global::Options;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -7,30 +8,28 @@
     using System.Drawing.Text;
     using System.Linq;
 
-    using global::Options;
-
     public static class FontHelper
     {
         #region Fields
 
-        private static FontAttributes consolas;
+        private static FontAttributes _consolas;
 
-        private static List<FontAttributes> fontFamilies;
+        private static List<FontAttributes> _fontFamilies;
 
-        private static FontAttributes verdana;
+        private static FontAttributes _verdana;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors and Destructors
 
         static FontHelper()
         {
-            FontHelper.fontFamilies = new List<FontAttributes>();
+            FontHelper._fontFamilies = new List<FontAttributes>();
             var installedFontCollection = new InstalledFontCollection();
             FontFamily[] fontFamilyArray = installedFontCollection.Families;
 
             var bitmap = new Bitmap(100, 100);
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (var graphics = Graphics.FromImage(bitmap))
             {
                 foreach (var fontFamily in fontFamilyArray)
                 {
@@ -40,12 +39,12 @@
                         FontHelper.FontFamilies.Add(fontAttributes);
                         if (fontAttributes.Name.Contains("Verdana"))
                         {
-                            FontHelper.verdana = fontAttributes;
+                            FontHelper._verdana = fontAttributes;
                         }
 
                         if (fontAttributes.Name.Contains("Consolas"))
                         {
-                            FontHelper.consolas = fontAttributes;
+                            FontHelper._consolas = fontAttributes;
                         }
                     }
                     catch (ArgumentException ex)
@@ -56,39 +55,18 @@
             }
         }
 
-        #endregion
+        #endregion Constructors and Destructors
 
         #region Properties
 
-        public static FontAttributes Consolas
-        {
-            get
-            {
-                return FontHelper.consolas;
-            }
-        }
+        public static FontAttributes Consolas => FontHelper._consolas;
 
-        public static List<FontAttributes> FontFamilies
-        {
-            get
-            {
-                return FontHelper.fontFamilies;
-            }
-        }
+        public static List<FontAttributes> FontFamilies => FontHelper._fontFamilies;
 
-        public static FontAttributes Verdana
-        {
-            get
-            {
-                return FontHelper.verdana;
-            }
-        }
+        public static FontAttributes Verdana => FontHelper._verdana;
 
-        #endregion
+        #endregion Properties
 
-        public static FontAttributes GetTypeFace(string name)
-        {
-            return FontHelper.FontFamilies.FirstOrDefault(family => family.Name == name);
-        }
+        public static FontAttributes GetTypeFace(string name) => FontHelper.FontFamilies.FirstOrDefault(family => family.Name == name);
     }
 }

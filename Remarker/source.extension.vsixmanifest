@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="81ce9f0c-vs17-4ff5-4279-9099-892a71549176" Version="1.4" Language="en-US" Publisher="Gil Yoder" />
+    <Identity Id="ac55d3ca-df75-4e33-a2e8-0775f9cfb169" Version="1.4" Language="en-US" Publisher="Gil Yoder" />
     <DisplayName>Remarker</DisplayName>
     <Description>Remarker is a Visual Studio extension designed to enhance code documentation by enabling resized comment lines, and using color and bold emphasis for highlighting tasks. Remarker ehances comments in C# and Visual Basic files, as well as html, xaml, and other markup files.</Description>
+    <MoreInfo>https://github.com/jgyo/remarker</MoreInfo>
     <License>License.txt</License>
     <GettingStartedGuide>https://github.com/jgyo/remarker/wiki/Remarker-Wiki</GettingStartedGuide>
     <ReleaseNotes>issues.txt</ReleaseNotes>
@@ -17,8 +18,7 @@
     <InstallationTarget Version="[15.0,16.0)" Id="Microsoft.VisualStudio.Enterprise" />
   </Installation>
   <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
-    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0,15.0)" />
+    <Dependency d:Source="Installed" Id="Microsoft.VisualStudio.MPF.15.0" DisplayName="Visual Studio MPF 15.0" Version="[15.0,16.0)" d:InstallSource="Download" />
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />

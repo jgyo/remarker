@@ -4,13 +4,9 @@ namespace YoderZone.Extensions.Remarker.Service.Indexes
 {
     private readonly RemarkerService service;
 
-    public ColorIndex(RemarkerService service)
-    {
+        public ColorIndex(RemarkerService service) => this.service = service;
 
-        this.service = service;
-    }
-
-    public string this[int index]
+        public string this[int index]
     {
         get
         {

@@ -11,284 +11,209 @@
 
 namespace YoderZone.Extensions.Options.ViewModel
 {
-#region Imports
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Media;
-
-using global::Options;
-
-    #endregion
-
-/// <summary>
-///     A task's options.
-/// </summary>
-/// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-public class TaskOptions : INotifyPropertyChanged
-{
-    #region Static Fields
-
-    #endregion
-
-    #region Fields
+    using global::Options;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Windows.Media;
 
     /// <summary>
-    ///     The tasks.
+    ///     A task's options.
     /// </summary>
-    private readonly ObservableCollection<TaskAttributes> tasks;
-
-    /// <summary>
-    ///     The selected color.
-    /// </summary>
-    private Color selectedColor = Colors.Beige;
-
-    /// <summary>
-    ///     true to selected font weight.
-    /// </summary>
-    private bool selectedFontWeight;
-
-    /// <summary>
-    ///     The selected name.
-    /// </summary>
-    private string selectedName;
-
-    private TaskAttributes selectedTask;
-
-    private FontAttributes selectedFontFamily;
-
-    // private string selectedFont;
-
-    #endregion
-
-    #region Constructors and Destructors
-
-    /// <summary>
-    ///     Prevents a default instance of the
-    ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskOptionsControl class from being
-    ///     created.
-    /// </summary>
-    public TaskOptions()
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    public class TaskOptions : INotifyPropertyChanged
     {
-        this.tasks = new ObservableCollection<TaskAttributes>();
-        this.FontFamilies = FontHelper.FontFamilies;
-        this.SelectedFontFamily = FontHelper.Verdana;
+        /// <summary>
+        ///     The tasks.
+        /// </summary>
+        private readonly ObservableCollection<TaskAttributes> _tasks;
 
-    }
+        /// <summary>
+        ///     The selected color.
+        /// </summary>
+        private Color _selectedColor = Colors.Beige;
 
-    public FontAttributes SelectedFontFamily
-    {
-        get
+        private FontAttributes _selectedFontFamily;
+
+        /// <summary>
+        ///     true to selected font weight.
+        /// </summary>
+        private bool _selectedFontWeight;
+
+        /// <summary>
+        ///     The selected name.
+        /// </summary>
+        private string _selectedName;
+
+        private TaskAttributes _selectedTask;
+        // private string selectedFont;
+
+        /// <summary>
+        ///     Prevents a default instance of the
+        ///     YoderZone.Extensions.OptionsDialog.ViewModel.TaskOptionsControl class from being
+        ///     created.
+        /// </summary>
+        public TaskOptions()
         {
-            return this.selectedFontFamily;
+            this._tasks = new ObservableCollection<TaskAttributes>();
+            this.FontFamilies = FontHelper.FontFamilies;
+            this.SelectedFontFamily = FontHelper.Verdana;
         }
-        private set
+
+        /// <summary>
+        ///     Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public List<FontAttributes> FontFamilies { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets the selected color.
+        /// </summary>
+        /// <value>
+        ///     The color of the selected.
+        /// </value>
+        public Color SelectedColor
         {
-            if (value == this.selectedFontFamily)
+            get => this._selectedColor;
+            set
             {
-                return;
+                this._selectedColor = value;
+                this.OnPropertyChanged();
             }
-            this.selectedFontFamily = value;
-            OnPropertyChanged();
         }
-    }
 
-    public List<FontAttributes> FontFamilies { get; private set; }
-
-    #endregion
-
-    #region Public Events
-
-    /// <summary>
-    ///     Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
-
-    // public List<string> FontNames { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the selected color.
-    /// </summary>
-    /// <value>
-    ///     The color of the selected.
-    /// </value>
-    public Color SelectedColor
-    {
-        get
+        public FontAttributes SelectedFontFamily
         {
-            return this.selectedColor;
-        }
-        set
-        {
-            this.selectedColor = value;
-            this.OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets a value indicating whether the selected font weight.
-    /// </summary>
-    /// <value>
-    ///     true if selected font weight, false if not.
-    /// </value>
-    public bool SelectedFontWeight
-    {
-        get
-        {
-            return this.selectedFontWeight;
-        }
-        set
-        {
-            this.selectedFontWeight = value;
-            this.OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    ///     Gets or sets the selected name.
-    /// </summary>
-    /// <value>
-    ///     The name of the selected.
-    /// </value>
-    public string SelectedName
-    {
-        get
-        {
-            return this.selectedName;
-        }
-        set
-        {
-            this.selectedName = string.IsNullOrWhiteSpace(value) ? null :
-                                value.Trim();
-            this.OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    ///     Gets the tasks.
-    /// </summary>
-    /// <value>
-    ///     The tasks.
-    /// </value>
-    public ObservableCollection<TaskAttributes> Tasks
-    {
-        get
-        {
-            return this.tasks;
-        }
-    }
-
-    public TaskAttributes SelectedTask
-    {
-        get
-        {
-            return this.selectedTask;
-        }
-        set
-        {
-            if (this.selectedTask != null)
+            get => this._selectedFontFamily;
+            private set
             {
-                this.selectedTask.PropertyChanged -= this.selectedTask_PropertyChanged;
+                if (value == this._selectedFontFamily)
+                {
+                    return;
+                }
+                this._selectedFontFamily = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // public List<string> FontNames { get; set; }
+        /// <summary>
+        ///     Gets or sets a value indicating whether the selected font weight.
+        /// </summary>
+        /// <value>
+        ///     true if selected font weight, false if not.
+        /// </value>
+        public bool SelectedFontWeight
+        {
+            get => this._selectedFontWeight;
+            set
+            {
+                this._selectedFontWeight = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the selected name.
+        /// </summary>
+        /// <value>
+        ///     The name of the selected.
+        /// </value>
+        public string SelectedName
+        {
+            get => this._selectedName;
+            set
+            {
+                this._selectedName = string.IsNullOrWhiteSpace(value) ? null :
+                                    value.Trim();
+                this.OnPropertyChanged();
+            }
+        }
+
+        public TaskAttributes SelectedTask
+        {
+            get => this._selectedTask;
+            set
+            {
+                if (this._selectedTask != null)
+                {
+                    this._selectedTask.PropertyChanged -= this.SelectedTask_PropertyChanged;
+                }
+
+                this._selectedTask = value;
+
+                if (this._selectedTask != null)
+                {
+                    this._selectedTask.PropertyChanged += this.SelectedTask_PropertyChanged;
+                }
+                this.OnPropertyChanged();
+                if (value == null)
+                {
+                    return;
+                }
+
+                this.SelectedColor = value.Color;
+                this.SelectedFontWeight = value.IsBold;
+                this.SelectedName = value.Name;
+                this.SelectedFontFamily = value.Typeface;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the tasks.
+        /// </summary>
+        /// <value>
+        ///     The tasks.
+        /// </value>
+        public ObservableCollection<TaskAttributes> Tasks => this._tasks;
+
+        public void LoadTasks(IEnumerable<TaskAttributes> taskInstances)
+        {
+            this.Tasks.Clear();
+            foreach (var taskInstance in taskInstances)
+            {
+                this.Tasks.Add(taskInstance);
             }
 
-            this.selectedTask = value;
-
-            if (this.selectedTask != null)
+            if (this.Tasks.Count != 10)
             {
-                this.selectedTask.PropertyChanged += this.selectedTask_PropertyChanged;
+                throw new ArgumentOutOfRangeException("taskInstances");
             }
-            this.OnPropertyChanged();
-            if(value == null)
+        }
+
+        /// <summary>
+        ///     Executes the property changed action.
+        /// </summary>
+        /// <param name="propertyName" type="string">
+        ///     Name of the property.
+        /// </param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string
+            propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void SelectedTask_PropertyChanged(object sender,
+                            PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
             {
-                return;
+                case "Typeface":
+                    this.SelectedFontFamily = this._selectedTask.Typeface;
+                    break;
+
+                case "Name":
+                    this.SelectedName = this._selectedTask.Name;
+                    break;
+
+                case "IsBold":
+                    this.SelectedFontWeight = this._selectedTask.IsBold;
+                    break;
+
+                case "Color":
+                    this.SelectedColor = this._selectedTask.Color;
+                    break;
             }
-
-            this.SelectedColor = value.Color;
-            this.SelectedFontWeight = value.IsBold;
-            this.SelectedName = value.Name;
-            this.SelectedFontFamily = value.Typeface;
         }
     }
-
-    private void selectedTask_PropertyChanged(object sender,
-            PropertyChangedEventArgs e)
-    {
-        switch (e.PropertyName)
-        {
-            case "Typeface":
-                this.SelectedFontFamily = this.selectedTask.Typeface;
-                break;
-            case "Name":
-                this.SelectedName = this.selectedTask.Name;
-                break;
-            case "IsBold":
-                this.SelectedFontWeight = this.selectedTask.IsBold;
-                break;
-            case "Color":
-                this.SelectedColor = this.selectedTask.Color;
-                break;
-        }
-    }
-
-    //public string SelectedFont
-    //{
-    //    get
-    //    {
-    //        return this.selectedFont;
-    //    }
-    //    set
-    //    {
-    //        this.selectedFont = value;
-    //        this.OnPropertyChanged();
-    //    }
-    //}
-
-    #endregion
-
-    #region Public Methods and Operators
-
-
-    public void LoadTasks(IEnumerable<TaskAttributes> taskInstances)
-    {
-        this.Tasks.Clear();
-        foreach (var taskInstance in taskInstances)
-        {
-            this.Tasks.Add(taskInstance);
-        }
-
-        if (this.Tasks.Count != 10)
-        {
-            throw new ArgumentOutOfRangeException("taskInstances");
-        }
-    }
-
-    #endregion
-
-    #region Methods
-
-    /// <summary>
-    ///     Executes the property changed action.
-    /// </summary>
-    /// <param name="propertyName" type="string">
-    ///     Name of the property.
-    /// </param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string
-            propertyName = null)
-    {
-        PropertyChangedEventHandler handler = this.PropertyChanged;
-        if (handler != null)
-        {
-            handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    #endregion
-}
 }

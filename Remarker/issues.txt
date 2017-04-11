@@ -15,6 +15,8 @@ Aug 28, 2015:
 
 Issues
 
+Due to our limited budget we are not able to fully test Remarker. The most recent version has been tested on Visual Studio 2017 Community and Pro. However, we believe it should work without any serious issues on Enterprise as well.
+
 Performance Issue
 
 Some users may experience longer than expected wait times opening the Comments Setting options page. The reason for this is that on some systems some fonts generate an Argument Exception when a program queries whether the font supports the Regular style. Instead of a negative response, an exception is raised.
@@ -22,5 +24,3 @@ Some users may experience longer than expected wait times opening the Comments S
 The program now handles the exception, but the delay that is caused by the exception is several seconds. If there are many such fonts, there would be an exception for each problem font.
 
 Sometimes deleting and re-installing the font will resolve this. But sometimes the problem cannot be resolved unless the font is removed or replaced. If the fonts are not used, it may be better just to remove the font altogether.
-
-I have a small program in the troubleshooting section of my documentation at http://remarker.codeplex.com/ that can help identify the fonts that raise this exception.
