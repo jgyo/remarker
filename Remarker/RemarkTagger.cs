@@ -1,13 +1,13 @@
-// ***********************************************************************
-// Assembly         : Options.Package
-// Solution         : YoderZone.Com.Extensions
-// File name        : RemarkTagger.cs
-// Author           : Gil Yoder
-// Created          : 09 11,  2014
+//= ***********************************************************************
+//= Assembly         : Options.Package
+//= Solution         : YoderZone.Com.Extensions
+//= File name        : RemarkTagger.cs
+//= Author           : Gil Yoder
+//= Created          : 09 11,  2014
 //
-// Last Modified By : Gil Yoder
-// Last Modified On : 09 20, 2014
-// ***********************************************************************
+//= Last Modified By : Gil Yoder
+//= Last Modified On : 09 20, 2014
+//= ***********************************************************************
 
 namespace YoderZone.Extensions.Remarker
 {
