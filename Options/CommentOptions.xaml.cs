@@ -22,19 +22,14 @@ public partial class CommentOptionsControl : UserControl
         get
         {
             // Extract the version
-            var assembly = typeof(TaskOptionsControl).Assembly;
-            var attribs = assembly.GetCustomAttributes(typeof(
-                              System.Reflection.AssemblyFileVersionAttribute), false);
-            string version;
-            if (attribs.Length == 0) { version = "1.2"; }
-            else
-            {
-                var attrib = (AssemblyFileVersionAttribute)attribs[0];
-                version = attrib.Version;
-            }
+            var assembly = typeof(CommentOptionsControl).Assembly;
+            string fullName = assembly.FullName;
+            string[] strings = fullName.Split(',');
+            var version = strings[1];
+            strings = version.Split('=');
+            version = strings[1];
 
-            return string.Format("Copyright © Gil Yoder 2014 - Version {0}",
-                                 version);
+            return $"Copyright © Gil Yoder 2014 - Version {version}";
         }
     }
 }

@@ -13,18 +13,15 @@ namespace YoderZone.Extensions.Options
 {
 #region Imports
 
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Windows.Forms;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Text;
+    using System.Linq;
+    using System.Windows.Forms;
 
-using global::NLog;
+    using YoderZone.Extensions.Options.ViewModel;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.Options.ViewModel;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A task options page.
@@ -32,13 +29,11 @@ using YoderZone.Extensions.Options.ViewModel;
 /// <seealso cref="T:System.Windows.Forms.UserControl" />
 public partial class TaskOptionsPage : UserControl
 {
-    private Logger logger = SettingsHelper.CreateLogger();
-
     #region Static Fields
 
     #endregion
 
-    private TaskOptionsControl control;
+    private readonly TaskOptionsControl control;
 
     #region Constructors and Destructors
 
@@ -49,26 +44,16 @@ public partial class TaskOptionsPage : UserControl
     /// </summary>
     public TaskOptionsPage(TaskOptions model)
     {
-        logger.Debug("Entered constructor.");
 
         this.InitializeComponent();
         this.control = this.taskOptionControl;
         this.control.DataContext = model;
-
-        var installedFontCollection = new InstalledFontCollection();
-        FontFamily[] fontFamilyArray = installedFontCollection.Families;
-
-        var fontFamilies = new List<string>(fontFamilyArray.Length);
-        fontFamilies.AddRange(fontFamilyArray.Select(t => t.Name));
-
-        model.FontNames = fontFamilies;
     }
 
     #endregion
 
     public bool CanDeactivate()
     {
-        logger.Debug("Entered method.");
 
         return this.control.CanDeactivate;
     }

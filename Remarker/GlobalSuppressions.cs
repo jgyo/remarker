@@ -8,6 +8,8 @@
 // Suppression File". You do not need to add suppressions to this
 // file manually.
 
+using System.Diagnostics.CodeAnalysis;
+
 [assembly:
- System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design",
+ SuppressMessage("Microsoft.Design",
          "CA1017:MarkAssembliesWithComVisible")]

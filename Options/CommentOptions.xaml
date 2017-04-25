@@ -32,28 +32,17 @@
         <SolidColorBrush x:Key="OptionMark.Static.Border"
                          Color="#FF707070" />
         <Style TargetType="{x:Type CheckBox}">
-            <Setter Property="FocusVisualStyle"
-                    Value="{StaticResource FocusVisual}" />
-            <Setter Property="Background"
-                    Value="{StaticResource OptionMark.Static.Background}" />
-            <Setter Property="BorderBrush"
-                    Value="{StaticResource OptionMark.Static.Border}" />
-            <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-            <Setter Property="IsTabStop"
-                    Value="False" />
-            <Setter Property="Focusable"
-                    Value="False" />
-            <Setter Property="VerticalContentAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="Margin"
-                    Value="3" />
-            <Setter Property="Padding"
-                    Value="3,0,0,0" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="3,0,0,0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -94,11 +83,8 @@
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-                                <Setter TargetName="optionMark"
-                                        Property="Opacity"
-                                        Value="1" />
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="optionMark" Property="Opacity" Value="1" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -131,7 +117,8 @@
             </GroupBox.Header>
             <ComboBox DisplayMemberPath="Name"
                       ItemsSource="{Binding FontFamilies}"
-                      SelectedItem="{Binding SelectedFontFamily}" />
+                      SelectedItem="{Binding SelectedFontFamily}"
+                      TextSearch.TextPath="Name" />
         </GroupBox>
         <GroupBox DockPanel.Dock="Top">
             <GroupBox.Header>
@@ -217,28 +204,18 @@
             <Grid Margin="4,0">
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="FontFamily"
-                                Value="Courier New" />
-                        <Setter Property="FontStretch"
-                                Value="Expanded" />
-                        <Setter Property="Margin"
-                                Value="3" />
-                        <Setter Property="FontSize"
-                                Value="12" />
-                        <Setter Property="VerticalAlignment"
-                                Value="Center" />
+                        <Setter Property="FontFamily" Value="Courier New" />
+                        <Setter Property="FontStretch" Value="Expanded" />
+                        <Setter Property="Margin" Value="3" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                     <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="HorizontalAlignment"
-                                Value="Left" />
-                        <Setter Property="VerticalAlignment"
-                                Value="Center" />
-                        <Setter Property="Margin"
-                                Value="3" />
-                        <Setter Property="Width"
-                                Value="45" />
-                        <Setter Property="Height"
-                                Value="23" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="3" />
+                        <Setter Property="Width" Value="45" />
+                        <Setter Property="Height" Value="23" />
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -270,93 +247,93 @@
                            Margin="3,7"
                            Text="+++" />
                 <controls:TextBoxFix x:Name="pppTextBox"
-                                      Grid.Row="1"
-                                      Grid.Column="2"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Plus3Text,
-                                                     FallbackValue=2.0,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="1"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus3Text,
+                                                    FallbackValue=2.0,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="3"
                            Margin="3,7"
                            Text="-" />
                 <controls:TextBoxFix x:Name="mTextBox"
-                                      Grid.Row="1"
-                                      Grid.Column="4"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Less1Text,
-                                                     FallbackValue=0.85,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="1"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less1Text,
+                                                    FallbackValue=0.85,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
                            Margin="3,7"
                            Text="++" />
                 <controls:TextBoxFix x:Name="ppTextBox"
-                                      Grid.Row="2"
-                                      Grid.Column="2"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Plus2Text,
-                                                     FallbackValue=1.6667,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="2"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus2Text,
+                                                    FallbackValue=1.6667,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="3"
                            Margin="3,7"
                            Text="--" />
                 <controls:TextBoxFix x:Name="mmTextBox"
-                                      Grid.Row="2"
-                                      Grid.Column="4"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Less2Text,
-                                                     FallbackValue=0.70,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="2"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less2Text,
+                                                    FallbackValue=0.70,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Grid.ColumnSpan="2"
                            Margin="3,7"
                            Text="+" />
                 <controls:TextBoxFix x:Name="pTextBox"
-                                      Grid.Row="3"
-                                      Grid.Column="2"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Plus1Text,
-                                                     FallbackValue=1.3333,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="3"
+                                     Grid.Column="2"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Plus1Text,
+                                                    FallbackValue=1.3333,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
                 <TextBlock Grid.Row="3"
                            Grid.Column="3"
                            Margin="3,7"
@@ -365,19 +342,19 @@
                 <!--  ++ Growth Factors  -->
 
                 <controls:TextBoxFix x:Name="mmmTextBox"
-                                      Grid.Row="3"
-                                      Grid.Column="4"
-                                      Width="45"
-                                      Height="23"
-                                      Margin="3,3,0,3"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      VerticalContentAlignment="Center"
-                                      Text="{Binding Less3Text,
-                                                     FallbackValue=0.55,
-                                                     Mode=TwoWay,
-                                                     UpdateSourceTrigger=PropertyChanged,
-                                                     ValidatesOnDataErrors=True}" />
+                                     Grid.Row="3"
+                                     Grid.Column="4"
+                                     Width="45"
+                                     Height="23"
+                                     Margin="3,3,0,3"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Text="{Binding Less3Text,
+                                                    FallbackValue=0.55,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    ValidatesOnDataErrors=True}" />
             </Grid>
         </GroupBox>
         <TextBlock HorizontalAlignment="Center"

@@ -1,10 +1,10 @@
-﻿namespace YoderZone.Extensions.OptionsPackage.Remarker.Service
+﻿namespace YoderZone.Extensions.Remarker.Service
 {
-using System.Runtime.InteropServices;
+    using System.Runtime.InteropServices;
 
-using YoderZone.Extensions.Remarker.Options;
+    using YoderZone.Extensions.Remarker.Options;
 
-[Guid(Guids.RemarkerServiceGuid)]
+    [Guid(Guids.RemarkerServiceGuid)]
 [ComVisible(true)]
 public interface IRemarkerService
 {

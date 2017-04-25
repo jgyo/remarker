@@ -4,8 +4,8 @@
              xmlns:controls1="clr-namespace:YoderZone.Extensions.Options.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModel1="clr-namespace:YoderZone.Extensions.Options.ViewModel"
              xmlns:options="clr-namespace:YoderZone.Extensions.Options"
+             xmlns:viewModel1="clr-namespace:YoderZone.Extensions.Options.ViewModel"
              d:DataContext="{d:DesignInstance viewModel1:TaskOptions}"
              d:DesignHeight="538"
              d:DesignWidth="514"
@@ -23,14 +23,10 @@
 
         <Style x:Key="uselessCheckbox"
                TargetType="{x:Type CheckBox}">
-            <Setter Property="Background"
-                    Value="{StaticResource OptionMark.Static.Background}" />
-            <Setter Property="BorderBrush"
-                    Value="{StaticResource OptionMark.Static.Border}" />
-            <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -55,11 +51,8 @@
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                                     Value="true">
-                                <Setter TargetName="optionMark"
-                                        Property="Opacity"
-                                        Value="1" />
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="optionMark" Property="Opacity" Value="1" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -96,7 +89,7 @@
                 <TextBlock Margin="12"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontFamily="{Binding SelectedFont,
+                           FontFamily="{Binding SelectedFontFamily.Name,
                                                 FallbackValue=Times New Roman,
                                                 TargetNullValue=Times New Roman}"
                            FontSize="48"
@@ -142,13 +135,13 @@
                                             CanUserSort="False"
                                             Header="Task Name">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <TextBlock VerticalAlignment="Top"
                                            Text="{Binding Name}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <controls1:TextBoxFix HorizontalAlignment="Stretch"
                                                       VerticalAlignment="Stretch"
                                                       VerticalContentAlignment="Top"
@@ -163,7 +156,7 @@
                                             CanUserSort="False">
                         <DataGridTemplateColumn.Header>Bold</DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <Grid>
                                     <CheckBox Margin="0,1,0,0"
                                               HorizontalAlignment="Center"
@@ -175,7 +168,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <Grid>
                                     <CheckBox Margin="0,1,0,0"
                                               HorizontalAlignment="Center"
@@ -194,7 +187,7 @@
                                             ClipboardContentBinding="{x:Null}"
                                             Header="Color">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <Border Width="13"
                                         Height="13"
                                         Margin="11,1,0,0"
@@ -208,7 +201,7 @@
                         </DataGridTemplateColumn.CellTemplate>
 
                         <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <controls1:ColorPicker Width="300"
                                                        Margin="4,2"
                                                        ClipToBounds="True"
@@ -225,19 +218,18 @@
                                             CanUserSort="False"
                                             Header="Font">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
                                 <TextBlock Margin="2,0"
-                                           Text="{Binding Typeface}"
-                                           d:DataContext="{d:DesignInstance viewModel1:TaskAttributes}" />
+                                           Text="{Binding Typeface.Name}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DataContext.FontNames,
-                                                                RelativeSource={RelativeSource FindAncestor,
-                                                                                               AncestorType={x:Type DataGrid}}}"
+                            <DataTemplate DataType="viewModel1:TaskAttributes">
+                                <ComboBox DisplayMemberPath="Name"
+                                          ItemsSource="{Binding Source={x:Static options:FontHelper.FontFamilies}}"
                                           SelectedItem="{Binding Typeface,
-                                                                 UpdateSourceTrigger=PropertyChanged}" />
+                                                                 UpdateSourceTrigger=PropertyChanged}"
+                                          TextSearch.TextPath="Name" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

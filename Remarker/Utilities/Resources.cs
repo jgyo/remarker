@@ -11,35 +11,28 @@
 
 namespace YoderZone.Extensions.Remarker.Utilities
 {
-using System;
-using System.Collections.Generic;
-using System.Windows.Media;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Windows.Media;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Text.Tagging;
 
-using Microsoft.VisualStudio.Text.Tagging;
+    using Color = System.Drawing.Color;
 
-using YoderZone.Extensions.NLog;
-
-/// <summary>
+    /// <summary>
 /// A resources.
 /// </summary>
 public static class Resources
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
 
     #region Static Fields
 
     public static readonly List<ITagSpan<ClassificationTag>> EmptyTags = new
     List<ITagSpan<ClassificationTag>>();
 
-    public static string ConvertColorToString(this System.Drawing.Color color)
+    public static string ConvertColorToString(this Color color)
     {
-        logger.Debug("Entered method.");
 
         var colorString = string.Format("{0:x2}{1:x2}{2:x2}", color.R, color.G,
                                         color.B);
@@ -49,16 +42,14 @@ public static class Resources
     public static string ConvertWpfColorToString(this
             System.Windows.Media.Color color)
     {
-        logger.Debug("Entered method.");
 
         var colorString = string.Format("{0:x2}{1:x2}{2:x2}", color.R, color.G,
                                         color.B);
         return colorString;
     }
 
-    public static Color ConvertStringToWpfColor(this string colorString)
+    public static System.Windows.Media.Color ConvertStringToWpfColor(this string colorString)
     {
-        logger.Debug("Entered method.");
 
         var result = Colors.Black;
         if (string.IsNullOrEmpty(colorString))
@@ -76,23 +67,20 @@ public static class Resources
             var greenByte = greenField.ConvertColorComponentToByte();
             var blueByte = blueField.ConvertColorComponentToByte();
 
-            result = Color.FromArgb(255, redByte, greenByte, blueByte);
+            result = System.Windows.Media.Color.FromArgb(255, redByte, greenByte, blueByte);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            logger.Debug("An exception was raised in ConvertStringToWpfColor(): {0}",
-                         ex);
         }
 
         return result;
     }
 
-    public static System.Drawing.Color ConvertStringToColor(
+    public static Color ConvertStringToColor(
         this string colorString)
     {
-        logger.Debug("Entered method.");
 
-        var result = System.Drawing.Color.Black;
+        var result = Color.Black;
         if (string.IsNullOrEmpty(colorString))
         {
             return result;
@@ -108,12 +96,10 @@ public static class Resources
             var greenByte = greenField.ConvertColorComponentToByte();
             var blueByte = blueField.ConvertColorComponentToByte();
 
-            result = System.Drawing.Color.FromArgb(redByte, greenByte, blueByte);
+            result = Color.FromArgb(redByte, greenByte, blueByte);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            logger.Debug("An exception was raised in ConvertStringToColor(): {0}",
-                         ex);
         }
 
         return result;
@@ -121,10 +107,9 @@ public static class Resources
 
     public static byte ConvertColorComponentToByte(this string colorComponent)
     {
-        System.Diagnostics.Contracts.Contract.Requires(colorComponent != null);
-        System.Diagnostics.Contracts.Contract.Requires(colorComponent.Length ==
+        Contract.Requires(colorComponent != null);
+        Contract.Requires(colorComponent.Length ==
                 2);
-        logger.Debug("Entered method.");
 
         colorComponent = colorComponent.ToLower();
         return (byte)(colorComponent[0].ConvertHexCharToDecimal() * 16 +
@@ -134,7 +119,6 @@ public static class Resources
 
     public static byte ConvertHexCharToDecimal(this char hexChar)
     {
-        logger.Debug("Entered method.");
 
         switch (hexChar)
         {
@@ -164,47 +148,47 @@ public static class Resources
     /// <summary>
     /// The bug color.
     /// </summary>
-    public static readonly Color BugColor = Colors.Red;
+    public static readonly System.Windows.Media.Color BugColor = Colors.Red;
 
     /// <summary>
     /// The hack color.
     /// </summary>
-    public static readonly Color HackColor = Colors.Chocolate;
+    public static readonly System.Windows.Media.Color HackColor = Colors.Chocolate;
 
     /// <summary>
     /// The normal comment color.
     /// </summary>
-    public static readonly Color NormalCommentColor = Colors.Green;
+    public static readonly System.Windows.Media.Color NormalCommentColor = Colors.Green;
 
     /// <summary>
     /// The normal important color.
     /// </summary>
-    public static readonly Color NormalImportantColor = Colors.Red;
+    public static readonly System.Windows.Media.Color NormalImportantColor = Colors.Red;
 
     /// <summary>
     /// The normal question color.
     /// </summary>
-    public static readonly Color NormalQuestionColor = Colors.Blue;
+    public static readonly System.Windows.Media.Color NormalQuestionColor = Colors.Blue;
 
     /// <summary>
     /// The normal strikeout color.
     /// </summary>
-    public static readonly Color NormalStrikeoutColor = Colors.Gray;
+    public static readonly System.Windows.Media.Color NormalStrikeoutColor = Colors.Gray;
 
     /// <summary>
     /// The note color.
     /// </summary>
-    public static readonly Color NoteColor = Colors.BlueViolet;
+    public static readonly System.Windows.Media.Color NoteColor = Colors.BlueViolet;
 
     /// <summary>
     /// The question color.
     /// </summary>
-    public static readonly Color QuestionColor = Colors.Green;
+    public static readonly System.Windows.Media.Color QuestionColor = Colors.Green;
 
     /// <summary>
     /// The todo color.
     /// </summary>
-    public static readonly Color TodoColor = Colors.Blue;
+    public static readonly System.Windows.Media.Color TodoColor = Colors.Blue;
 
     #endregion
 }

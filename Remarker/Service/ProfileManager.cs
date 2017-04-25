@@ -13,35 +13,26 @@ namespace YoderZone.Extensions.Remarker.Service
 {
 #region Imports
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Text;
 
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Shell.Interop;
+    using Microsoft.Win32;
 
-using global::NLog;
+    using YoderZone.Extensions.Remarker.Options;
 
-using YoderZone.Extensions.NLog;
-using YoderZone.Extensions.OptionsPackage.Remarker.Service;
-using YoderZone.Extensions.Remarker.Options;
-
-#endregion
+    #endregion
 
 [Guid(Guids.ProfileManagerGuid)]
 public class ProfileManager : Component, IProfileManager
 {
-    /// <summary>
-    /// The logger.
-    /// </summary>
-    private static readonly Logger logger =
-        SettingsHelper.CreateLogger();
 
     #region Constants
 
@@ -82,23 +73,22 @@ public class ProfileManager : Component, IProfileManager
 
     public bool CommitSettings()
     {
-        logger.Debug("Entered method.");
 
-        lock (dataLock)
+        lock (ProfileManager.dataLock)
         {
-            if (backupCount == 0)
+            if (ProfileManager.backupCount == 0)
             {
                 return false;
             }
 
-            if (backupCount > 1)
+            if (ProfileManager.backupCount > 1)
             {
-                backupCount--;
+                ProfileManager.backupCount--;
                 return false;
             }
 
-            backupSettings = null;
-            backupCount = 0;
+            ProfileManager.backupSettings = null;
+            ProfileManager.backupCount = 0;
             RemarkerService service = this.Service;
             if (service == null)
             {
@@ -112,19 +102,17 @@ public class ProfileManager : Component, IProfileManager
 
     public void LoadSettingsFromStorage()
     {
-        logger.Debug("Entered method.");
 
         this.LoadSettingsFromStorage(this.Service);
     }
 
     public void LoadSettingsFromStorage(RemarkerService service)
     {
-        Contract.Requires<ArgumentNullException>(service != null);
-        logger.Debug("Entered method.");
+        Contract.Requires(service != null);
 
-        lock (dataLock)
+        lock (ProfileManager.dataLock)
         {
-            if (backupSettings != null)
+            if (ProfileManager.backupSettings != null)
             {
                 return;
             }
@@ -133,7 +121,7 @@ public class ProfileManager : Component, IProfileManager
         RegistryKey key = null;
         try
         {
-            key = service.Package.UserRegistryRoot.OpenSubKey(SUBKEY_NAME);
+            key = service.Package.UserRegistryRoot.OpenSubKey(ProfileManager.SUBKEY_NAME);
 
             foreach (var valueName in service.ValueNames)
             {
@@ -156,7 +144,6 @@ public class ProfileManager : Component, IProfileManager
 
     public void LoadSettingsFromXml(IVsSettingsReader reader)
     {
-        logger.Debug("Entered method.");
 
         string valueKeysString;
         reader.ReadSettingString("ValueKeys", out valueKeysString);
@@ -169,72 +156,67 @@ public class ProfileManager : Component, IProfileManager
             {
                 service.Load(reader, valueKey);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Debug("ProfileManager::LoadSettingsFromXml: {0}", ex);
             }
         }
     }
 
     public bool ProtectSettings()
     {
-        logger.Debug("Entered method.");
 
-        lock (dataLock)
+        lock (ProfileManager.dataLock)
         {
-            if (backupSettings != null)
+            if (ProfileManager.backupSettings != null)
             {
-                backupCount++;
+                ProfileManager.backupCount++;
                 return false;
             }
 
             RemarkerService service = this.Service;
 
-            backupSettings = new Dictionary<string, string>();
+            ProfileManager.backupSettings = new Dictionary<string, string>();
             foreach (var valueName in service.ValueNames)
             {
-                backupSettings.Add(valueName, service.ReadValue(valueName));
+                ProfileManager.backupSettings.Add(valueName, service.ReadValue(valueName));
             }
-            backupCount = 1;
+            ProfileManager.backupCount = 1;
             return true;
         }
     }
 
     public void ResetSettings()
     {
-        logger.Debug("Entered method.");
 
         this.ResetSettings(this.Service);
     }
 
     public void ResetSettings(RemarkerService service)
     {
-        Contract.Requires<ArgumentNullException>(service != null);
-        logger.Debug("Entered method.");
+        Contract.Requires(service != null);
 
-        service.Package.UserRegistryRoot.DeleteSubKey(SUBKEY_NAME, false);
+        service.Package.UserRegistryRoot.DeleteSubKey(ProfileManager.SUBKEY_NAME, false);
         this.LoadSettingsFromStorage(this.Service);
     }
 
     public bool RollBackSettings()
     {
-        logger.Debug("Entered method.");
 
-        lock (dataLock)
+        lock (ProfileManager.dataLock)
         {
-            if (backupCount == 0)
+            if (ProfileManager.backupCount == 0)
             {
                 return false;
             }
 
-            if (backupSettings == null)
+            if (ProfileManager.backupSettings == null)
             {
-                backupCount--;
+                ProfileManager.backupCount--;
                 return false;
             }
 
             RemarkerService service = this.Service;
-            foreach (var backupSetting in backupSettings)
+            foreach (var backupSetting in ProfileManager.backupSettings)
             {
                 // Restore the original setting
                 service.Load(backupSetting.Value, backupSetting.Key);
@@ -246,19 +228,17 @@ public class ProfileManager : Component, IProfileManager
 
     public void SaveSettingsToStorage()
     {
-        logger.Debug("Entered method.");
 
         this.SaveSettingsToStorage(this.Service);
     }
 
     public void SaveSettingsToStorage(RemarkerService service)
     {
-        Contract.Requires<ArgumentNullException>(service != null);
-        logger.Debug("Entered method.");
+        Contract.Requires(service != null);
 
-        lock (dataLock)
+        lock (ProfileManager.dataLock)
         {
-            if (backupSettings != null)
+            if (ProfileManager.backupSettings != null)
             {
                 return;
             }
@@ -267,7 +247,7 @@ public class ProfileManager : Component, IProfileManager
         RegistryKey key = null;
         try
         {
-            key = service.Package.UserRegistryRoot.CreateSubKey(SUBKEY_NAME);
+            key = service.Package.UserRegistryRoot.CreateSubKey(ProfileManager.SUBKEY_NAME);
             Debug.Assert(key != null, "key != null");
             key.SetValue("Version", service.Version);
 
@@ -287,7 +267,6 @@ public class ProfileManager : Component, IProfileManager
 
     public void SaveSettingsToXml(IVsSettingsWriter writer)
     {
-        logger.Debug("Entered method.");
 
         RemarkerService service = this.Service;
 

@@ -16,16 +16,12 @@ namespace YoderZone.Extensions.Remarker.FormatDefinitions
 {
 #region Imports
 
-using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition;
 
-using global::NLog;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Utilities;
 
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
-
-using YoderZone.Extensions.NLog;
-
-#endregion
+    #endregion
 
 /// <summary>
 ///     A definitions.
@@ -198,25 +194,25 @@ public static class Definitions
     ///     The important pattern.
     /// </summary>
     internal const string RegexPatternImportant =
-        commentPrefixPattern + "!" + commentPattern + commentSuffixPattern +
-        bareCommentPrefix
-        + "!" + commentPattern + bareCommentSuffix;
+        Definitions.commentPrefixPattern + "!" + Definitions.commentPattern + Definitions.commentSuffixPattern +
+        Definitions.bareCommentPrefix
+        + "!" + Definitions.commentPattern + Definitions.bareCommentSuffix;
 
     /// <summary>
     ///     The question pattern.
     /// </summary>
     internal const string RegexPatternQuestion =
-        commentPrefixPattern + "\\?" + commentPattern + commentSuffixPattern +
-        bareCommentPrefix
-        + "\\?" + commentPattern + bareCommentSuffix;
+        Definitions.commentPrefixPattern + "\\?" + Definitions.commentPattern + Definitions.commentSuffixPattern +
+        Definitions.bareCommentPrefix
+        + "\\?" + Definitions.commentPattern + Definitions.bareCommentSuffix;
 
     /// <summary>
     ///     The strikeout pattern.
     /// </summary>
     internal const string RegexPatternStrikeout =
-        commentPrefixPattern + "x" + commentPattern + commentSuffixPattern +
-        bareCommentPrefix
-        + "x" + commentPattern + bareCommentSuffix;
+        Definitions.commentPrefixPattern + "x" + Definitions.commentPattern + Definitions.commentSuffixPattern +
+        Definitions.bareCommentPrefix
+        + "x" + Definitions.commentPattern + Definitions.bareCommentSuffix;
 
     private const string bareCommentPrefix = @"|^\s*";
 
@@ -236,46 +232,46 @@ public static class Definitions
     /// <summary>
     ///     The classification type strings.
     /// </summary>
-    public static string[] ClassificationTypeStrings =
+    public static readonly string[] ClassificationTypeStrings =
     {
-        CommentImportantGiganticType,
-        CommentImportantHugeType,
-        CommentImportantLargeType,
-        CommentImportantMicroType,
-        CommentImportantSmallType,
-        CommentImportantTinyType,
-        CommentImportantType,
-        CommentNormalGiganticType,
-        CommentNormalHugeType,
-        CommentNormalLargeType,
-        CommentNormalMicroType,
-        CommentNormalSmallType,
-        CommentNormalTinyType,
-        CommentNormalType,
-        CommentQuestionGiganticType,
-        CommentQuestionHugeType,
-        CommentQuestionLargeType,
-        CommentQuestionMicroType,
-        CommentQuestionSmallType,
-        CommentQuestionTinyType,
-        CommentQuestionType,
-        CommentStrikeoutType,
-        Task01,
-        Task02,
-        Task03,
-        Task04,
-        Task05,
-        Task06,
-        Task07,
-        Task08,
-        Task09,
-        Task10
+        Definitions.CommentImportantGiganticType,
+        Definitions.CommentImportantHugeType,
+        Definitions.CommentImportantLargeType,
+        Definitions.CommentImportantMicroType,
+        Definitions.CommentImportantSmallType,
+        Definitions.CommentImportantTinyType,
+        Definitions.CommentImportantType,
+        Definitions.CommentNormalGiganticType,
+        Definitions.CommentNormalHugeType,
+        Definitions.CommentNormalLargeType,
+        Definitions.CommentNormalMicroType,
+        Definitions.CommentNormalSmallType,
+        Definitions.CommentNormalTinyType,
+        Definitions.CommentNormalType,
+        Definitions.CommentQuestionGiganticType,
+        Definitions.CommentQuestionHugeType,
+        Definitions.CommentQuestionLargeType,
+        Definitions.CommentQuestionMicroType,
+        Definitions.CommentQuestionSmallType,
+        Definitions.CommentQuestionTinyType,
+        Definitions.CommentQuestionType,
+        Definitions.CommentStrikeoutType,
+        Definitions.Task01,
+        Definitions.Task02,
+        Definitions.Task03,
+        Definitions.Task04,
+        Definitions.Task05,
+        Definitions.Task06,
+        Definitions.Task07,
+        Definitions.Task08,
+        Definitions.Task09,
+        Definitions.Task10
     };
 
     /// <summary>
     ///     The gigantic important classification type definition.
     /// </summary>
-    [Name(CommentImportantGiganticType)]
+    [Name(Definitions.CommentImportantGiganticType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -284,7 +280,7 @@ public static class Definitions
     /// <summary>
     ///     The huge important classification type definition.
     /// </summary>
-    [Name(CommentImportantHugeType)]
+    [Name(Definitions.CommentImportantHugeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -293,7 +289,7 @@ public static class Definitions
     /// <summary>
     ///     The large important classification type definition.
     /// </summary>
-    [Name(CommentImportantLargeType)]
+    [Name(Definitions.CommentImportantLargeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -302,7 +298,7 @@ public static class Definitions
     /// <summary>
     ///     The micro important classification type definition.
     /// </summary>
-    [Name(CommentImportantMicroType)]
+    [Name(Definitions.CommentImportantMicroType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -311,7 +307,7 @@ public static class Definitions
     /// <summary>
     ///     The small important classification type definition.
     /// </summary>
-    [Name(CommentImportantSmallType)]
+    [Name(Definitions.CommentImportantSmallType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -320,7 +316,7 @@ public static class Definitions
     /// <summary>
     ///     The tiny important classification type definition.
     /// </summary>
-    [Name(CommentImportantTinyType)]
+    [Name(Definitions.CommentImportantTinyType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -329,7 +325,7 @@ public static class Definitions
     /// <summary>
     ///     The gigantic comment classification type definition.
     /// </summary>
-    [Name(CommentNormalGiganticType)]
+    [Name(Definitions.CommentNormalGiganticType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -338,7 +334,7 @@ public static class Definitions
     /// <summary>
     ///     The huge comment classification type definition.
     /// </summary>
-    [Name(CommentNormalHugeType)]
+    [Name(Definitions.CommentNormalHugeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -347,7 +343,7 @@ public static class Definitions
     /// <summary>
     ///     The large comment classification type definition.
     /// </summary>
-    [Name(CommentNormalLargeType)]
+    [Name(Definitions.CommentNormalLargeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -356,7 +352,7 @@ public static class Definitions
     /// <summary>
     ///     The micro comment classification type definition.
     /// </summary>
-    [Name(CommentNormalMicroType)]
+    [Name(Definitions.CommentNormalMicroType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -365,7 +361,7 @@ public static class Definitions
     /// <summary>
     ///     The small comment classification type definition.
     /// </summary>
-    [Name(CommentNormalSmallType)]
+    [Name(Definitions.CommentNormalSmallType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -374,7 +370,7 @@ public static class Definitions
     /// <summary>
     ///     The tiny comment classification type definition.
     /// </summary>
-    [Name(CommentNormalTinyType)]
+    [Name(Definitions.CommentNormalTinyType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -383,7 +379,7 @@ public static class Definitions
     /// <summary>
     ///     The comment classification type definition.
     /// </summary>
-    [Name(CommentNormalType)]
+    [Name(Definitions.CommentNormalType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition CommentNormalTypeDefinition;
@@ -391,7 +387,7 @@ public static class Definitions
     /// <summary>
     ///     The gigantic question classification type definition.
     /// </summary>
-    [Name(CommentQuestionGiganticType)]
+    [Name(Definitions.CommentQuestionGiganticType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -400,7 +396,7 @@ public static class Definitions
     /// <summary>
     ///     The huge question classification type definition.
     /// </summary>
-    [Name(CommentQuestionHugeType)]
+    [Name(Definitions.CommentQuestionHugeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -409,7 +405,7 @@ public static class Definitions
     /// <summary>
     ///     The large question classification type definition.
     /// </summary>
-    [Name(CommentQuestionLargeType)]
+    [Name(Definitions.CommentQuestionLargeType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -418,7 +414,7 @@ public static class Definitions
     /// <summary>
     ///     The micro question classification type definition.
     /// </summary>
-    [Name(CommentQuestionMicroType)]
+    [Name(Definitions.CommentQuestionMicroType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -427,7 +423,7 @@ public static class Definitions
     /// <summary>
     ///     The small question classification type definition.
     /// </summary>
-    [Name(CommentQuestionSmallType)]
+    [Name(Definitions.CommentQuestionSmallType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -436,7 +432,7 @@ public static class Definitions
     /// <summary>
     ///     The tiny question classification type definition.
     /// </summary>
-    [Name(CommentQuestionTinyType)]
+    [Name(Definitions.CommentQuestionTinyType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -445,7 +441,7 @@ public static class Definitions
     /// <summary>
     ///     The important classification type definition.
     /// </summary>
-    [Name(CommentImportantType)]
+    [Name(Definitions.CommentImportantType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -454,7 +450,7 @@ public static class Definitions
     /// <summary>
     ///     The question classification type definition.
     /// </summary>
-    [Name(CommentQuestionType)]
+    [Name(Definitions.CommentQuestionType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -463,15 +459,15 @@ public static class Definitions
     /// <summary>
     ///     The comment pattern.
     /// </summary>
-    internal static string RegexPatternComment = commentPrefixPattern +
-            commentPattern
-            + commentSuffixPattern + bareCommentPrefix
-            + commentPattern + bareCommentSuffix;
+    internal static string RegexPatternComment = Definitions.commentPrefixPattern +
+            Definitions.commentPattern
+            + Definitions.commentSuffixPattern + Definitions.bareCommentPrefix
+            + Definitions.commentPattern + Definitions.bareCommentSuffix;
 
     /// <summary>
     ///     The strikeout classification type definition.
     /// </summary>
-    [Name(CommentStrikeoutType)]
+    [Name(Definitions.CommentStrikeoutType)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -480,7 +476,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task01)]
+    [Name(Definitions.Task01)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -489,7 +485,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task02)]
+    [Name(Definitions.Task02)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -498,7 +494,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task03)]
+    [Name(Definitions.Task03)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -507,7 +503,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task04)]
+    [Name(Definitions.Task04)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -516,7 +512,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task05)]
+    [Name(Definitions.Task05)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -525,7 +521,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task06)]
+    [Name(Definitions.Task06)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -534,7 +530,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task07)]
+    [Name(Definitions.Task07)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -543,7 +539,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task08)]
+    [Name(Definitions.Task08)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -552,7 +548,7 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task09)]
+    [Name(Definitions.Task09)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
@@ -561,16 +557,11 @@ public static class Definitions
     /// <summary>
     ///     The first task classification type definition.
     /// </summary>
-    [Name(Task10)]
+    [Name(Definitions.Task10)]
     [BaseDefinition("Comment")]
     [Export(typeof(ClassificationTypeDefinition))]
     internal static ClassificationTypeDefinition
     Task10ClassificationTypeDefinition;
-
-    /// <summary>
-    ///     The logger.
-    /// </summary>
-    private static readonly Logger logger = SettingsHelper.CreateLogger();
 
     #endregion
 }
