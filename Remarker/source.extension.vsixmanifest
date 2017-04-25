@@ -23,4 +23,7 @@
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.Net.Component.4.6.TargetingPack" Version="[15.0.26208.0,16.0)" DisplayName=".NET Framework 4.6 targeting pack" />
+  </Prerequisites>
 </PackageManifest>
